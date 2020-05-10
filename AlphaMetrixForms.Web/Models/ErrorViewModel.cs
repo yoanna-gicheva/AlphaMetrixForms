@@ -1,6 +1,6 @@
 using System;
 
-namespace AlphaMetrixForms.Models
+namespace AlphaMetrixForms.Web.Models
 {
     public class ErrorViewModel
     {
