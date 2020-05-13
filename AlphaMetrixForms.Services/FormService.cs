@@ -1,8 +1,12 @@
 ﻿using AlphaMetrixForms.Data.Context;
+using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.Contracts;
+using AlphaMetrixForms.Services.DTOmappers;
 using AlphaMetrixForms.Services.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,29 +19,70 @@ namespace AlphaMetrixForms.Services
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        public Task<FormDTO> CreateFormAsync(FormDTO formDTO)
+        public async Task<FormDTO> CreateFormAsync(FormDTO formDTO, Guid ownerId)
         {
-            throw new NotImplementedException();
+            User owner = await context.Users.Include(u => u.Forms).FirstOrDefaultAsync(u => u.Id == ownerId);
+            bool check = owner.Forms.Any(f => f.Title == formDTO.Title && f.IsDeleted == false);
+            
+            if(check)
+            {
+                throw new ArgumentException($"This user has already created a form with Title: {formDTO.Title}");
+            }
+
+            Form form = FormMapper.GetEntity(formDTO);
+            form.OwnerId = ownerId;
+            await context.Forms.AddAsync(form);
+            await context.SaveChangesAsync();
+
+            formDTO.Id = form.Id;
+            return formDTO;
         }
 
-        public Task<bool> DeleteFormAsync(int formId)
+        public async Task<bool> DeleteFormAsync(Guid formId)
         {
-            throw new NotImplementedException();
+            Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
+
+            if(form == null)
+            {
+                return false;
+            }
+
+            form.IsDeleted = true;
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<ICollection<FormDTO>> GetAllFormsForUserAsync(int userId)
+        public async Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId)
         {
-            throw new NotImplementedException();
+            User owner = await context.Users.FirstOrDefaultAsync(u => u.Id == ownerId && u.IsDeleted == false);
+            var forms = owner.Forms;
+
+            return FormMapper.GetDtos(forms);
         }
 
-        public Task<FormDTO> GetFormAsync(int formId)
+        public async Task<FormDTO> GetFormAsync(Guid formId)
         {
-            throw new NotImplementedException();
+            Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && u.IsDeleted == false);
+            return FormMapper.GetDto(form);
         }
 
-        public Task<FormDTO> UpdateFormAsync(int formId, string newTitle, string newDescription)
+        public async Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO)
         {
-            throw new NotImplementedException();
+            Form form = context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false).Result;
+
+            if(form == null)
+            {
+                throw new ArgumentNullException($"There is no such form with ID: {formId}");
+            }
+
+            form = FormMapper.GetEntity(formDTO);
+            form.TextQuestions = TextQuestionMapper.GetEntities(formDTO.TextQuestions);
+            form.OptionQuestions = OptionQuestionMapper.GetEntities(formDTO.OptionQuestions);
+            form.DocumentQuestions = DocumentQuestionMapper.GetEntities(formDTO.DocumentQuestions);
+            form.Responses = ResponseMapper.GetEntities(formDTO.Responses);
+            await context.SaveChangesAsync();
+
+            return formDTO;
         }
     }
 }
