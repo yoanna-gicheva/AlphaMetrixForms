@@ -1,15 +1,13 @@
-﻿using System;
+﻿using AlphaMetrixForms.Data.Entities.Parent;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AlphaMetrixForms.Data.Entities
 {
-    public class OptionQuestion
+    public class OptionQuestion : Entity
     {
-        public OptionQuestion()
-        {
-            //this.Options = new List<string>() { "Option 1", "Option 2"};           
-        }
+
         public Guid Id { get; set; }
 
         public Guid FormId { get; set; }

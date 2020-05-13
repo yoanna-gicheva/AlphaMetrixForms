@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaMetrixForms.Web", "AlphaMetrixForms.Web\AlphaMetrixForms.Web.csproj", "{3857262E-A522-4134-A035-6AE1AF700290}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlphaMetrixForms.Web", "AlphaMetrixForms.Web\AlphaMetrixForms.Web.csproj", "{3857262E-A522-4134-A035-6AE1AF700290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaMetrixForms.Data", "AlphaMetrixForms.Data\AlphaMetrixForms.Data.csproj", "{3A146CCA-B4C3-4C81-B1F0-80C2CB9548BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlphaMetrixForms.Data", "AlphaMetrixForms.Data\AlphaMetrixForms.Data.csproj", "{3A146CCA-B4C3-4C81-B1F0-80C2CB9548BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaMetrixForms.Services", "AlphaMetrixForms.Services\AlphaMetrixForms.Services.csproj", "{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3A146CCA-B4C3-4C81-B1F0-80C2CB9548BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A146CCA-B4C3-4C81-B1F0-80C2CB9548BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A146CCA-B4C3-4C81-B1F0-80C2CB9548BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
