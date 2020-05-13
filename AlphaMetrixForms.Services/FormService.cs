@@ -62,7 +62,7 @@ namespace AlphaMetrixForms.Services
 
         public async Task<FormDTO> GetFormAsync(Guid formId)
         {
-            Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && u.IsDeleted == false);
+            Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
             return FormMapper.GetDto(form);
         }
 
