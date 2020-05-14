@@ -6,6 +6,7 @@ using AlphaMetrixForms.Services.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,29 +21,51 @@ namespace AlphaMetrixForms.Services.Services
         }
         public async Task<OptionQuestionDTO> CreateOptionQuestionAsync(OptionQuestionDTO questionDTO, Guid formId)
         {
-            var check = await context.OptionQuestions.FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.IsDeleted == false);
+            //added check for formId, because question with same text can exist for more than 1 form
+            var check = await this.context.OptionQuestions
+                .FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.FormId == formId && q.IsDeleted == false);
 
             if (check != null)
             {
-                throw new ArgumentException($"Option question with Text: {questionDTO.Text} already exists.");
+                throw new ArgumentException($"Option question with Text: {questionDTO.Text} already exists for this form.");
             }
 
             var question = new OptionQuestion()
             {
                 FormId = questionDTO.FormId,
                 Text = questionDTO.Text,
-                IsRequired = questionDTO.IsRequired
-            };
+                IsRequired = questionDTO.IsRequired,
+                IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed,
+                CreatedOn = DateTime.UtcNow
+        };
 
-            await context.OptionQuestions.AddAsync(question);
-            await context.SaveChangesAsync();
+            await this.context.OptionQuestions.AddAsync(question);
 
+            //added 2 new options for each newly created option question as per project assignment
+            var option1 = new Option()
+            {
+                QuestionId = question.Id,
+                Text = "Option 1",
+                CreatedOn = DateTime.UtcNow
+        };
+            var option2 = new Option()
+            {
+                QuestionId = question.Id,
+                Text = "Option 2",
+                CreatedOn = DateTime.UtcNow
+        };
+            await this.context.Options.AddAsync(option1);
+            await this.context.Options.AddAsync(option2);
+            await this.context.SaveChangesAsync();
+
+            questionDTO.Id = question.Id;
             return questionDTO;
         }
 
         public async Task<bool> DeleteOptionQuestionAsync(Guid questionId)
         {
-            OptionQuestion question = await context.OptionQuestions.FirstOrDefaultAsync(f => f.Id == questionId && f.IsDeleted == false);
+            OptionQuestion question = await this.context.OptionQuestions
+                .FirstOrDefaultAsync(f => f.Id == questionId && f.IsDeleted == false);
 
             if (question == null)
             {
@@ -50,43 +73,151 @@ namespace AlphaMetrixForms.Services.Services
             }
 
             question.IsDeleted = true;
-            await context.SaveChangesAsync();
+            question.DeletedOn = DateTime.UtcNow;
+
+            await this.context.SaveChangesAsync();
             return true;
         }
 
         public async Task<ICollection<OptionQuestionDTO>> GetAllOptionQuestionsAsync(Guid formId)
         {
-            Form form = await context.Forms.FirstOrDefaultAsync(u => u.Id == formId && u.IsDeleted == false);
-            var questions = form.OptionQuestions;
+            //Form form = await context.Forms.FirstOrDefaultAsync(u => u.Id == formId && u.IsDeleted == false);
+            //var questions = form.OptionQuestions;
 
-            return OptionQuestionMapper.GetDtos(questions);
+            List<OptionQuestion> questions = await this.context.OptionQuestions
+                .Where(q => q.FormId == formId && q.IsDeleted == false)
+                .ToListAsync();
+
+            //return OptionQuestionMapper.GetDtos(questions);
+            return questions.GetDtos();
         }
 
         public async Task<OptionQuestionDTO> GetOptionQuestionAsync(Guid questionId)
         {
-            OptionQuestion question = await context.OptionQuestions.FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
-
-            if (question == null)
-            {
-                throw new ArgumentNullException($"There is no such DocumentQuestion with ID: {questionId}");
-            }
-
-            return OptionQuestionMapper.GetDto(question);
-        }
-
-        public async Task<OptionQuestionDTO> UpdateOptionQuestionAsync(Guid questionId, OptionQuestionDTO questionDTO)
-        {
-            OptionQuestion question = await context.OptionQuestions.FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
+            //added include for options
+            OptionQuestion question = await this.context.OptionQuestions
+                .Include(q=>q.Options)
+                .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
 
             if (question == null)
             {
                 throw new ArgumentNullException($"There is no such OptionQuestion with ID: {questionId}");
             }
 
-            question = OptionQuestionMapper.GetEntity(questionDTO);
-            await context.SaveChangesAsync();
+            //return OptionQuestionMapper.GetDto(question);
+            return question.GetDto();
+        }
+
+        public async Task<OptionQuestionDTO> UpdateOptionQuestionAsync(Guid questionId, OptionQuestionDTO questionDTO)
+        {
+            OptionQuestion question = await this.context.OptionQuestions
+                .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
+
+            if (question == null)
+            {
+                throw new ArgumentNullException($"There is no such OptionQuestion with ID: {questionId}");
+            }
+
+            question.Text = questionDTO.Text;
+            question.IsRequired = questionDTO.IsRequired;
+            question.IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed;
+            question.ModifiedOn = DateTime.UtcNow;
+
+            //question = OptionQuestionMapper.GetEntity(questionDTO);
+            await this.context.SaveChangesAsync();
 
             return questionDTO;
+        }
+
+        public async Task<bool> AddOptionToOptionQuestionAsync(OptionDTO optionDTO)
+        {
+            OptionQuestion question = await this.context.OptionQuestions
+                .Include(q => q.Options)
+                .FirstOrDefaultAsync(f => f.Id == optionDTO.QuestionId && f.IsDeleted == false);
+
+            if (question == null)
+            {
+                return false;
+            }
+
+            var check = question.Options
+                .Any(o => o.Text == optionDTO.Text);
+
+            if (check)
+            {
+                return false;
+            }
+
+            var option = new Option()
+            {
+                QuestionId = optionDTO.QuestionId,
+                Text = optionDTO.Text,
+                CreatedOn = DateTime.UtcNow
+        };
+
+            await this.context.Options.AddAsync(option);
+            await this.context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> RemoveOptionFromOptionQuestionAsync(OptionDTO optionDTO)
+        {
+            OptionQuestion question = await this.context.OptionQuestions
+                .Include(q => q.Options)
+                .FirstOrDefaultAsync(f => f.Id == optionDTO.QuestionId && f.IsDeleted == false);
+
+            if (question == null)
+            {
+                return false;
+            }
+
+            if (question.Options.Count==2)
+            {
+                throw new ArgumentNullException($"Options can not be less than 2.");
+            }
+
+            var check = question.Options
+                .Any(o => o.Id == optionDTO.Id);
+
+            if (check == false)
+            {
+                return false;
+            }
+
+            Option option = await this.context.Options
+                .Where(o => o.Id == optionDTO.Id)
+                .FirstOrDefaultAsync();
+
+            option.IsDeleted = true;
+            option.DeletedOn = DateTime.UtcNow;
+
+            await this.context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateOptionForOptionQuestionAsync(OptionDTO optionDTO)
+        {
+            OptionQuestion question = await this.context.OptionQuestions
+                .Include(q => q.Options)
+                .FirstOrDefaultAsync(f => f.Id == optionDTO.QuestionId && f.IsDeleted == false);
+
+            if (question == null)
+            {
+                return false;
+            }
+
+            Option option = await this.context.Options
+                 .Where(o => o.Id == optionDTO.Id)
+                 .FirstOrDefaultAsync();
+
+            option.Text = optionDTO.Text;
+            option.ModifiedOn = DateTime.UtcNow;
+
+            await this.context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

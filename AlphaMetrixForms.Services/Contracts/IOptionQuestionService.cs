@@ -13,5 +13,10 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<OptionQuestionDTO> CreateOptionQuestionAsync(OptionQuestionDTO questionDTO, Guid formId);
         Task<ICollection<OptionQuestionDTO>> GetAllOptionQuestionsAsync(Guid formId);
         Task<bool> DeleteOptionQuestionAsync(Guid questionId);
+
+        Task<bool> AddOptionToOptionQuestionAsync(OptionDTO optionDTO);
+        Task<bool> RemoveOptionFromOptionQuestionAsync(OptionDTO optionDTO);
+        Task<bool> UpdateOptionForOptionQuestionAsync(OptionDTO optionDTO);
+
     }
 }

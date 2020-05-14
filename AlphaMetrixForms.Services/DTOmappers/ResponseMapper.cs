@@ -31,25 +31,25 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        public static Response GetEntity(this ResponseDTO responseDTO)
-        {
-            if (responseDTO == null)
-            {
-                throw new ArgumentException();
-            };
+        //public static Response GetEntity(this ResponseDTO responseDTO)
+        //{
+        //    if (responseDTO == null)
+        //    {
+        //        throw new ArgumentException();
+        //    };
 
-            return new Response
-            {
-                Id = responseDTO.Id,
-                FormId = responseDTO.FormId,
-                TextQuestionAnswers = TextQuestionAnswerMapper.GetEntities(responseDTO.TextQuestionAnswers),
-                OptionQuestionAnswers = OptionQuestionAnswerMapper.GetEntities(responseDTO.OptionQuestionAnswers),
-                DocumentQuestionAnswers = DocumentQuestionAnswerMapper.GetEntities(responseDTO.DocumentQuestionAnswers)
-            };
-        }
-        public static ICollection<Response> GetEntities(this ICollection<ResponseDTO> dtos)
-        {
-            return dtos.Select(GetEntity).ToList();
-        }
+        //    return new Response
+        //    {
+        //        Id = responseDTO.Id,
+        //        FormId = responseDTO.FormId,
+        //        TextQuestionAnswers = TextQuestionAnswerMapper.GetEntities(responseDTO.TextQuestionAnswers),
+        //        OptionQuestionAnswers = OptionQuestionAnswerMapper.GetEntities(responseDTO.OptionQuestionAnswers),
+        //        DocumentQuestionAnswers = DocumentQuestionAnswerMapper.GetEntities(responseDTO.DocumentQuestionAnswers)
+        //    };
+        //}
+        //public static ICollection<Response> GetEntities(this ICollection<ResponseDTO> dtos)
+        //{
+        //    return dtos.Select(GetEntity).ToList();
+        //}
     }
 }

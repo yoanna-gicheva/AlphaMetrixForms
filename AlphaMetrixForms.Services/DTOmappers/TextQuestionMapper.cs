@@ -32,25 +32,25 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        public static TextQuestion GetEntity(this TextQuestionDTO textQuestionDTO)
-        {
-            if (textQuestionDTO == null)
-            {
-                throw new ArgumentException();
-            };
+        //public static TextQuestion GetEntity(this TextQuestionDTO textQuestionDTO)
+        //{
+        //    if (textQuestionDTO == null)
+        //    {
+        //        throw new ArgumentException();
+        //    };
 
-            return new TextQuestion
-            {
-                Id = textQuestionDTO.Id,
-                FormId = textQuestionDTO.FormId,
-                Text = textQuestionDTO.Text,
-                IsRequired = textQuestionDTO.IsRequired,
-                IsLongAnswer = textQuestionDTO.IsLongAnswer,
-            };
-        }
-        public static ICollection<TextQuestion> GetEntities(this ICollection<TextQuestionDTO> dtos)
-        {
-            return dtos.Select(GetEntity).ToList();
-        }
+        //    return new TextQuestion
+        //    {
+        //        Id = textQuestionDTO.Id,
+        //        FormId = textQuestionDTO.FormId,
+        //        Text = textQuestionDTO.Text,
+        //        IsRequired = textQuestionDTO.IsRequired,
+        //        IsLongAnswer = textQuestionDTO.IsLongAnswer,
+        //    };
+        //}
+        //public static ICollection<TextQuestion> GetEntities(this ICollection<TextQuestionDTO> dtos)
+        //{
+        //    return dtos.Select(GetEntity).ToList();
+        //}
     }
 }

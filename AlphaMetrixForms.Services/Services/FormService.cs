@@ -20,10 +20,16 @@ namespace AlphaMetrixForms.Services.Services
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<FormDTO> CreateFormAsync(FormDTO formDTO, Guid ownerId)
+        public async Task<FormDTO> CreateFormAsync(FormDTO formDTO/*, Guid ownerId*/)
         {
-            User owner = await context.Users.Include(u => u.Forms).FirstOrDefaultAsync(u => u.Id == ownerId);
-            bool check = owner.Forms.Any(f => f.Title == formDTO.Title && f.IsDeleted == false);
+            User owner = await this.context.Users
+                .Include(u => u.Forms)
+                .FirstOrDefaultAsync(u => u.Id == formDTO.OwnerId/*ownerId*/);
+
+            //not sure if we need to check if the form is deleted.
+            //I suppose we won't allow creating one with the same title even if it is deleted.
+            bool check = owner.Forms
+                .Any(f => f.Title == formDTO.Title /*&& f.IsDeleted == false*/);
             
             if(check)
             {
@@ -34,11 +40,13 @@ namespace AlphaMetrixForms.Services.Services
             {
                 Title = formDTO.Title,
                 Description = formDTO.Description,
-                OwnerId = ownerId
+                CreatedOn = DateTime.UtcNow,
+                OwnerId = formDTO.OwnerId,
+                //OwnerId = ownerId
             };
 
-            await context.Forms.AddAsync(form);
-            await context.SaveChangesAsync();
+            await this.context.Forms.AddAsync(form);
+            await this.context.SaveChangesAsync();
 
             formDTO.Id = form.Id;
             return formDTO;
@@ -46,7 +54,8 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task<bool> DeleteFormAsync(Guid formId)
         {
-            Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
+            Form form = await this.context.Forms
+                .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
             if(form == null)
             {
@@ -54,45 +63,67 @@ namespace AlphaMetrixForms.Services.Services
             }
 
             form.IsDeleted = true;
-            await context.SaveChangesAsync();
+            form.DeletedOn = DateTime.UtcNow;
+            await this.context.SaveChangesAsync();
             return true;
         }
 
         public async Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId)
         {
-            User owner = await context.Users.FirstOrDefaultAsync(u => u.Id == ownerId && u.IsDeleted == false);
-            var forms = owner.Forms;
+            //User owner = await context.Users
+            //    .FirstOrDefaultAsync(u => u.Id == ownerId && u.IsDeleted == false);
+            //var forms = owner.Forms;
 
-            return FormMapper.GetDtos(forms);
+            List<Form> forms = await this.context.Forms
+                .Where(f => f.OwnerId == ownerId && f.IsDeleted == false)
+                .ToListAsync();
+
+            //return FormMapper.GetDtos(forms);
+            return forms.GetDtos();
         }
 
         public async Task<FormDTO> GetFormAsync(Guid formId)
         {
-            Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
+            //added few includes for types of questions which may come in use later
+            Form form = await this.context.Forms
+                .Include(f =>f.TextQuestions)
+                .Include(f =>f.DocumentQuestions)
+                .Include(f =>f.OptionQuestions)
+                .ThenInclude(q => q.Options)
+                .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
             if (form == null)
             {
                 throw new ArgumentNullException($"There is no such Form with ID: {formId}");
             }
 
-            return FormMapper.GetDto(form);
+            //return FormMapper.GetDto(form);
+            return form.GetDto();
         }
 
         public async Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO)
         {
-            Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
+            Form form = await this.context.Forms
+                .FirstOrDefaultAsync(f => f.Id == formDTO.Id && f.IsDeleted == false);
 
             if(form == null)
             {
-                throw new ArgumentNullException($"There is no such form with ID: {formId}");
+                throw new ArgumentNullException($"There is no such form with ID: {formDTO.Id}");
             }
+            //I am not sure what is the idea of the below rows. 
+            //I was thinking that this method should allow us to change the title or description of the form only.
 
-            form = FormMapper.GetEntity(formDTO);
-            form.TextQuestions = TextQuestionMapper.GetEntities(formDTO.TextQuestions);
-            form.OptionQuestions = OptionQuestionMapper.GetEntities(formDTO.OptionQuestions);
-            form.DocumentQuestions = DocumentQuestionMapper.GetEntities(formDTO.DocumentQuestions);
-            form.Responses = ResponseMapper.GetEntities(formDTO.Responses);
-            await context.SaveChangesAsync();
+            //form = FormMapper.GetEntity(formDTO);
+            //form.TextQuestions = TextQuestionMapper.GetEntities(formDTO.TextQuestions);
+            //form.OptionQuestions = OptionQuestionMapper.GetEntities(formDTO.OptionQuestions);
+            //form.DocumentQuestions = DocumentQuestionMapper.GetEntities(formDTO.DocumentQuestions);
+            //form.Responses = ResponseMapper.GetEntities(formDTO.Responses);
+
+            form.Title = formDTO.Title;
+            form.Description = formDTO.Description;
+            form.ModifiedOn = DateTime.UtcNow;
+
+            await this.context.SaveChangesAsync();
 
             return formDTO;
         }

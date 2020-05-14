@@ -30,23 +30,23 @@ namespace AlphaMetrixForms.Services.DTOmappers
             return entities.Select(GetDto).ToList();
         }
 
-        public static Option GetEntity(this OptionDTO optionDTO)
-        {
-            if (optionDTO == null)
-            {
-                throw new ArgumentException();
-            };
+        //public static Option GetEntity(this OptionDTO optionDTO)
+        //{
+        //    if (optionDTO == null)
+        //    {
+        //        throw new ArgumentException();
+        //    };
 
-            return new Option
-            {
-                Id = optionDTO.Id,
-                QuestionId = optionDTO.QuestionId,
-                Text = optionDTO.Text
-            };
-        }
-        public static ICollection<Option> GetEntities(this ICollection<OptionDTO> optionDTOs)
-        {
-            return optionDTOs.Select(GetEntity).ToList();
-        }
+        //    return new Option
+        //    {
+        //        Id = optionDTO.Id,
+        //        QuestionId = optionDTO.QuestionId,
+        //        Text = optionDTO.Text
+        //    };
+        //}
+        //public static ICollection<Option> GetEntities(this ICollection<OptionDTO> optionDTOs)
+        //{
+        //    return optionDTOs.Select(GetEntity).ToList();
+        //}
     }
 }

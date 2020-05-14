@@ -34,24 +34,24 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        public static Form GetEntity(this FormDTO formDTO)
-        {
-            if (formDTO == null)
-            {
-                throw new ArgumentException();
-            };
+        //public static Form GetEntity(this FormDTO formDTO)
+        //{
+        //    if (formDTO == null)
+        //    {
+        //        throw new ArgumentException();
+        //    };
 
-            return new Form
-            {
-                Id = formDTO.Id,
-                Title = formDTO.Title,
-                Description = formDTO.Description,
-                OwnerId = formDTO.OwnerId,
-            };
-        }
-        public static ICollection<Form> GetEntities(this ICollection<FormDTO> formDTOs)
-        {
-            return formDTOs.Select(GetEntity).ToList();
-        }
+        //    return new Form
+        //    {
+        //        Id = formDTO.Id,
+        //        Title = formDTO.Title,
+        //        Description = formDTO.Description,
+        //        OwnerId = formDTO.OwnerId,
+        //    };
+        //}
+        //public static ICollection<Form> GetEntities(this ICollection<FormDTO> formDTOs)
+        //{
+        //    return formDTOs.Select(GetEntity).ToList();
+        //}
     }
 }
