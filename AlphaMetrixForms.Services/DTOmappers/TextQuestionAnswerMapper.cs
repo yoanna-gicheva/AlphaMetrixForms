@@ -29,23 +29,23 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        public static TextQuestionAnswer GetEntity(this TextQuestionAnswerDTO textQuestionAnswerDTO)
-        {
-            if (textQuestionAnswerDTO == null)
-            {
-                throw new ArgumentException();
-            };
+        //public static TextQuestionAnswer GetEntity(this TextQuestionAnswerDTO textQuestionAnswerDTO)
+        //{
+        //    if (textQuestionAnswerDTO == null)
+        //    {
+        //        throw new ArgumentException();
+        //    };
 
-            return new TextQuestionAnswer
-            {
-                TextQuestionId = textQuestionAnswerDTO.TextQuestionId,
-                ResponseId = textQuestionAnswerDTO.ResponseId,
-                Answer = textQuestionAnswerDTO.Answer
-            };
-        }
-        public static ICollection<TextQuestionAnswer> GetEntities(this ICollection<TextQuestionAnswerDTO> dtos)
-        {
-            return dtos.Select(GetEntity).ToList();
-        }
+        //    return new TextQuestionAnswer
+        //    {
+        //        TextQuestionId = textQuestionAnswerDTO.TextQuestionId,
+        //        ResponseId = textQuestionAnswerDTO.ResponseId,
+        //        Answer = textQuestionAnswerDTO.Answer
+        //    };
+        //}
+        //public static ICollection<TextQuestionAnswer> GetEntities(this ICollection<TextQuestionAnswerDTO> dtos)
+        //{
+        //    return dtos.Select(GetEntity).ToList();
+        //}
     }
 }

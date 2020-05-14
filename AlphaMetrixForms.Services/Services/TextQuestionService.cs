@@ -6,6 +6,7 @@ using AlphaMetrixForms.Services.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,11 +21,13 @@ namespace AlphaMetrixForms.Services.Services
         }
         public async Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO questionDTO, Guid formId)
         {
-            var check = await context.TextQuestions.FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.IsDeleted == false);
+            //added check for formId, because question with same text can exist for more than 1 form
+            var check = await this.context.TextQuestions
+                .FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.FormId == formId && q.IsDeleted == false);
 
             if(check != null)
             {
-                throw new ArgumentException($"Text question with Text: {questionDTO.Text} already exists.");
+                throw new ArgumentException($"Text question with Text: {questionDTO.Text} already exists for this form.");
             }
 
             var question = new TextQuestion()
@@ -32,18 +35,21 @@ namespace AlphaMetrixForms.Services.Services
                 FormId = formId,
                 Text = questionDTO.Text,
                 IsRequired = questionDTO.IsRequired,
-                IsLongAnswer = questionDTO.IsLongAnswer
-            };
+                IsLongAnswer = questionDTO.IsLongAnswer,
+                CreatedOn = DateTime.UtcNow
+        };
 
-            await context.TextQuestions.AddAsync(question);
-            await context.SaveChangesAsync();
+            await this.context.TextQuestions.AddAsync(question);
+            await this.context.SaveChangesAsync();
 
+            questionDTO.Id = question.Id;
             return questionDTO;
         }
 
         public async Task<bool> DeleteTextQuestionAsync(Guid questionId)
         {
-            TextQuestion question = await context.TextQuestions.FirstOrDefaultAsync(f => f.Id == questionId && f.IsDeleted == false);
+            TextQuestion question = await this.context.TextQuestions
+                .FirstOrDefaultAsync(f => f.Id == questionId && f.IsDeleted == false);
 
             if (question == null)
             {
@@ -51,41 +57,56 @@ namespace AlphaMetrixForms.Services.Services
             }
 
             question.IsDeleted = true;
-            await context.SaveChangesAsync();
+            question.DeletedOn = DateTime.UtcNow;
+            await this.context.SaveChangesAsync();
             return true;
         }
 
         public async Task<ICollection<TextQuestionDTO>> GetAllTextQuestionsAsync(Guid formId)
         {
-            Form form = await context.Forms.FirstOrDefaultAsync(u => u.Id == formId && u.IsDeleted == false);
-            var questions = form.TextQuestions;
+            //Form form = await this.context.Forms
+            //    .FirstOrDefaultAsync(u => u.Id == formId && u.IsDeleted == false);
+            //var questions = form.TextQuestions;
+            List<TextQuestion> questions = await this.context.TextQuestions
+                .Where(q => q.FormId == formId && q.IsDeleted == false)
+                .ToListAsync();
 
-            return TextQuestionMapper.GetDtos(questions);
+            //return TextQuestionMapper.GetDtos(questions);
+            return questions.GetDtos();
         }
 
         public async Task<TextQuestionDTO> GetTextQuestionAsync(Guid questionId)
         {
-            TextQuestion question = await context.TextQuestions.FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
-
-            if (question == null)
-            {
-                throw new ArgumentNullException($"There is no such DocumentQuestion with ID: {questionId}");
-            }
-
-            return TextQuestionMapper.GetDto(question);
-        }
-
-        public async Task<TextQuestionDTO> UpdateTextQuestionAsync(Guid questionId, TextQuestionDTO textQuestionDTO)
-        {
-            TextQuestion question = await context.TextQuestions.FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
+            TextQuestion question = await this.context.TextQuestions
+                .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
 
             if (question == null)
             {
                 throw new ArgumentNullException($"There is no such TextQuestion with ID: {questionId}");
             }
 
-            question = TextQuestionMapper.GetEntity(textQuestionDTO);
-            await context.SaveChangesAsync();
+            //return TextQuestionMapper.GetDto(question);
+            return question.GetDto();
+        }
+
+        public async Task<TextQuestionDTO> UpdateTextQuestionAsync(Guid questionId, TextQuestionDTO textQuestionDTO)
+        {
+            TextQuestion question = await this.context.TextQuestions
+                .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
+
+            if (question == null)
+            {
+                throw new ArgumentNullException($"There is no such TextQuestion with ID: {questionId}");
+            }
+
+            question.IsRequired = textQuestionDTO.IsRequired;
+            question.IsLongAnswer = textQuestionDTO.IsLongAnswer;
+            question.Text = textQuestionDTO.Text;
+            question.ModifiedOn = DateTime.UtcNow;
+
+            //question = TextQuestionMapper.GetEntity(textQuestionDTO);
+
+            await this.context.SaveChangesAsync();
 
             return textQuestionDTO;
         }
