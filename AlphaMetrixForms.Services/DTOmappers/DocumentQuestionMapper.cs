@@ -33,5 +33,27 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
+
+        public static DocumentQuestion GetEntity(this DocumentQuestionDTO documentQuestionDTO)
+        {
+            if (documentQuestionDTO == null)
+            {
+                throw new ArgumentException();
+            };
+
+            return new DocumentQuestion
+            {
+                Id = documentQuestionDTO.Id,
+                FormId = documentQuestionDTO.FormId,
+                Text = documentQuestionDTO.Text,
+                IsRequired = documentQuestionDTO.IsRequired,
+                FileNumberLimit = documentQuestionDTO.FileNumberLimit,
+                FileSizeLimit = documentQuestionDTO.FileSizeLimit,
+            };
+        }
+        public static ICollection<DocumentQuestion> GetEntities(this ICollection<DocumentQuestionDTO> dtos)
+        {
+            return dtos.Select(GetEntity).ToList();
+        }
     }
 }
