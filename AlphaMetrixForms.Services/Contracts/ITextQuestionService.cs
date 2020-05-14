@@ -8,11 +8,10 @@ namespace AlphaMetrixForms.Services.Contracts
 {
     public interface ITextQuestionService
     {
-        Task<TextQuestionDTO> GetTextQuestionAsync(int questionId);
-        Task<TextQuestionDTO> UpdateTextQuestionAsync(int questionId, string newText);
-        Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO questionDTO);
-
-        //Task<ICollection<TextQuestionDTO>> GetAllTextQuestionsAsync();
-        Task<bool> DeleteTextQuestionAsync(int questionId);
+        Task<TextQuestionDTO> GetTextQuestionAsync(Guid questionId);
+        Task<TextQuestionDTO> UpdateTextQuestionAsync(Guid questionId, TextQuestionDTO textQuestionDTO);
+        Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO questionDTO, Guid formId);
+        Task<ICollection<TextQuestionDTO>> GetAllTextQuestionsAsync(Guid formId);
+        Task<bool> DeleteTextQuestionAsync(Guid questionId);
     }
 }

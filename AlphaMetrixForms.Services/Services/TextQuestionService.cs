@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlphaMetrixForms.Services
+namespace AlphaMetrixForms.Services.Services
 {
     public class TextQuestionService : ITextQuestionService
     {
@@ -66,6 +66,11 @@ namespace AlphaMetrixForms.Services
         public async Task<TextQuestionDTO> GetTextQuestionAsync(Guid questionId)
         {
             TextQuestion question = await context.TextQuestions.FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
+
+            if (question == null)
+            {
+                throw new ArgumentNullException($"There is no such DocumentQuestion with ID: {questionId}");
+            }
 
             return TextQuestionMapper.GetDto(question);
         }

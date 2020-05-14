@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlphaMetrixForms.Services
+namespace AlphaMetrixForms.Services.Services
 {
     public class FormService : IFormService
     {
@@ -19,6 +19,7 @@ namespace AlphaMetrixForms.Services
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
+
         public async Task<FormDTO> CreateFormAsync(FormDTO formDTO, Guid ownerId)
         {
             User owner = await context.Users.Include(u => u.Forms).FirstOrDefaultAsync(u => u.Id == ownerId);
@@ -29,8 +30,13 @@ namespace AlphaMetrixForms.Services
                 throw new ArgumentException($"This user has already created a form with Title: {formDTO.Title}");
             }
 
-            Form form = FormMapper.GetEntity(formDTO);
-            form.OwnerId = ownerId;
+            Form form = new Form() 
+            {
+                Title = formDTO.Title,
+                Description = formDTO.Description,
+                OwnerId = ownerId
+            };
+
             await context.Forms.AddAsync(form);
             await context.SaveChangesAsync();
 
@@ -63,12 +69,18 @@ namespace AlphaMetrixForms.Services
         public async Task<FormDTO> GetFormAsync(Guid formId)
         {
             Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
+
+            if (form == null)
+            {
+                throw new ArgumentNullException($"There is no such Form with ID: {formId}");
+            }
+
             return FormMapper.GetDto(form);
         }
 
         public async Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO)
         {
-            Form form = context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false).Result;
+            Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
             if(form == null)
             {

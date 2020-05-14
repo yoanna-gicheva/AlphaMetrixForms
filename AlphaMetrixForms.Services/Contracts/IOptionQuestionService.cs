@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AlphaMetrixForms.Services.Contracts
 {
-    public interface IOptionsQuestionService
+    public interface IOptionQuestionService
     {
-        Task<OptionQuestionDTO> GetOptionsQuestionAsync(Guid questionId);
-        Task<OptionQuestionDTO> UpdateOptionsQuestionAsync(Guid questionId, OptionQuestionDTO questionDTO);
-        Task<OptionQuestionDTO> CreateOptionsQuestionAsync(OptionQuestionDTO questionDTO, Guid formId);
-        Task<ICollection<OptionQuestionDTO>> GetAllOptionsQuestionsAsync(Guid formId);
-        Task<bool> DeleteOptionsQuestionAsync(Guid questionId);
+        Task<OptionQuestionDTO> GetOptionQuestionAsync(Guid questionId);
+        Task<OptionQuestionDTO> UpdateOptionQuestionAsync(Guid questionId, OptionQuestionDTO questionDTO);
+        Task<OptionQuestionDTO> CreateOptionQuestionAsync(OptionQuestionDTO questionDTO, Guid formId);
+        Task<ICollection<OptionQuestionDTO>> GetAllOptionQuestionsAsync(Guid formId);
+        Task<bool> DeleteOptionQuestionAsync(Guid questionId);
     }
 }
