@@ -70,21 +70,15 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId)
         {
-            //User owner = await context.Users
-            //    .FirstOrDefaultAsync(u => u.Id == ownerId && u.IsDeleted == false);
-            //var forms = owner.Forms;
-
             List<Form> forms = await this.context.Forms
                 .Where(f => f.OwnerId == ownerId && f.IsDeleted == false)
                 .ToListAsync();
 
-            //return FormMapper.GetDtos(forms);
             return forms.GetDtos();
         }
 
         public async Task<FormDTO> GetFormAsync(Guid formId)
         {
-            //added few includes for types of questions which may come in use later
             Form form = await this.context.Forms
                 .Include(f =>f.TextQuestions)
                 .Include(f =>f.DocumentQuestions)
@@ -97,7 +91,6 @@ namespace AlphaMetrixForms.Services.Services
                 throw new ArgumentNullException($"There is no such Form with ID: {formId}");
             }
 
-            //return FormMapper.GetDto(form);
             return form.GetDto();
         }
 
