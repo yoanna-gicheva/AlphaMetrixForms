@@ -21,7 +21,6 @@ namespace AlphaMetrixForms.Services.Services
         }
         public async Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO questionDTO, Guid formId)
         {
-            //added check for formId, because question with same text can exist for more than 1 form
             var check = await this.context.TextQuestions
                 .FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.FormId == formId && q.IsDeleted == false);
 
@@ -64,14 +63,10 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task<ICollection<TextQuestionDTO>> GetAllTextQuestionsAsync(Guid formId)
         {
-            //Form form = await this.context.Forms
-            //    .FirstOrDefaultAsync(u => u.Id == formId && u.IsDeleted == false);
-            //var questions = form.TextQuestions;
             List<TextQuestion> questions = await this.context.TextQuestions
                 .Where(q => q.FormId == formId && q.IsDeleted == false)
                 .ToListAsync();
 
-            //return TextQuestionMapper.GetDtos(questions);
             return questions.GetDtos();
         }
 
@@ -85,7 +80,6 @@ namespace AlphaMetrixForms.Services.Services
                 throw new ArgumentNullException($"There is no such TextQuestion with ID: {questionId}");
             }
 
-            //return TextQuestionMapper.GetDto(question);
             return question.GetDto();
         }
 
@@ -104,7 +98,6 @@ namespace AlphaMetrixForms.Services.Services
             question.Text = textQuestionDTO.Text;
             question.ModifiedOn = DateTime.UtcNow;
 
-            //question = TextQuestionMapper.GetEntity(textQuestionDTO);
 
             await this.context.SaveChangesAsync();
 
