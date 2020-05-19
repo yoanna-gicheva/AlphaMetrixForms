@@ -1,0 +1,13 @@
+﻿@model AlphaMetrixForms.Web.Models.TextQuestion.TextQuestionViewModel
+<h4>TextQuestion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Question" class="control-label"></label>
+            <input asp-for="Question" class="form-control" />
+            <span asp-validation-for="Question" class="text-danger"></span>
+        </div>
+    </div>
+</div>
