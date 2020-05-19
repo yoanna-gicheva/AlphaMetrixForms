@@ -32,7 +32,7 @@ namespace AlphaMetrixForms.Web.Controllers
         public async Task<IActionResult> AddOptionsQuestion([Bind("Title, Description, TextQuestions, OptionsQuestions")] FormViewModel form)
         {
             form.OptionsQuestions.Add(new OptionsQuestionViewModel());
-            return PartialView("Partials/_OptionsQuestionsPartialView", form);
+            return PartialView("_OptionsQuestionsPartialView", form);
         }
         [HttpPost]
         public async Task<IActionResult> SubmitForm([Bind("Title, Description, TextQuestions, OptionsQuestions")] FormViewModel form)

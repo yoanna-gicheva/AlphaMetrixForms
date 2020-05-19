@@ -1,0 +1,26 @@
+﻿@model AlphaMetrixForms.Web.Models.OptionsQuestion.OptionsQuestionViewModel
+
+<h4>OptionsQuestion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Question" class="control-label"></label>
+            <input asp-for="Question" class="form-control" />
+            <span asp-validation-for="Question" class="text-danger"></span>
+        </div>
+        <div id="optionsDiv">
+            <div id="singleOption">
+                <input name="option" class="form-control form-control-sm" type="text" placeholder="Option">
+            </div>
+        </div>
+        <hr>
+        <button name="addOption" type="button" class="btn btn-primary">+</button>
+    </div>
+</div>
+
+<script>$("button[name='addOption']").on("click", function () {
+        $('#singleOption').clone().appendTo('#optionsDiv');
+    });</script>
+
