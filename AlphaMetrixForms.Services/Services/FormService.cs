@@ -20,29 +20,29 @@ namespace AlphaMetrixForms.Services.Services
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<FormDTO> CreateFormAsync(FormDTO formDTO/*, Guid ownerId*/)
+        public async Task<FormDTO> CreateFormAsync(FormDTO formDTO, Guid ownerId)
         {
-            User owner = await this.context.Users
-                .Include(u => u.Forms)
-                .FirstOrDefaultAsync(u => u.Id == formDTO.OwnerId/*ownerId*/);
+            //User owner = await this.context.Users
+            //    .Include(u => u.Forms)
+            //    .FirstOrDefaultAsync(u => u.Id == formDTO.OwnerId/*ownerId*/);
 
             //not sure if we need to check if the form is deleted.
             //I suppose we won't allow creating one with the same title even if it is deleted.
-            bool check = owner.Forms
-                .Any(f => f.Title == formDTO.Title /*&& f.IsDeleted == false*/);
+            //bool check = owner.Forms
+            //    .Any(f => f.Title == formDTO.Title && f.IsDeleted == false);
             
-            if(check)
-            {
-                throw new ArgumentException($"This user has already created a form with Title: {formDTO.Title}");
-            }
+            //if(check)
+            //{
+            //    throw new ArgumentException($"This user has already created a form with Title: {formDTO.Title}");
+            //}
 
             Form form = new Form() 
             {
                 Title = formDTO.Title,
                 Description = formDTO.Description,
                 CreatedOn = DateTime.UtcNow,
-                OwnerId = formDTO.OwnerId,
-                //OwnerId = ownerId
+                //OwnerId = formDTO.OwnerId,
+                OwnerId = ownerId
             };
 
             await this.context.Forms.AddAsync(form);
@@ -70,21 +70,15 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId)
         {
-            //User owner = await context.Users
-            //    .FirstOrDefaultAsync(u => u.Id == ownerId && u.IsDeleted == false);
-            //var forms = owner.Forms;
-
             List<Form> forms = await this.context.Forms
                 .Where(f => f.OwnerId == ownerId && f.IsDeleted == false)
                 .ToListAsync();
 
-            //return FormMapper.GetDtos(forms);
             return forms.GetDtos();
         }
 
         public async Task<FormDTO> GetFormAsync(Guid formId)
         {
-            //added few includes for types of questions which may come in use later
             Form form = await this.context.Forms
                 .Include(f =>f.TextQuestions)
                 .Include(f =>f.DocumentQuestions)
@@ -97,7 +91,6 @@ namespace AlphaMetrixForms.Services.Services
                 throw new ArgumentNullException($"There is no such Form with ID: {formId}");
             }
 
-            //return FormMapper.GetDto(form);
             return form.GetDto();
         }
 

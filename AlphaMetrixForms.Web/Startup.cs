@@ -13,6 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AlphaMetrixForms.Data.Context;
 using AlphaMetrixForms.Data.Entities;
+using AlphaMetrixForms.Services.Contracts;
+using AlphaMetrixForms.Services.Services;
+using AutoMapper;
 
 namespace AlphaMetrixForms.Web
 {
@@ -28,12 +31,23 @@ namespace AlphaMetrixForms.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IFormService, FormService>();
+            services.AddScoped<ITextQuestionService, TextQuestionService>();
+            services.AddScoped<IOptionQuestionService, OptionQuestionService>();
+            services.AddScoped<IDocumentQuestionService, DocumentQuestionService>();
             services.AddDbContext<FormsContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                 .AddMvcOptions(options =>
+                 {
+                     options.MaxModelValidationErrors = 50;
+                     options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                         _ => "The field is required.");
+                 }); 
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

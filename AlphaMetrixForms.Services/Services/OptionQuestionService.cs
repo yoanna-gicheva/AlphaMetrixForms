@@ -19,9 +19,19 @@ namespace AlphaMetrixForms.Services.Services
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
+        public async Task<bool> CreateOptionQuestionAsync(ICollection<OptionQuestionDTO> questionDTOs, Guid formId)
+        {
+            OptionQuestionDTO current;
+            foreach (var question in questionDTOs)
+            {
+                current = await CreateOptionQuestionAsync(question, formId);
+                if (current == null)
+                    return false;
+            }
+            return true;
+        }
         public async Task<OptionQuestionDTO> CreateOptionQuestionAsync(OptionQuestionDTO questionDTO, Guid formId)
         {
-            //added check for formId, because question with same text can exist for more than 1 form
             var check = await this.context.OptionQuestions
                 .FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.FormId == formId && q.IsDeleted == false);
 
@@ -37,7 +47,7 @@ namespace AlphaMetrixForms.Services.Services
                 IsRequired = questionDTO.IsRequired,
                 IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed,
                 CreatedOn = DateTime.UtcNow
-        };
+            };
 
             await this.context.OptionQuestions.AddAsync(question);
 
@@ -47,13 +57,13 @@ namespace AlphaMetrixForms.Services.Services
                 QuestionId = question.Id,
                 Text = "Option 1",
                 CreatedOn = DateTime.UtcNow
-        };
+            };
             var option2 = new Option()
             {
                 QuestionId = question.Id,
                 Text = "Option 2",
                 CreatedOn = DateTime.UtcNow
-        };
+            };
             await this.context.Options.AddAsync(option1);
             await this.context.Options.AddAsync(option2);
             await this.context.SaveChangesAsync();
@@ -81,22 +91,17 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task<ICollection<OptionQuestionDTO>> GetAllOptionQuestionsAsync(Guid formId)
         {
-            //Form form = await context.Forms.FirstOrDefaultAsync(u => u.Id == formId && u.IsDeleted == false);
-            //var questions = form.OptionQuestions;
-
             List<OptionQuestion> questions = await this.context.OptionQuestions
                 .Where(q => q.FormId == formId && q.IsDeleted == false)
                 .ToListAsync();
 
-            //return OptionQuestionMapper.GetDtos(questions);
             return questions.GetDtos();
         }
 
         public async Task<OptionQuestionDTO> GetOptionQuestionAsync(Guid questionId)
         {
-            //added include for options
             OptionQuestion question = await this.context.OptionQuestions
-                .Include(q=>q.Options)
+                .Include(q => q.Options)
                 .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
 
             if (question == null)
@@ -104,7 +109,6 @@ namespace AlphaMetrixForms.Services.Services
                 throw new ArgumentNullException($"There is no such OptionQuestion with ID: {questionId}");
             }
 
-            //return OptionQuestionMapper.GetDto(question);
             return question.GetDto();
         }
 
@@ -123,7 +127,6 @@ namespace AlphaMetrixForms.Services.Services
             question.IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed;
             question.ModifiedOn = DateTime.UtcNow;
 
-            //question = OptionQuestionMapper.GetEntity(questionDTO);
             await this.context.SaveChangesAsync();
 
             return questionDTO;
@@ -153,7 +156,7 @@ namespace AlphaMetrixForms.Services.Services
                 QuestionId = optionDTO.QuestionId,
                 Text = optionDTO.Text,
                 CreatedOn = DateTime.UtcNow
-        };
+            };
 
             await this.context.Options.AddAsync(option);
             await this.context.SaveChangesAsync();
@@ -172,7 +175,7 @@ namespace AlphaMetrixForms.Services.Services
                 return false;
             }
 
-            if (question.Options.Count==2)
+            if (question.Options.Count == 2)
             {
                 throw new ArgumentNullException($"Options can not be less than 2.");
             }

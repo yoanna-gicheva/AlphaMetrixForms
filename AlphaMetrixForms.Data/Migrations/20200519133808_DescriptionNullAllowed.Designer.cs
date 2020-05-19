@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlphaMetrixForms.Data.Migrations
 {
     [DbContext(typeof(FormsContext))]
-    [Migration("20200513133137_FixedOptionQuestionEntity")]
-    partial class FixedOptionQuestionEntity
+    [Migration("20200519133808_DescriptionNullAllowed")]
+    partial class DescriptionNullAllowed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,7 +94,6 @@ namespace AlphaMetrixForms.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -299,6 +298,18 @@ namespace AlphaMetrixForms.Data.Migrations
                     b.Property<string>("Answer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("TextQuestionId", "ResponseId");
 

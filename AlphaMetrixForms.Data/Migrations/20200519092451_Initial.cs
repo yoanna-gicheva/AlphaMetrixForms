@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlphaMetrixForms.Data.Migrations
 {
-    public partial class FirstAttempt : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -211,6 +211,10 @@ namespace AlphaMetrixForms.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     FormId = table.Column<Guid>(nullable: false),
                     Text = table.Column<string>(nullable: false),
                     IsRequired = table.Column<bool>(nullable: false),
@@ -349,6 +353,10 @@ namespace AlphaMetrixForms.Data.Migrations
                 {
                     TextQuestionId = table.Column<Guid>(nullable: false),
                     ResponseId = table.Column<Guid>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Answer = table.Column<string>(nullable: false)
                 },
                 constraints: table =>

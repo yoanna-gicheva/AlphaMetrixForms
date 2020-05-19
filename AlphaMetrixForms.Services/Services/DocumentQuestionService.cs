@@ -20,9 +20,19 @@ namespace AlphaMetrixForms.Services.Services
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public async Task<bool> CreateDocumentQuestionAsync(ICollection<DocumentQuestionDTO> questionDTOs, Guid formId)
+        {
+            DocumentQuestionDTO current;
+            foreach (var question in questionDTOs)
+            {
+                current = await CreateDocumentQuestionAsync(question, formId);
+                if (current == null)
+                    return false;
+            }
+            return true;
+        }
         public async Task<DocumentQuestionDTO> CreateDocumentQuestionAsync(DocumentQuestionDTO questionDTO, Guid formId)
         {
-            //added check for formId, because question with same text can exist for more than 1 form
             var check = await this.context.DocumentQuestions
                 .FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.FormId == formId && q.IsDeleted == false);
 
@@ -39,7 +49,7 @@ namespace AlphaMetrixForms.Services.Services
                 FileNumberLimit = questionDTO.FileNumberLimit,
                 FileSizeLimit = questionDTO.FileSizeLimit,
                 CreatedOn = DateTime.UtcNow
-        };
+            };
 
             await this.context.DocumentQuestions.AddAsync(question);
             await this.context.SaveChangesAsync();
@@ -67,13 +77,10 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task<ICollection<DocumentQuestionDTO>> GetAllDocumentQuestionsAsync(Guid formId)
         {
-            //Form form = await context.Forms.FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
-            //var questions = form.DocumentQuestions;
             List<DocumentQuestion> questions = await this.context.DocumentQuestions
                 .Where(q => q.FormId == formId && q.IsDeleted == false)
                 .ToListAsync();
 
-            //return DocumentQuestionMapper.GetDtos(questions);
             return questions.GetDtos();
         }
 
@@ -87,7 +94,6 @@ namespace AlphaMetrixForms.Services.Services
                 throw new ArgumentNullException($"There is no such DocumentQuestion with ID: {questionId}");
             }
 
-            //return DocumentQuestionMapper.GetDto(question);
             return question.GetDto();
         }
 
@@ -107,7 +113,6 @@ namespace AlphaMetrixForms.Services.Services
             question.Text = questionDTO.Text;
             question.ModifiedOn = DateTime.UtcNow;
 
-            //question = DocumentQuestionMapper.GetEntity(questionDTO);
             await this.context.SaveChangesAsync();
 
             return questionDTO;

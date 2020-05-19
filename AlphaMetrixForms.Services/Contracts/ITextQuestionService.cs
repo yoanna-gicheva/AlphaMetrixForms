@@ -11,6 +11,7 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<TextQuestionDTO> GetTextQuestionAsync(Guid questionId);
         Task<TextQuestionDTO> UpdateTextQuestionAsync(Guid questionId, TextQuestionDTO textQuestionDTO);
         Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO questionDTO, Guid formId);
+        Task<bool> CreateTextQuestionAsync(ICollection<TextQuestionDTO> questionDTOs, Guid formId);
         Task<ICollection<TextQuestionDTO>> GetAllTextQuestionsAsync(Guid formId);
         Task<bool> DeleteTextQuestionAsync(Guid questionId);
     }
