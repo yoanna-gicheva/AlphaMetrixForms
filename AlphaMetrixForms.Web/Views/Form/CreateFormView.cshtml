@@ -1,0 +1,25 @@
+﻿@model AlphaMetrixForms.Web.Models.Form.FormViewModel
+
+@{
+    ViewData["Title"] = "CreateFormView";
+}
+
+<h1>CreateFormView</h1>
+
+<h4>FormViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateFormView">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

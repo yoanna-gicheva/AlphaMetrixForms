@@ -29,7 +29,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 Responses = entity.Responses.GetDtos()
             };
         }
-
         public static ICollection<FormDTO> GetDtos(this ICollection<Form> entities)
         {
             return entities.Select(GetDto).ToList();

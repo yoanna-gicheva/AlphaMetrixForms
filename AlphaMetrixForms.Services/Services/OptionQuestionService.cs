@@ -36,7 +36,7 @@ namespace AlphaMetrixForms.Services.Services
                 IsRequired = questionDTO.IsRequired,
                 IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed,
                 CreatedOn = DateTime.UtcNow
-        };
+            };
 
             await this.context.OptionQuestions.AddAsync(question);
 
@@ -46,13 +46,13 @@ namespace AlphaMetrixForms.Services.Services
                 QuestionId = question.Id,
                 Text = "Option 1",
                 CreatedOn = DateTime.UtcNow
-        };
+            };
             var option2 = new Option()
             {
                 QuestionId = question.Id,
                 Text = "Option 2",
                 CreatedOn = DateTime.UtcNow
-        };
+            };
             await this.context.Options.AddAsync(option1);
             await this.context.Options.AddAsync(option2);
             await this.context.SaveChangesAsync();
@@ -90,7 +90,7 @@ namespace AlphaMetrixForms.Services.Services
         public async Task<OptionQuestionDTO> GetOptionQuestionAsync(Guid questionId)
         {
             OptionQuestion question = await this.context.OptionQuestions
-                .Include(q=>q.Options)
+                .Include(q => q.Options)
                 .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
 
             if (question == null)
@@ -145,7 +145,7 @@ namespace AlphaMetrixForms.Services.Services
                 QuestionId = optionDTO.QuestionId,
                 Text = optionDTO.Text,
                 CreatedOn = DateTime.UtcNow
-        };
+            };
 
             await this.context.Options.AddAsync(option);
             await this.context.SaveChangesAsync();
@@ -164,7 +164,7 @@ namespace AlphaMetrixForms.Services.Services
                 return false;
             }
 
-            if (question.Options.Count==2)
+            if (question.Options.Count == 2)
             {
                 throw new ArgumentNullException($"Options can not be less than 2.");
             }
