@@ -21,12 +21,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AlphaMetrixForms.Data\AlphaMetrixForms.Data.csproj" />
+    <ProjectReference Include="..\AlphaMetrixForms.Services\AlphaMetrixForms.Services.csproj" />
   </ItemGroup>
 
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="Views\Partials\" />
   </ItemGroup>
 
 </Project>

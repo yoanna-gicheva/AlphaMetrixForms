@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AlphaMetrixForms.Data.Context;
 using AlphaMetrixForms.Data.Entities;
+using AlphaMetrixForms.Services.Contracts;
+using AlphaMetrixForms.Services.Services;
 
 namespace AlphaMetrixForms.Web
 {
@@ -28,6 +30,10 @@ namespace AlphaMetrixForms.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IFormService, FormService>();
+            services.AddScoped<ITextQuestionService, TextQuestionService>();
+            services.AddScoped<IOptionQuestionService, OptionQuestionService>();
+            services.AddScoped<IDocumentQuestionService, DocumentQuestionService>();
             services.AddDbContext<FormsContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
