@@ -20,29 +20,29 @@ namespace AlphaMetrixForms.Services.Services
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<FormDTO> CreateFormAsync(FormDTO formDTO/*, Guid ownerId*/)
+        public async Task<FormDTO> CreateFormAsync(FormDTO formDTO, Guid ownerId)
         {
-            User owner = await this.context.Users
-                .Include(u => u.Forms)
-                .FirstOrDefaultAsync(u => u.Id == formDTO.OwnerId/*ownerId*/);
+            //User owner = await this.context.Users
+            //    .Include(u => u.Forms)
+            //    .FirstOrDefaultAsync(u => u.Id == formDTO.OwnerId/*ownerId*/);
 
             //not sure if we need to check if the form is deleted.
             //I suppose we won't allow creating one with the same title even if it is deleted.
-            bool check = owner.Forms
-                .Any(f => f.Title == formDTO.Title /*&& f.IsDeleted == false*/);
+            //bool check = owner.Forms
+            //    .Any(f => f.Title == formDTO.Title && f.IsDeleted == false);
             
-            if(check)
-            {
-                throw new ArgumentException($"This user has already created a form with Title: {formDTO.Title}");
-            }
+            //if(check)
+            //{
+            //    throw new ArgumentException($"This user has already created a form with Title: {formDTO.Title}");
+            //}
 
             Form form = new Form() 
             {
                 Title = formDTO.Title,
                 Description = formDTO.Description,
                 CreatedOn = DateTime.UtcNow,
-                OwnerId = formDTO.OwnerId,
-                //OwnerId = ownerId
+                //OwnerId = formDTO.OwnerId,
+                OwnerId = ownerId
             };
 
             await this.context.Forms.AddAsync(form);

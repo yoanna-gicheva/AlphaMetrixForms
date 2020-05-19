@@ -19,6 +19,17 @@ namespace AlphaMetrixForms.Services.Services
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
+        public async Task<bool> CreateTextQuestionAsync(ICollection<TextQuestionDTO> questionDTOs, Guid formId)
+        {
+            TextQuestionDTO current;
+            foreach(var question in questionDTOs)
+            {
+                current = await CreateTextQuestionAsync(question, formId);
+                if (current == null)
+                    return false;
+            }
+            return true;
+        }
         public async Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO questionDTO, Guid formId)
         {
             var check = await this.context.TextQuestions
