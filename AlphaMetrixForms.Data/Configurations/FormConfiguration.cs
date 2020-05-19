@@ -16,8 +16,7 @@ namespace AlphaMetrixForms.Data.Configurations
             builder.Property(f => f.Title)
                 .IsRequired();
 
-            builder.Property(f => f.Description)
-                .IsRequired();
+            builder.Property(f => f.Description);
 
             builder.HasOne(f => f.Owner).WithMany(u => u.Forms).HasForeignKey(f => f.OwnerId);
         }

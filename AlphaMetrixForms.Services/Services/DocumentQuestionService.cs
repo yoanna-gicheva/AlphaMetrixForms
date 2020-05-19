@@ -20,6 +20,17 @@ namespace AlphaMetrixForms.Services.Services
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public async Task<bool> CreateDocumentQuestionAsync(ICollection<DocumentQuestionDTO> questionDTOs, Guid formId)
+        {
+            DocumentQuestionDTO current;
+            foreach (var question in questionDTOs)
+            {
+                current = await CreateDocumentQuestionAsync(question, formId);
+                if (current == null)
+                    return false;
+            }
+            return true;
+        }
         public async Task<DocumentQuestionDTO> CreateDocumentQuestionAsync(DocumentQuestionDTO questionDTO, Guid formId)
         {
             var check = await this.context.DocumentQuestions
@@ -38,7 +49,7 @@ namespace AlphaMetrixForms.Services.Services
                 FileNumberLimit = questionDTO.FileNumberLimit,
                 FileSizeLimit = questionDTO.FileSizeLimit,
                 CreatedOn = DateTime.UtcNow
-        };
+            };
 
             await this.context.DocumentQuestions.AddAsync(question);
             await this.context.SaveChangesAsync();
