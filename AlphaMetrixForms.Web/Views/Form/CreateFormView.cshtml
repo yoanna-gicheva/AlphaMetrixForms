@@ -22,8 +22,6 @@
             </div>
             <div id="detailsContainer">
                 @Html.EditorFor(model => model.TextQuestions)
-            </div>
-            <div id="detailsContainerOptions">
                 @Html.EditorFor(model => model.OptionQuestions)
             </div>
             <div name="main" class="visible">
@@ -45,7 +43,9 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">$("div[name='main']").on("click", function () {
+    <script type="text/javascript">
+        let counter = 0;
+        $("div[name='main']").on("click", function () {
         var $buttons = $("div[name='inside']");
         var $buttonToHide = $("div[name='main']");
         if ($buttons.hasClass("invisible")) {
@@ -68,8 +68,9 @@
             type: "POST",
             url: '/Form/AddTextQuestion',
             success: function (partialView) {
-                console.log("partialView: " + partialView);
-                $('#detailsContainer').html(partialView);
+                counter++;
+                $('#detailsContainer').append('<div class="question"id="' + counter + '"></div>');
+                $('#'+counter+'.question').html(partialView);
             }
         });
     });
@@ -80,8 +81,9 @@
             type: "POST",
             url: '/Form/AddOptionsQuestion',
             success: function (partialView) {
-                console.log("partialView: " + partialView);
-                $('#detailsContainerOptions').html(partialView);
+                  counter++;
+                $('#detailsContainer').append('<div class="question"id="' + counter + '"></div>');
+                $('#'+counter+'.question').html(partialView);
             }
         });
     });
@@ -93,6 +95,7 @@
             url: '/Form/SubmitForm',
             success: function (partialView) {
                 console.log("partialView: " + partialView);
+                var newHTML = '<div '+partialView+'<br>';   
                 $('#detailsContainerOptions').html(partialView);
             }
         });
