@@ -1,8 +1,6 @@
 ﻿using AlphaMetrixForms.Services.DTOs;
-using AlphaMetrixForms.Web.Models.DocumentQuestion;
 using AlphaMetrixForms.Web.Models.Form;
-using AlphaMetrixForms.Web.Models.OptionsQuestion;
-using AlphaMetrixForms.Web.Models.TextQuestion;
+using AlphaMetrixForms.Web.Models.Question;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -16,9 +14,9 @@ namespace AlphaMetrixForms.Web.AutoMapper
         public AutoMapper()
         {
             CreateMap<FormViewModel, FormDTO>();
-            CreateMap<TextQuestionViewModel, TextQuestionDTO>();
-            CreateMap<OptionsQuestionViewModel, OptionQuestionDTO>();
-            CreateMap<DocumentQuestionViewModel, DocumentQuestionDTO>();
+            CreateMap<QuestionViewModel, TextQuestionDTO>();
+            CreateMap<QuestionViewModel, OptionQuestionDTO>();
+            CreateMap<QuestionViewModel, DocumentQuestionDTO>();
         }
     }
 }

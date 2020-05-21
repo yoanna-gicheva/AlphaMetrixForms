@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AlphaMetrixForms.Web.Models.Enums;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlphaMetrixForms.Web.Models
+namespace AlphaMetrixForms.Web.Models.Question
 {
     //[Bind("Type, OrderNumber")]
-    public class Question
+    public class QuestionViewModel
     {
-        bool Edit { get; set; }
-        public string Type { get; set; }
+        bool EditMode { get; set; }
+        public QuestionType Type { get; set; }
         public int OrderNumber { get; set; }
         [Required]
         public string Text { get; set; }

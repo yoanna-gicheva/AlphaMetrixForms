@@ -1,0 +1,26 @@
+﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
+
+
+@*@switch (Model.Type)
+                    {
+                        case AlphaMetrixForms.Web.Models.Enums.QuestionType.Text:
+<partial name="_TextQuestionsPartialView" model="@Model" />
+
+                            break;
+
+                    }*@
+
+
+@if(Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text)
+{
+<partial name="_TextQuestionsPartialView" model="@Model" />
+
+}
+else if(Model.Type.ToString() == "Option")
+    {
+        <partial name="_OptionsQuestionsPartialView" model="@Model"/>
+    }
+
+
+
+

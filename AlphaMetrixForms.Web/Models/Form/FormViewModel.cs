@@ -1,11 +1,9 @@
-﻿using AlphaMetrixForms.Web.Models.DocumentQuestion;
-using AlphaMetrixForms.Web.Models.OptionsQuestion;
-using AlphaMetrixForms.Web.Models.TextQuestion;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using AlphaMetrixForms.Web.Models.Question;
 using System.Threading.Tasks;
 
 namespace AlphaMetrixForms.Web.Models.Form
@@ -14,28 +12,14 @@ namespace AlphaMetrixForms.Web.Models.Form
     {
         public FormViewModel()
         {
-            TextQuestions = new List<TextQuestionViewModel>();
-            OptionQuestions = new List<OptionsQuestionViewModel>();
-            DocumentQuestions = new List<DocumentQuestionViewModel>();
-            Questions = new List<Question>();
+            Questions = new List<QuestionViewModel>();
         }
         public int Current { get; set; }
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<Question> Questions { get; set; }
-        public List<TextQuestionViewModel> TextQuestions { get; set; }
-        public List<OptionsQuestionViewModel> OptionQuestions { get; set; }
-        public List<DocumentQuestionViewModel> DocumentQuestions { get; set; }
+        public List<QuestionViewModel> Questions { get; set; }
 
-        public int NumberOfTextQuestions
-        {
-            get => TextQuestions.Count;
-        }
-        public int NumberOfOptionsQuestions
-        {
-            get => OptionQuestions.Count;
-        }
-
+       
     }
 }
