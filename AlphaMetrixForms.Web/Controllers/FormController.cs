@@ -45,7 +45,7 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTextQuestion([Bind("Current, Title, Description, Questions")] FormViewModel form)
+        public IActionResult AddTextQuestion(/*[Bind("Current, Title, Description, Questions")]*/ FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Current;
@@ -56,7 +56,7 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddOptionsQuestion([Bind("Current, Title, Description, Questions")] FormViewModel form)
+        public IActionResult AddOptionsQuestion(/*[Bind("Current, Title, Description, Questions")]*/ FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Current;
@@ -83,7 +83,7 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
             {
-                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(form.OptionQuestions), formId);
+                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(form.Questions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
@@ -91,7 +91,7 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             if(form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
             {
-                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(form.DocumentQuestions), formId);
+                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
