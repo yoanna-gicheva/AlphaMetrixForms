@@ -19,9 +19,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div id="detailsContainer">
-                @Html.EditorFor(model => model.TextQuestions)
-                @Html.EditorFor(model => model.OptionQuestions)
-
+                @Html.EditorFor(model => model.Questions)
             </div>
             <div name="main" class="visible">
                 <button name="main" type="button" class="btn btn-primary">Add Question</button>
@@ -30,11 +28,11 @@
                 <button name="add" type="button" class="btn btn-primary">+</button>
                 <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
                 <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
+                <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
+
             </div>
             <div name="sumbit" class="visible">
-                @*<a asp-controller="Form" asp-action="SubmitForm"><button class="btn btn-primary">CreateForm</button></a>*@
-                <input type="submit" value="Create" id="submit" class="btn btn-default" />
-                @*<input type="button" id="submitForm" value="Submit" class="btn btn-default" />*@
+                <a asp-controller="Form" asp-action="SubmitForm" method="POST"><button class="btn btn-primary">CreateForm</button></a>
             </div>
             @Html.Hidden("Current", Model.Current)
         </form>
@@ -70,15 +68,7 @@
             type: "POST",
             url: '/Form/AddTextQuestion',
             success: function (partialView) {
-                counter++;
-                //$('#detailsContainer').append('<div class="question" id="' + counter + '" name="' + counter + '"></div>');
-                //$('#' + counter + '.question').add(partialView);
-
-                //$('#q_' + counter + '.question').html(partialView);
-                //$('#detailsContainer').html(partialView);
-
                 $('#detailsContainer').html(partialView);
-
             }
         });
     });
@@ -91,26 +81,23 @@
             type: "POST",
             url: '/Form/AddOptionsQuestion',
             success: function (partialView) {
-                //$('#detailsContainer').append('<div class="question" id="' + counter + '" name="' + counter + '"></div>');
-                //$('#' + counter + '.question').add(partialView);
-
                 $('#detailsContainer').html(partialView);
-
             }
         });
-    });
-    $("#submitForm").on("click", function () {
+        });
+            $("button[name='documentQuestion']").on('click', function () {
+            counter++;
+            document.getElementById('Current').value = counter;
         $.ajax({
             async: true,
             data: $('#form').serialize(),
             type: "POST",
-            url: '/Form/SubmitForm',
+            url: '/Form/AddDocumentQuestion',
             success: function (partialView) {
-                console.log("partialView: " + partialView);
-                $('#detailsContainerOptions').html(partialView);
+                $('#detailsContainer').html(partialView);
             }
         });
-    });
+        });
     </script>
 }
 

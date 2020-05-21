@@ -1,5 +1,6 @@
-﻿@model AlphaMetrixForms.Web.Models.TextQuestion.TextQuestionViewModel
-<h4>TextQuestion</h4>
+﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
+
+<h4>DocumentQuestion</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -11,3 +12,6 @@
         </div>
     </div>
 </div>
+
+@Html.Hidden("OrderNumber", Model.OrderNumber)
+@Html.Hidden("Type", Model.Type)

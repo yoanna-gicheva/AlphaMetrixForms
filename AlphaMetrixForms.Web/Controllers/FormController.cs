@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOs;
 using AlphaMetrixForms.Web.AutoMapper;
+using AlphaMetrixForms.Web.Models;
+using AlphaMetrixForms.Web.Models.Enums;
 using AlphaMetrixForms.Web.Models.Form;
-using AlphaMetrixForms.Web.Models.OptionsQuestion;
-using AlphaMetrixForms.Web.Models.TextQuestion;
+using AlphaMetrixForms.Web.Models.Question;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,52 +45,64 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTextQuestion([Bind("Current, Title, Description, TextQuestions, OptionQuestions")] FormViewModel form)
+        public IActionResult AddTextQuestion(FormViewModel form)
         {
-            TextQuestionViewModel model = new TextQuestionViewModel();
+            QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Current;
-            form.TextQuestions.Add(model);
-
-            form.Questions.Add(model);
-            return PartialView("_QuestionPartial", form);
-        }
-
-        [HttpPost]
-        public IActionResult AddOptionsQuestion([Bind("Current, Title, Description, TextQuestions, OptionQuestions")] FormViewModel form)
-        {
-            OptionsQuestionViewModel model = new OptionsQuestionViewModel();
-            model.OrderNumber = form.Current;
-            form.OptionQuestions.Add(model);
+            model.Type = QuestionType.Text;
             form.Questions.Add(model);
 
             return PartialView("_QuestionPartial", form);
         }
+
         [HttpPost]
-        public async Task<IActionResult> SubmitForm([Bind("Title, Description, TextQuestions, OptionsQuestions")] FormViewModel form)
+        public IActionResult AddOptionsQuestion(FormViewModel form)
+        {
+            QuestionViewModel model = new QuestionViewModel();
+            model.OrderNumber = form.Current;
+            model.Type = QuestionType.Option;
+            form.Questions.Add(model);
+
+            return PartialView("_QuestionPartial", form);
+
+        }
+        [HttpPost]
+        public IActionResult AddDocumentQuestion(FormViewModel form)
+        {
+            QuestionViewModel model = new QuestionViewModel();
+            model.OrderNumber = form.Current;
+            model.Type = QuestionType.Document;
+            form.Questions.Add(model);
+
+            return PartialView("_QuestionPartial", form);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitForm(FormViewModel form)
         {
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
             FormDTO newForm = await _formService.CreateFormAsync(formDTO, userId);
             Guid formId = newForm.Id;
-            if(form.TextQuestions.Count > 0)
+            if(form.Questions.Where(q=>q.Type.Equals(QuestionType.Text)).Count() > 0)
             {
-                var result = await _textQuestionService.CreateTextQuestionAsync(_mapper.Map<ICollection<TextQuestionDTO>>(form.TextQuestions), formId);
+                var result = await _textQuestionService.CreateTextQuestionAsync(_mapper.Map<ICollection<TextQuestionDTO>>(form.Questions), formId);
                 if(!result)
                 {
                     throw new ArgumentException();
                 }
             }
-            if (form.OptionQuestions.Count > 0)
+            if (form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
             {
-                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(form.OptionQuestions), formId);
+                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(form.Questions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
                 }
             }
-            if (form.DocumentQuestions.Count > 0)
+            if(form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
             {
-                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(form.DocumentQuestions), formId);
+                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
