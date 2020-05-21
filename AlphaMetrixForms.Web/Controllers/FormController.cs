@@ -44,17 +44,25 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTextQuestion([Bind("Title, Description, TextQuestions, OptionsQuestions")] FormViewModel form)
+        public IActionResult AddTextQuestion([Bind("Current, Title, Description, TextQuestions, OptionQuestions")] FormViewModel form)
         {
-            form.TextQuestions.Add(new TextQuestionViewModel());
-            return PartialView("_TextQuestionsPartialView", form);
+            TextQuestionViewModel model = new TextQuestionViewModel();
+            model.OrderNumber = form.Current;
+            form.TextQuestions.Add(model);
+
+            form.Questions.Add(model);
+            return PartialView("_QuestionPartial", form);
         }
 
         [HttpPost]
-        public IActionResult AddOptionsQuestion([Bind("Title, Description, TextQuestions, OptionsQuestions")] FormViewModel form)
+        public IActionResult AddOptionsQuestion([Bind("Current, Title, Description, TextQuestions, OptionQuestions")] FormViewModel form)
         {
-            form.OptionQuestions.Add(new OptionsQuestionViewModel());
-            return PartialView("_OptionsQuestionsPartialView", form);
+            OptionsQuestionViewModel model = new OptionsQuestionViewModel();
+            model.OrderNumber = form.Current;
+            form.OptionQuestions.Add(model);
+            form.Questions.Add(model);
+
+            return PartialView("_QuestionPartial", form);
         }
         [HttpPost]
         public async Task<IActionResult> SubmitForm([Bind("Title, Description, TextQuestions, OptionsQuestions")] FormViewModel form)

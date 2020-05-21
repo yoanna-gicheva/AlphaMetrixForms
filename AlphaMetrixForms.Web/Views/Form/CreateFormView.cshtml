@@ -4,8 +4,6 @@
     ViewData["Title"] = "CreateFormView";
 }
 
-
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="SubmitForm" id="form">
@@ -22,9 +20,8 @@
             </div>
             <div id="detailsContainer">
                 @Html.EditorFor(model => model.TextQuestions)
-            </div>
-            <div id="detailsContainerOptions">
                 @Html.EditorFor(model => model.OptionQuestions)
+
             </div>
             <div name="main" class="visible">
                 <button name="main" type="button" class="btn btn-primary">Add Question</button>
@@ -39,13 +36,16 @@
                 <input type="submit" value="Create" id="submit" class="btn btn-default" />
                 @*<input type="button" id="submitForm" value="Submit" class="btn btn-default" />*@
             </div>
+            @Html.Hidden("Current", Model.Current)
         </form>
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">$("div[name='main']").on("click", function () {
+    <script type="text/javascript">
+        let counter = 0;
+        $("div[name='main']").on("click", function () {
         var $buttons = $("div[name='inside']");
         var $buttonToHide = $("div[name='main']");
         if ($buttons.hasClass("invisible")) {
@@ -61,27 +61,41 @@
         $buttonsToHide.addClass("invisible");
         $buttonToShow.show();
     });
-    $("button[name='textQuestion']").on('click', function () {
+        $("button[name='textQuestion']").on('click', function () {
+             counter++;
+             document.getElementById('Current').value = counter;
         $.ajax({
             async: true,
             data: $('#form').serialize(),
             type: "POST",
             url: '/Form/AddTextQuestion',
             success: function (partialView) {
-                console.log("partialView: " + partialView);
+                counter++;
+                //$('#detailsContainer').append('<div class="question" id="' + counter + '" name="' + counter + '"></div>');
+                //$('#' + counter + '.question').add(partialView);
+
+                //$('#q_' + counter + '.question').html(partialView);
+                //$('#detailsContainer').html(partialView);
+
                 $('#detailsContainer').html(partialView);
+
             }
         });
     });
-    $("button[name='optionsQuestion']").on('click', function () {
+        $("button[name='optionsQuestion']").on('click', function () {
+            counter++;
+            document.getElementById('Current').value = counter;
         $.ajax({
             async: true,
             data: $('#form').serialize(),
             type: "POST",
             url: '/Form/AddOptionsQuestion',
             success: function (partialView) {
-                console.log("partialView: " + partialView);
-                $('#detailsContainerOptions').html(partialView);
+                //$('#detailsContainer').append('<div class="question" id="' + counter + '" name="' + counter + '"></div>');
+                //$('#' + counter + '.question').add(partialView);
+
+                $('#detailsContainer').html(partialView);
+
             }
         });
     });
@@ -96,7 +110,8 @@
                 $('#detailsContainerOptions').html(partialView);
             }
         });
-    });</script>
+    });
+    </script>
 }
 
 
