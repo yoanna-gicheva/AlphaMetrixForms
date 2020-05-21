@@ -17,13 +17,13 @@ namespace AlphaMetrixForms.Web.Models.Form
             TextQuestions = new List<TextQuestionViewModel>();
             OptionQuestions = new List<OptionsQuestionViewModel>();
             DocumentQuestions = new List<DocumentQuestionViewModel>();
-            Questions = new List<IQuestion>();
+            Questions = new List<Question>();
         }
         public int Current { get; set; }
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<IQuestion> Questions { get; set; }
+        public List<Question> Questions { get; set; }
         public List<TextQuestionViewModel> TextQuestions { get; set; }
         public List<OptionsQuestionViewModel> OptionQuestions { get; set; }
         public List<DocumentQuestionViewModel> DocumentQuestions { get; set; }

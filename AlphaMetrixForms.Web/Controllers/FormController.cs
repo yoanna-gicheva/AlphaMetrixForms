@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOs;
 using AlphaMetrixForms.Web.AutoMapper;
+using AlphaMetrixForms.Web.Models;
 using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.OptionsQuestion;
 using AlphaMetrixForms.Web.Models.TextQuestion;
@@ -44,28 +45,29 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTextQuestion([Bind("Current, Title, Description, TextQuestions, OptionQuestions")] FormViewModel form)
+        public IActionResult AddTextQuestion([Bind("Current, Title, Description, Questions")] FormViewModel form)
         {
-            TextQuestionViewModel model = new TextQuestionViewModel();
+            Question model = new Question();
             model.OrderNumber = form.Current;
-            form.TextQuestions.Add(model);
-
-            form.Questions.Add(model);
-            return PartialView("_QuestionPartial", form);
-        }
-
-        [HttpPost]
-        public IActionResult AddOptionsQuestion([Bind("Current, Title, Description, TextQuestions, OptionQuestions")] FormViewModel form)
-        {
-            OptionsQuestionViewModel model = new OptionsQuestionViewModel();
-            model.OrderNumber = form.Current;
-            form.OptionQuestions.Add(model);
+            model.Type = "Text";
             form.Questions.Add(model);
 
             return PartialView("_QuestionPartial", form);
         }
+
         [HttpPost]
-        public async Task<IActionResult> SubmitForm([Bind("Title, Description, TextQuestions, OptionsQuestions")] FormViewModel form)
+        public IActionResult AddOptionsQuestion([Bind("Current, Title, Description, Questions")] FormViewModel form)
+        {
+            Question model = new Question();
+            model.OrderNumber = form.Current;
+            model.Type = "Option";
+            form.Questions.Add(model);
+
+            return PartialView("_QuestionPartial", form);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> SubmitForm([Bind("Title, Description, Questions")] FormViewModel form)
         {
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
