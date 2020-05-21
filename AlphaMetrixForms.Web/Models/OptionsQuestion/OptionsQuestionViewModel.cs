@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace AlphaMetrixForms.Web.Models.OptionsQuestion
 {
-    public class OptionsQuestionViewModel
+    public class OptionsQuestionViewModel : IQuestion
     {
+        public int OrderNumber { get; set; }
+
         [Required]
         public string Text { get; set; }
         public ICollection<string> Options { get; set; }
-
+        public string Type { get; set; }
     }
 }

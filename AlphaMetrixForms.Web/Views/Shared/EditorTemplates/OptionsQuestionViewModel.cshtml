@@ -11,16 +11,29 @@
             <span asp-validation-for="Text" class="text-danger"></span>
         </div>
         <div id="optionsDiv">
-            <div id="singleOption">
-                <input name="option" class="form-control form-control-sm" type="text" placeholder="Option">
-            </div>
+            @Html.EditorFor(model => model.Options)
+            @*<input name="option" class="form-control form-control-sm" type="text" placeholder="Option">*@
         </div>
         <hr>
         <button name="addOption" type="button" class="btn btn-primary">+</button>
+        @Html.Hidden("OrderNumber", Model.OrderNumber)
     </div>
 </div>
 
-<script>$("button[name='addOption']").on("click", function () {
-        $('#singleOption').clone().appendTo('#optionsDiv');
+<script> $("button[name='addOption']").on("click", function () {
+    //$('#singleOption').clone().appendTo('#optionsDiv');
+
+     let orderNum = document.getElementById('OrderNumber').value;
+     document.getElementById('Current').value = orderNum;
+        $.ajax({
+            async: true,
+            data: $('#form').serialize(),
+            type: "POST",
+            url: '/OptionQuestion/AddOption',
+            success: function (partialView) {
+                console.log("partialView: " + partialView);
+                $('#detailsContainerOptions').html(partialView);
+            }
+        });
     });</script>
 

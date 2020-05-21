@@ -8,6 +8,7 @@ namespace AlphaMetrixForms.Web.Models.DocumentQuestion
 {
     public class DocumentQuestionViewModel
     {
+        public int OrderNumber { get; set; }
         [Required]
         public string Text { get; set; }
     }

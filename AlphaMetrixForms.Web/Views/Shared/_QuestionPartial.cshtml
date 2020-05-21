@@ -1,0 +1,12 @@
+﻿@model AlphaMetrixForms.Web.Models.Form.FormViewModel
+
+@{ int current = Model.Current;}}
+@if (Model.TextQuestions.Any(q => q.OrderNumber == current))
+{
+    @Html.EditorFor(model => model.TextQuestions)
+}
+else
+{
+    @Html.EditorFor(model => model.OptionQuestions)
+}
+
