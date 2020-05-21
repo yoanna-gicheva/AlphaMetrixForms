@@ -45,7 +45,7 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTextQuestion(/*[Bind("Current, Title, Description, Questions")]*/ FormViewModel form)
+        public IActionResult AddTextQuestion(FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Current;
@@ -56,11 +56,22 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddOptionsQuestion(/*[Bind("Current, Title, Description, Questions")]*/ FormViewModel form)
+        public IActionResult AddOptionsQuestion(FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Current;
             model.Type = QuestionType.Option;
+            form.Questions.Add(model);
+
+            return PartialView("_QuestionPartial", form);
+
+        }
+        [HttpPost]
+        public IActionResult AddDocumentQuestion(FormViewModel form)
+        {
+            QuestionViewModel model = new QuestionViewModel();
+            model.OrderNumber = form.Current;
+            model.Type = QuestionType.Document;
             form.Questions.Add(model);
 
             return PartialView("_QuestionPartial", form);

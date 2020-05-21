@@ -2,14 +2,13 @@
 
 @if(Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text)
 {
-    <partial name="_TextQuestionsPartialView" model="@Model" />
-
+   <partial name="_TextQuestionsPartialView" model="@Model" />
 }
 else if(Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Option)
 {
-     <partial name="_OptionsQuestionsPartialView" model="@Model" />
+   <partial name="_OptionsQuestionsPartialView" model="@Model" />
 }
-
-
-
-
+else if(Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document)
+{
+    <partial name="_DocumentQuestionsPartial" model="@Model" />
+}

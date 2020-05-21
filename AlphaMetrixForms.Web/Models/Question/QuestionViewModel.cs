@@ -8,18 +8,34 @@ using System.Threading.Tasks;
 
 namespace AlphaMetrixForms.Web.Models.Question
 {
-    //[Bind("Type, OrderNumber")]
     public class QuestionViewModel
     {
-        bool EditMode { get; set; }
+   
+        // MAIN
         public QuestionType Type { get; set; }
         public int OrderNumber { get; set; }
         [Required]
         public string Text { get; set; }
+        public bool IsRequired { get; set; }
 
 
         //OPTION
         public ICollection<string> Options { get; set; }
+        public bool IsMultipleAnswerAllowed { get; set; }
+        //public ICollection<Option> Options { get; set; }
+
+
+        // TEXT
+        public bool IsLongAnswer { get; set; }
+
+
+        //DOCUMENT
+        public int FileNumberLimit { get; set; }
+        public int FileSizeLimit { get; set; }
+
+
+        //ADDITIONAL
+        public bool EditMode { get; set; }
 
     }
 }

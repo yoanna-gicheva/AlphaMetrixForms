@@ -34,6 +34,8 @@
                 <button name="add" type="button" class="btn btn-primary">+</button>
                 <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
                 <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
+                <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
+
             </div>
             <div name="sumbit" class="visible">
                 <a asp-controller="Form" asp-action="SubmitForm" method="POST"><button class="btn btn-primary">CreateForm</button></a>
@@ -87,26 +89,23 @@
             type: "POST",
             url: '/Form/AddOptionsQuestion',
             success: function (partialView) {
-                //$('#detailsContainer').append('<div class="question" id="' + counter + '" name="' + counter + '"></div>');
-                //$('#' + counter + '.question').add(partialView);
-
                 $('#detailsContainer').html(partialView);
-
             }
         });
-    });
-    //$("#submitForm").on("click", function () {
-    //    $.ajax({
-    //        async: true,
-    //        data: $('#form').serialize(),
-    //        type: "POST",
-    //        url: '/Form/SubmitForm',
-    //        success: function (partialView) {
-    //            console.log("partialView: " + partialView);
-    //            $('#detailsContainerOptions').html(partialView);
-    //        }
-    //    });
-    //});
+        });
+            $("button[name='documentQuestion']").on('click', function () {
+            counter++;
+            document.getElementById('Current').value = counter;
+        $.ajax({
+            async: true,
+            data: $('#form').serialize(),
+            type: "POST",
+            url: '/Form/AddDocumentQuestion',
+            success: function (partialView) {
+                $('#detailsContainer').html(partialView);
+            }
+        });
+        });
     </script>
 }
 
