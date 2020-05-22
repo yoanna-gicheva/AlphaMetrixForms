@@ -40,7 +40,7 @@ namespace AlphaMetrixForms.Web.Controllers
         }
         public IActionResult Create()
         {
-            var model = new FormViewModel();
+            var model = new FormViewModel("Untitled");
             return View("CreateFormView", model);
         }
 
