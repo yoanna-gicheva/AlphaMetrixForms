@@ -11,25 +11,25 @@
             <input asp-for="Text" class="form-control" />
             <span asp-validation-for="Text" class="text-danger"></span>
         </div>
-       <select class="browser-default custom-select col-md-4" id="fileNumber">
+       <select asp-for="FileNumberLimit" class="browser-default custom-select col-md-4" id="fileNumber">
             <option selected>File number limit</option>
             <option value="1">1</option>
             <option value="2">2</option>
-            <option value="2">3</option>
-            <option value="2">4</option>
-            <option value="2">5</option>
-            <option value="2">6</option>
-            <option value="2">7</option>
-            <option value="2">8</option>
-            <option value="2">9</option>
-            <option value="2">10</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
         </select>
-       <select class="browser-default custom-select col-md-4" id="fileLimit">
+       <select asp-for="FileSizeLimit" class="browser-default custom-select col-md-4" id="fileLimit">
            <option selected>File size limit</option>
            <option value="1">1 MB</option>
-           <option value="1">10 MB</option>
-           <option value="2">100 MB</option>
-           <option value="3">1 GB</option>
+           <option value="10">10 MB</option>
+           <option value="100">100 MB</option>
+           <option value="1000">1 GB</option>
        </select>
 
         <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
