@@ -15,7 +15,7 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             int orderNum = form.Current;
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == orderNum);
-            //string option = new OptionViewModel();
+            //OptionViewModel option = new OptionViewModel();
 
             string option = string.Empty;
             question.Options.Add(option);
