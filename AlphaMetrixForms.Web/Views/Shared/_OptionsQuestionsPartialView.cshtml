@@ -1,10 +1,10 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
-
+<br></br>
 <h4>OptionsQuestion</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="card">
+    <div class="col-md-12">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Text" class="control-label"></label>
@@ -18,26 +18,48 @@
                 @Html.TextBoxFor(m => m.Text)
             }
             @*@for (int i = 0; i < Model.Options.Count(); i++)
-            {
-                @Html.EditorFor(x => Model.Options)
-            }*@
-        </div> 
+                {
+                    @Html.EditorFor(x => Model.Options)
+                }*@
+        </div>
         <hr>
-        <button name="addOption" type="button" id="@Model.OrderNumber" class="btn btn-primary">+</button>
-
+        <div id="container">
+            <div id="block1">
+                <button name="addOption" type="button" id="@Model.OrderNumber" class="btn btn-primary float-left">+</button>
+            </div>
+            <div id="block2">
+                <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1">Required</label>
+                </div>
+                <div class="custom-control custom-switch float-right">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                    <label class="custom-control-label" for="customSwitch2">Multiple answers</label>
+                </div>
+            </div>
+        </div>
         @Html.Hidden("OrderNumber", Model.OrderNumber)
         @*@Html.Hidden("Options", Model.Options)*@
         @Html.Hidden("Type", Model.Type)
     </div>
 </div>
+@*<style>
+        #container
+    {
+        display: flex;
+      justify-content: center;
+    }
+
+        </style>*@
+
 
 <script>
 
- $("button[name='addOption']").on("click", function addOption () {
-    //$('#singleOption').clone().appendTo('#optionsDiv');
+    $("button[name='addOption']").on("click", function addOption() {
+        //$('#singleOption').clone().appendTo('#optionsDiv');
 
-     let orderNum = $(this).attr('id');
-     document.getElementById('Current').value = orderNum;
+        let orderNum = $(this).attr('id');
+        document.getElementById('Current').value = orderNum;
         $.ajax({
             async: true,
             data: $('#form').serialize(),
