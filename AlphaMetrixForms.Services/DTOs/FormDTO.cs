@@ -11,6 +11,9 @@ namespace AlphaMetrixForms.Services.DTOs
         public string Description { get; set; }
         public Guid OwnerId { get; set; }
         public string Owner { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
         public ICollection<TextQuestionDTO> TextQuestions { get; set; }
         public ICollection<OptionQuestionDTO> OptionQuestions { get; set; }
         public ICollection<DocumentQuestionDTO> DocumentQuestions { get; set; }

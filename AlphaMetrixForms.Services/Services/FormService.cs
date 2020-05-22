@@ -80,6 +80,7 @@ namespace AlphaMetrixForms.Services.Services
         public async Task<ICollection<FormDTO>> GetAllFormsAsync()
         {
             List<Form> forms = await this.context.Forms
+                .Include(f=>f.Owner)
                 .Where(f => f.IsDeleted == false)
                 .ToListAsync();
 
@@ -89,6 +90,7 @@ namespace AlphaMetrixForms.Services.Services
         public async Task<FormDTO> GetFormAsync(Guid formId)
         {
             Form form = await this.context.Forms
+                .Include(f => f.Owner)
                 .Include(f =>f.TextQuestions)
                 .Include(f =>f.DocumentQuestions)
                 .Include(f =>f.OptionQuestions)

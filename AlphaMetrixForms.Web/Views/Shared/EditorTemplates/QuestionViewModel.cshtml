@@ -1,14 +1,26 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
-@if(Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text)
+@if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text && Model.Id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
 {
-   <partial name="_TextQuestionsPartialView" model="@Model" />
+    <partial name="_TextQuestionsPartialView" model="@Model" />
 }
-else if(Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Option)
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Option && Model.Id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
 {
-   <partial name="_OptionsQuestionsPartialView" model="@Model" />
+    <partial name="_OptionsQuestionsPartialView" model="@Model" />
 }
-else if(Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document)
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document && Model.Id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
 {
-    <partial name="_DocumentQuestionsPartial" model="@Model" />
+    <partial name="_DocumentQuestionsPartialView" model="@Model" />
+}
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text)
+{
+    <partial name="_TextQuestionsAnswerPartialView" model="@Model" />
+}
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Option)
+{
+    <partial name="_OptionQuestionsAnswerPartialView" model="@Model" />
+}
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document)
+{
+    <partial name="_DocumentQuestionsAnswerPartialView" model="@Model" />
 }

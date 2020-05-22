@@ -41,6 +41,31 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View(formsVM);
         }
+
+        public async Task<IActionResult> DisplayForm(Guid formId)
+        {
+            var form = await this._formService.GetFormAsync(formId);
+            var formVM = _mapper.Map<FormViewModel>(form);
+
+            var textQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.TextQuestions);
+            var optionQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.OptionQuestions);
+            var documentQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.DocumentQuestions);
+            if (textQuestionsVM != null)
+            {
+                formVM.Questions.AddRange(textQuestionsVM);
+            }
+            if (optionQuestionsVM != null)
+            {
+                formVM.Questions.AddRange(optionQuestionsVM);
+            }
+            if (documentQuestionsVM != null)
+            {
+                formVM.Questions.AddRange(documentQuestionsVM);
+            }
+
+            return View("DisplayFormView", formVM);
+        }
+
         public IActionResult Create()
         {
             var model = new FormViewModel();

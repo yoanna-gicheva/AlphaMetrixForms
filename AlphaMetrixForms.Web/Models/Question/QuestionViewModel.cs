@@ -16,6 +16,7 @@ namespace AlphaMetrixForms.Web.Models.Question
         }
 
         // MAIN
+        public Guid Id { get; set; }
         public QuestionType Type { get; set; }
         public int OrderNumber { get; set; }
         [Required]
@@ -39,6 +40,8 @@ namespace AlphaMetrixForms.Web.Models.Question
 
         //ADDITIONAL
         public bool EditMode { get; set; }
+
+        public ICollection<string> Answers{get;set;}
 
     }
 }

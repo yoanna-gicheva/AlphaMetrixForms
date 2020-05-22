@@ -21,6 +21,11 @@ namespace AlphaMetrixForms.Web.Models.Form
         [MaxLength(150, ErrorMessage = "Title length cannot consist of more than 150 symbols.")]
         public string Title { get; set; }
         public string Description { get; set; }
+
+        public string Owner { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
         public List<QuestionViewModel> Questions { get; set; }
 
        

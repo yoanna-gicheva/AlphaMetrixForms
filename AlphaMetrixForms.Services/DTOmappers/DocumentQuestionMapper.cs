@@ -25,7 +25,7 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 IsRequired = entity.IsRequired,
                 FileNumberLimit = entity.FileNumberLimit,
                 FileSizeLimit = entity.FileSizeLimit,
-                Answers = entity.Answers.GetDtos()
+                //Answers = entity.Answers.GetDtos()
             };
         }
 
