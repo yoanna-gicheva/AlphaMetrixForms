@@ -40,7 +40,19 @@ namespace AlphaMetrixForms.Web
             services.AddDbContext<FormsContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            
+
+            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<Role>().AddEntityFrameworkStores<FormsContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
                  //.AddMvcOptions(options =>

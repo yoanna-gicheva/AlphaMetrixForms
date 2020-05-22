@@ -14,6 +14,8 @@ namespace AlphaMetrixForms.Web.Models.Form
         {
             Questions = new List<QuestionViewModel>();
         }
+
+        public Guid Id { get; set; }
         public int Current { get; set; }
         [Required( ErrorMessage = "Title is required.")]
         [MaxLength(150, ErrorMessage = "Title length cannot consist of more than 150 symbols.")]

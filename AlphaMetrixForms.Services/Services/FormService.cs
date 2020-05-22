@@ -77,6 +77,15 @@ namespace AlphaMetrixForms.Services.Services
             return forms.GetDtos();
         }
 
+        public async Task<ICollection<FormDTO>> GetAllFormsAsync()
+        {
+            List<Form> forms = await this.context.Forms
+                .Where(f => f.IsDeleted == false)
+                .ToListAsync();
+
+            return forms.GetDtos();
+        }
+
         public async Task<FormDTO> GetFormAsync(Guid formId)
         {
             Form form = await this.context.Forms
