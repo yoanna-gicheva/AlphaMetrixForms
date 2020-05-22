@@ -1,0 +1,30 @@
+﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
+
+<br></br>
+<div class="card" id="textCard">
+    <div class="card-header">
+        Text Question
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="Title">@Model.Text</label>
+                </div>
+            </div>
+            @if (@Model.IsLongAnswer)
+            {
+                <textarea label id="Answer" rows="4" cols="50"></textarea>
+            }
+            else
+            {
+                <input type="text" id="Answer"><br><br>
+            }
+        </div>
+    </div>
+</div>
+
+<br></br>
+
+

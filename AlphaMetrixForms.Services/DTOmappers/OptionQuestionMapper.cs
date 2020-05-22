@@ -24,7 +24,7 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 Text = entity.Text,
                 IsRequired = entity.IsRequired,
                 Options = entity.Options.GetDtos(),
-                Answers = entity.Answers.GetDtos()
+                //Answers = entity.Answers.GetDtos()
             };
         }
 

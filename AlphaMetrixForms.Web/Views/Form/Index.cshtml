@@ -15,6 +15,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Owner)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -28,7 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Answer" asp-route-id="@item.Id">Answer</a> |
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner)
+            </td>
+            <td>
+                <a asp-controller="Form" asp-action="DisplayForm" asp-route-formId="@item.Id">Answer</a> 
             </td>
         </tr>
 }
