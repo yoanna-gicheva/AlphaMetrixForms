@@ -35,18 +35,20 @@ namespace AlphaMetrixForms.Web
             services.AddScoped<ITextQuestionService, TextQuestionService>();
             services.AddScoped<IOptionQuestionService, OptionQuestionService>();
             services.AddScoped<IDocumentQuestionService, DocumentQuestionService>();
+            services.AddScoped<IUserService, UserService>();
+
             services.AddDbContext<FormsContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddControllersWithViews();
-            services.AddRazorPages()
-                 .AddMvcOptions(options =>
-                 {
-                     options.MaxModelValidationErrors = 50;
-                     options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
-                         _ => "The field is required.");
-                 }); 
+            services.AddRazorPages();
+                 //.AddMvcOptions(options =>
+                 //{
+                 //    options.MaxModelValidationErrors = 50;
+                 //    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                 //        _ => "The field is required.");
+                 //}); 
             services.AddAutoMapper(typeof(Startup));
         }
 

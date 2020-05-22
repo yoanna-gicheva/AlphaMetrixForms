@@ -1,17 +1,49 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
-<h4>DocumentQuestion</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Text" class="control-label"></label>
-            <input asp-for="Text" class="form-control" />
-            <span asp-validation-for="Text" class="text-danger"></span>
+<br></br>
+<div class="card">
+    <div class="card-header">
+        Document Question
+    </div>
+    <div class="card-body">
+        <div class="card">
+            <div class="col-md-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Text" class="control-label"></label>
+                    <input asp-for="Text" class="form-control" />
+                    <span asp-validation-for="Text" class="text-danger"></span>
+                </div>
+                <select asp-for="FileNumberLimit" class="browser-default custom-select col-md-4" id="fileNumber">
+                    <option selected>File number limit</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                <select asp-for="FileSizeLimit" class="browser-default custom-select col-md-4" id="fileLimit">
+                    <option selected>File size limit</option>
+                    <option value="1">1 MB</option>
+                    <option value="10">10 MB</option>
+                    <option value="100">100 MB</option>
+                    <option value="1000">1 GB</option>
+                </select>
+
+                <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
+                    <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="@Model.OrderNumber + document1">
+                    <label class="custom-control-label" for="@Model.OrderNumber + document1">Required</label>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-@Html.Hidden("OrderNumber", Model.OrderNumber)
-@Html.Hidden("Type", Model.Type)
+    <br></br>
+
+    @Html.Hidden("OrderNumber", Model.OrderNumber)
+    @Html.Hidden("Type", Model.Type)

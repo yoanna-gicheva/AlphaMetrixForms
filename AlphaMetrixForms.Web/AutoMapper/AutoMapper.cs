@@ -1,6 +1,8 @@
-﻿using AlphaMetrixForms.Services.DTOs;
+﻿using AlphaMetrixForms.Data.Entities;
+using AlphaMetrixForms.Services.DTOs;
 using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Question;
+using AlphaMetrixForms.Web.Models.User;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,16 @@ namespace AlphaMetrixForms.Web.AutoMapper
     {
         public AutoMapper()
         {
+            CreateMap<FormDTO, FormViewModel>().ReverseMap();
+
             CreateMap<FormViewModel, FormDTO>();
             CreateMap<QuestionViewModel, TextQuestionDTO>();
             CreateMap<QuestionViewModel, OptionQuestionDTO>();
             CreateMap<QuestionViewModel, DocumentQuestionDTO>();
+
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<UserDTO, UserViewModel>();
+
         }
     }
 }
