@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AlphaMetrixForms.Data.Configurations;
 using AlphaMetrixForms.Data.Entities;
+using AlphaMetrixForms.Data.Seeder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +42,7 @@ namespace AlphaMetrixForms.Data.Context
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
 
-            //builder.Seeder();
+            builder.Seeder();
 
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {

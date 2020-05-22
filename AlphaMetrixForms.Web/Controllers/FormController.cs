@@ -34,9 +34,12 @@ namespace AlphaMetrixForms.Web.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var forms = await this._formService.GetAllFormsAsync();
+            var formsVM = _mapper.Map<ICollection<FormViewModel>>(forms);
+
+            return View(formsVM);
         }
         public IActionResult Create()
         {

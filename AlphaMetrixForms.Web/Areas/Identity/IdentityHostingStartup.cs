@@ -18,10 +18,10 @@ namespace AlphaMetrixForms.Web.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<FormsContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("FormsContextConnection")));
+                        context.Configuration.GetConnectionString("DefaultConnection")));
 
-                services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<Role>().AddEntityFrameworkStores<FormsContext>();
+                //services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+                //.AddRoles<Role>().AddEntityFrameworkStores<FormsContext>();
             });
         }
     }
