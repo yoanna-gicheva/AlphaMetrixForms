@@ -1,29 +1,31 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
 <br></br>
-<h4>TextQuestion</h4>
-<hr />
-<div class="card">
-    <div class="col-md-12">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Text" class="control-label"></label>
-            <input asp-for="Text" class="form-control" />
-            <span asp-validation-for="Text" class="text-danger"></span>
-        </div>
-        <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
-            <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="2 + @Model.OrderNumber + text1">
-            <label class="custom-control-label" for="2 + @Model.OrderNumber + text1">Required</label>
-        </div>
-        <div class="custom-control custom-switch float-right">
-            <input asp-for="IsLongAnswer" type="checkbox" class="custom-control-input" id="1 + @Model.OrderNumber + text2">
-            <label class="custom-control-label" for="1 + @Model.OrderNumber + text2">Long answer</label>
+<div class="card" id="textCard">
+    <div class="card-header">
+        Text Question
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
+                <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="2 + @Model.OrderNumber + text1">
+                <label class="custom-control-label" for="2 + @Model.OrderNumber + text1">Required</label>
+            </div>
+            <div class="custom-control custom-switch float-right">
+                <input asp-for="IsLongAnswer" type="checkbox" class="custom-control-input" id="1 + @Model.OrderNumber + text2">
+                <label class="custom-control-label" for="1 + @Model.OrderNumber + text2">Long answer</label>
+            </div>
         </div>
     </div>
 </div>
+
 <br></br>
-
-
-
 @Html.Hidden("OrderNumber", Model.OrderNumber)
 @Html.Hidden("Type", Model.Type)
+

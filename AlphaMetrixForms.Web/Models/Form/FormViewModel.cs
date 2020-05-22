@@ -10,9 +10,8 @@ namespace AlphaMetrixForms.Web.Models.Form
 {
     public class FormViewModel
     {
-        public FormViewModel(string title)
+        public FormViewModel()
         {
-            Title = title;
             Questions = new List<QuestionViewModel>();
         }
         public int Current { get; set; }

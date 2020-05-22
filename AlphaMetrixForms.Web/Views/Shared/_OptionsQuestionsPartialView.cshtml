@@ -1,48 +1,48 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
 <br></br>
-<h4>OptionsQuestion</h4>
-<hr />
 <div class="card">
-    <div class="col-md-12">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Text" class="control-label"></label>
-            <input asp-for="Text" class="form-control" />
-            <span asp-validation-for="Text" class="text-danger"></span>
-        </div>
-        <div id="optionsDiv">
+    <div class="card-header">
+        Option Question
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div id="optionsDiv">
 
-            @foreach (var item in Model.Options)
-            {
-                @Html.TextBoxFor(m => m.Text)
-            }
-            @*@for (int i = 0; i < Model.Options.Count(); i++)
+                @foreach (var item in Model.Options)
                 {
-                    @Html.EditorFor(x => Model.Options)
-                }*@
-        </div>
-        <hr>
-        <div id="container">
-            <div id="block1">
-                <button name="addOption" type="button" id="@Model.OrderNumber" class="btn btn-primary float-left">+</button>
+                    @Html.TextBoxFor(m => m.Text)
+                }
             </div>
-            <div id="block2">
-                <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
-                    <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="@Model.OrderNumber + option1">
-                    <label class="custom-control-label" for="@Model.OrderNumber + option1">Required</label>
+            <hr>
+            <div id="container">
+                <div id="block1">
+                    <button name="addOption" type="button" id="@Model.OrderNumber" class="btn btn-primary float-left">+</button>
                 </div>
-                <div class="custom-control custom-switch float-right">
-                    <input asp-for="IsMultipleAnswerAllowed" type="checkbox" class="custom-control-input" id="@Model.OrderNumber + option2">
-                    <label class="custom-control-label" for="@Model.OrderNumber + option2">Multiple answers</label>
+                <div id="block2">
+                    <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
+                        <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="@Model.OrderNumber + option1">
+                        <label class="custom-control-label" for="@Model.OrderNumber + option1">Required</label>
+                    </div>
+                    <div class="custom-control custom-switch float-right">
+                        <input asp-for="IsMultipleAnswerAllowed" type="checkbox" class="custom-control-input" id="@Model.OrderNumber + option2">
+                        <label class="custom-control-label" for="@Model.OrderNumber + option2">Multiple answers</label>
+                    </div>
                 </div>
             </div>
+            @Html.Hidden("OrderNumber", Model.OrderNumber)
+            @*@Html.Hidden("Options", Model.Options)*@
+            @Html.Hidden("Type", Model.Type)
         </div>
-        @Html.Hidden("OrderNumber", Model.OrderNumber)
-        @*@Html.Hidden("Options", Model.Options)*@
-        @Html.Hidden("Type", Model.Type)
     </div>
 </div>
+
 <br></br>
 
 @*<style>
