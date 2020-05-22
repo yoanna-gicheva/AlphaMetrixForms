@@ -64,6 +64,11 @@ namespace AlphaMetrixForms.Web.Controllers
             model.Type = QuestionType.Option;
             form.Questions.Add(model);
 
+            string option1 = "option1";
+            model.Options.Add(option1);
+            string option2 = "option2";
+            model.Options.Add(option2);
+
             return PartialView("_QuestionPartial", form);
 
         }

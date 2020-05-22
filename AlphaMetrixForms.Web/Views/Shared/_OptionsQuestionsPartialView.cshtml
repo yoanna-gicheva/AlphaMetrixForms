@@ -17,7 +17,12 @@
 
                 @foreach (var item in Model.Options)
                 {
-                    @Html.TextBoxFor(m => m.Text)
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="@item" value="@item" class="control-label"></label>
+                        <input asp-for="@item" value="@item" class="form-control" />
+                        <span asp-validation-for="@item" class="text-danger"></span>
+                    </div>
                 }
             </div>
             <hr>
@@ -37,7 +42,7 @@
                 </div>
             </div>
             @Html.Hidden("OrderNumber", Model.OrderNumber)
-            @*@Html.Hidden("Options", Model.Options)*@
+            @Html.Hidden("Options", Model.Options)
             @Html.Hidden("Type", Model.Type)
         </div>
     </div>
@@ -69,7 +74,7 @@
             url: '/OptionQuestion/AddOption',
             success: function (partialView) {
                 console.log("partialView: " + partialView);
-                $('#detailsContainerOptions').html(partialView);
+                //$('#detailsContainer').html(partialView);
             }
         });
     });</script>
