@@ -12,21 +12,31 @@
             <span asp-validation-for="Text" class="text-danger"></span>
         </div>
         <div id="optionsDiv">
-            @Html.EditorFor(model => model.Options)
-            @*<input name="option" class="form-control form-control-sm" type="text" placeholder="Option">*@
-        </div>
+
+            @foreach (var item in Model.Options)
+            {
+                @Html.TextBoxFor(m => m.Text)
+            }
+            @*@for (int i = 0; i < Model.Options.Count(); i++)
+            {
+                @Html.EditorFor(x => Model.Options)
+            }*@
+        </div> 
         <hr>
-        <button name="addOption" type="button" class="btn btn-primary">+</button>
+        <button name="addOption" type="button" id="@Model.OrderNumber" class="btn btn-primary">+</button>
+
         @Html.Hidden("OrderNumber", Model.OrderNumber)
+        @*@Html.Hidden("Options", Model.Options)*@
         @Html.Hidden("Type", Model.Type)
     </div>
 </div>
 
 <script>
- $("button[name='addOption']").on("click", function () {
+
+ $("button[name='addOption']").on("click", function addOption () {
     //$('#singleOption').clone().appendTo('#optionsDiv');
 
-     let orderNum = document.getElementById('OrderNumber').value;
+     let orderNum = $(this).attr('id');
      document.getElementById('Current').value = orderNum;
         $.ajax({
             async: true,
