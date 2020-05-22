@@ -12,7 +12,7 @@ namespace AlphaMetrixForms.Web.Models.Question
     {
         public QuestionViewModel()
         {
-            Options = new List<OptionViewModel>();
+            Options = new List<string>();
         }
 
         // MAIN
@@ -25,7 +25,7 @@ namespace AlphaMetrixForms.Web.Models.Question
 
         //OPTION
         public bool IsMultipleAnswerAllowed { get; set; }
-        public ICollection<OptionViewModel> Options { get; set; }
+        public ICollection<string> Options { get; set; }
 
 
         // TEXT
