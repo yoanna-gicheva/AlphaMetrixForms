@@ -33,8 +33,8 @@
        </select>
 
         <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
-            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-            <label class="custom-control-label" for="customSwitch1">Required</label>
+            <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="@Model.OrderNumber + document1">
+            <label class="custom-control-label" for="@Model.OrderNumber + document1">Required</label>
         </div>
     </div>
 </div>

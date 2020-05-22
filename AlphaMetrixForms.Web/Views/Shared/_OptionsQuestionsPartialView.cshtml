@@ -29,12 +29,12 @@
             </div>
             <div id="block2">
                 <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                    <label class="custom-control-label" for="customSwitch1">Required</label>
+                    <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="@Model.OrderNumber + option1">
+                    <label class="custom-control-label" for="@Model.OrderNumber + option1">Required</label>
                 </div>
                 <div class="custom-control custom-switch float-right">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch2">
-                    <label class="custom-control-label" for="customSwitch2">Multiple answers</label>
+                    <input asp-for="IsMultipleAnswerAllowed" type="checkbox" class="custom-control-input" id="@Model.OrderNumber + option2">
+                    <label class="custom-control-label" for="@Model.OrderNumber + option2">Multiple answers</label>
                 </div>
             </div>
         </div>
