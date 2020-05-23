@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
             <div class="col-md-6">
-                <form asp-controller="Response" asp-action="SubmitResponse" id="response">
+                <form asp-controller="Response" asp-action="SubmitResponse" asp-route-form="@Model">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Title" class="control-label">@Model.Title</label>
@@ -17,11 +17,11 @@
                     <div class="form-group">
                         <label asp-for="Description" class="control-label">@Model.Description</label>
                     </div>
-                    <div id="detailsContainer">
+                    <div>
                         @Html.EditorFor(model => model.Questions)
                     </div>
                     <div name="submit" class="visible">
-                        <a asp-controller="Response" asp-action="SubmitResponse" method="POST"><button class="btn btn-primary">Submit answers</button></a>
+                        <button class="btn btn-primary">Submit answers</button>
                     </div>
                 </form>
             </div>

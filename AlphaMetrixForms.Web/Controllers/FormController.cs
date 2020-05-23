@@ -12,6 +12,7 @@ using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Question;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
 
 namespace AlphaMetrixForms.Web.Controllers
 {
@@ -41,7 +42,7 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View(formsVM);
         }
-
+        [Route("Answer/{formId}")]
         public async Task<IActionResult> DisplayForm(Guid formId)
         {
             var form = await this._formService.GetFormAsync(formId);
@@ -64,6 +65,27 @@ namespace AlphaMetrixForms.Web.Controllers
             }
 
             return View("DisplayFormView", formVM);
+        }
+
+        public async Task<IActionResult> ShareForm(Guid formId, string mails)
+        {
+            Email email = new Email();
+            email.To = "alphametrixforms@gmail.com";
+            email.Subject = "Test";
+            email.Body = $"https://localhost:44366/Answer/{formId}";
+            MailMessage message= new MailMessage();
+            message.To.Add(email.To);
+            message.Subject = email.Subject;
+            message.Body = email.Body;
+            message.From = new MailAddress("alphametrixforms@gmail.com");
+            message.IsBodyHtml = false;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            smtp.Port = 587;
+            smtp.UseDefaultCredentials = true;
+            smtp.EnableSsl = true;
+            smtp.Credentials = new System.Net.NetworkCredential("alphametrixforms@gmail.com", "passwordShouldBeHere");
+            smtp.Send(message);
+            return Ok();
         }
 
         public IActionResult Create()

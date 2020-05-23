@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOs;
 using AlphaMetrixForms.Web.Models.Form;
+using AlphaMetrixForms.Web.Models.Question;
 using AlphaMetrixForms.Web.Models.User;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -30,14 +31,11 @@ namespace AlphaMetrixForms.Web.Controllers
             _documentQuestionService = documentQuestionService ?? throw new ArgumentNullException(nameof(documentQuestionService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        [HttpPost]
-        public async Task<IActionResult> SubmitResponse(FormViewModel form)
-        {
-            throw new NotImplementedException();
-            //var form = await this._formService.GetFormAsync(formId);
-            //var formVM = _mapper.Map<FormViewModel>(form);
-            //return View("DisplayFormView", formVM);
+        //[HttpPost]
+        //public async Task<IActionResult> SubmitResponse(QuestionViewModel question)
+        //{
+        //    throw new NotImplementedException();
 
-        }
+        //}
     }
 }

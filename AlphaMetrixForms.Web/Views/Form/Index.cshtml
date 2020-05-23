@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    string mails = "sad";
 }
 
 <h1>Forms</h1>
@@ -25,24 +26,43 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Owner)
-            </td>
-            <td>
-                <a asp-controller="Form" asp-action="DisplayForm" asp-route-formId="@item.Id">Answer</a> 
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Owner)
+                </td>
+                <td>
+                    <a asp-controller="Form" asp-action="DisplayForm" asp-route-formId="@item.Id">Answer</a>
+                </td>
+                <td>
+                    <a asp-controller="Form" asp-action="ShareForm" asp-route-formId="@item.Id" asp-route-mails="@mails">Share</a>
+                </td>
+                <td>
+                    <button name="Share" id="Share"type="button" class="btn btn-primary">Share</button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $('#Share').on('click', () => {
+            var input = prompt("Please enter emails:", "Emails here");
+            if (input != null) {
+            @mails. = input
+        }
+        })
+    </script>
+
+}
