@@ -67,24 +67,9 @@ namespace AlphaMetrixForms.Web.Controllers
             return View("DisplayFormView", formVM);
         }
 
-        public async Task<IActionResult> ShareForm(Guid formId, string mails)
+        public async Task<IActionResult> ShareForm(Guid formId, string owner, string mails)
         {
-            Email email = new Email();
-            email.To = "alphametrixforms@gmail.com";
-            email.Subject = "Test";
-            email.Body = $"https://localhost:44366/Answer/{formId}";
-            MailMessage message= new MailMessage();
-            message.To.Add(email.To);
-            message.Subject = email.Subject;
-            message.Body = email.Body;
-            message.From = new MailAddress("alphametrixforms@gmail.com");
-            message.IsBodyHtml = false;
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-            smtp.Port = 587;
-            smtp.UseDefaultCredentials = true;
-            smtp.EnableSsl = true;
-            smtp.Credentials = new System.Net.NetworkCredential("alphametrixforms@gmail.com", "passwordShouldBeHere");
-            smtp.Send(message);
+            var result = await this._formService.ShareFormAsync(formId,owner,mails);
             return Ok();
         }
 
@@ -95,44 +80,6 @@ namespace AlphaMetrixForms.Web.Controllers
             return View("CreateFormView", model);
         }
 
-        [HttpPost]
-        public IActionResult AddTextQuestion(FormViewModel form)
-        {
-            QuestionViewModel model = new QuestionViewModel();
-            model.OrderNumber = form.Current;
-            model.Type = QuestionType.Text;
-            form.Questions.Add(model);
-
-            return PartialView("_QuestionPartial", form);
-        }
-
-        [HttpPost]
-        public IActionResult AddOptionsQuestion(FormViewModel form)
-        {
-            QuestionViewModel model = new QuestionViewModel();
-            model.OrderNumber = form.Current;
-            model.Type = QuestionType.Option;
-            form.Questions.Add(model);
-
-            string option1 = "option1";
-            model.Options.Add(option1);
-            string option2 = "option2";
-            model.Options.Add(option2);
-
-            return PartialView("_QuestionPartial", form);
-
-        }
-        [HttpPost]
-        public IActionResult AddDocumentQuestion(FormViewModel form)
-        {
-            QuestionViewModel model = new QuestionViewModel();
-            model.OrderNumber = form.Current;
-            model.Type = QuestionType.Document;
-            form.Questions.Add(model);
-
-            return PartialView("_QuestionPartial", form);
-
-        }
         [HttpPost]
         public async Task<IActionResult> SubmitForm(FormViewModel form)
         {

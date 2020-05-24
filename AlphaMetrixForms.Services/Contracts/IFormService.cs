@@ -15,5 +15,7 @@ namespace AlphaMetrixForms.Services.Contracts
 
         Task<ICollection<FormDTO>> GetAllFormsAsync();
         Task<bool> DeleteFormAsync(Guid formId);
+
+        Task<bool> ShareFormAsync(Guid formId, string owner, string mails);
     }
 }
