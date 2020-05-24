@@ -14,14 +14,13 @@
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div id="optionsDiv">
-
-                @foreach (var item in Model.Options)
+                @for (int i = 0; i < Model.Options.Count; i++)
                 {
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="@item" value="@item" class="control-label"></label>
-                        <input asp-for="@item" value="@item" class="form-control" />
-                        <span asp-validation-for="@item" class="text-danger"></span>
+                        <label asp-for="@Model.Options[i]" class="control-label"></label>
+                        <input asp-for="@Model.Options[i]" class="form-control" />
+                        <span asp-validation-for="@Model.Options[i]" class="text-danger"></span>
                     </div>
                 }
             </div>
@@ -62,8 +61,6 @@
 <script>
 
     $("button[name='addOption']").on("click", function addOption() {
-        //$('#singleOption').clone().appendTo('#optionsDiv');
-
         let orderNum = $(this).attr('id');
         document.getElementById('Current').value = orderNum;
         $.ajax({
@@ -73,7 +70,7 @@
             url: '/OptionQuestion/AddOption',
             success: function (partialView) {
                 console.log("partialView: " + partialView);
-                //$('#detailsContainer').html(partialView);
+                $('#detailsContainer').html(partialView);
             }
         });
     });</script>

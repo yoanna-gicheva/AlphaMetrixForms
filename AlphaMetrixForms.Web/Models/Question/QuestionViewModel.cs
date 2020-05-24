@@ -26,7 +26,7 @@ namespace AlphaMetrixForms.Web.Models.Question
 
         //OPTION
         public bool IsMultipleAnswerAllowed { get; set; }
-        public ICollection<string> Options { get; set; }
+        public List<string> Options { get; set; }
 
 
         // TEXT

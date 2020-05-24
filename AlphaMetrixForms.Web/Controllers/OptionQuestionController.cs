@@ -17,10 +17,10 @@ namespace AlphaMetrixForms.Web.Controllers
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == orderNum);
             //OptionViewModel option = new OptionViewModel();
 
-            string option = string.Empty;
+            string option = "option";
             question.Options.Add(option);
 
-            return View("CreateFormView", form);
+            return PartialView("_QuestionPartial", form);
         }
     }
 }
