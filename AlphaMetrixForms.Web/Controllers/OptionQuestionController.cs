@@ -1,4 +1,5 @@
-﻿using AlphaMetrixForms.Web.Models.Form;
+﻿using AlphaMetrixForms.Web.Models.Enums;
+using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Question;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,24 @@ namespace AlphaMetrixForms.Web.Controllers
 {
     public class OptionQuestionController : Controller
     {
+
+        [HttpPost]
+        public IActionResult AddOptionsQuestion(FormViewModel form)
+        {
+            QuestionViewModel model = new QuestionViewModel();
+            model.OrderNumber = form.Current;
+            model.Type = QuestionType.Option;
+            form.Questions.Add(model);
+
+            string option1 = "option1";
+            model.Options.Add(option1);
+            string option2 = "option2";
+            model.Options.Add(option2);
+
+            return PartialView("_QuestionPartial", form);
+
+        }
+
         [HttpPost]
         public IActionResult AddOption(FormViewModel form)
         {

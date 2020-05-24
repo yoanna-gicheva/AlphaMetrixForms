@@ -3,10 +3,12 @@ using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOmappers;
 using AlphaMetrixForms.Services.DTOs;
+using AlphaMetrixForms.Services.Providers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -130,6 +132,33 @@ namespace AlphaMetrixForms.Services.Services
             await this.context.SaveChangesAsync();
 
             return formDTO;
+        }
+
+        public async Task<bool> ShareFormAsync (Guid formId, string owner, string mails)
+        {
+            Email email = new Email();
+            //mails should be converted here
+            email.To = mails;
+
+            email.Subject = "You were invited to complete a form!";
+            email.Greeting = $"Dear Received,\r\nYou were invited by {owner} to fill the following form:\r\n";
+            email.Link = $"https://localhost:44366/Answer/{formId}";
+            email.Closing = "\r\nKind regards,\r\nAlphaMetrix Team";
+
+            MailMessage message = new MailMessage();
+            message.To.Add(email.To);
+            message.Subject = email.Subject;
+            message.Body = email.Greeting+email.Link+email.Closing;
+            message.From = new MailAddress("alphametrixforms@gmail.com");
+            message.IsBodyHtml = false;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            smtp.Port = 587;
+            smtp.UseDefaultCredentials = true;
+            smtp.EnableSsl = true;
+            smtp.Credentials = new System.Net.NetworkCredential("alphametrixforms@gmail.com", "passwordShouldBeHere");
+            smtp.Send(message);
+
+            return true;
         }
     }
 }

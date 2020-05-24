@@ -45,24 +45,24 @@
                     <a asp-controller="Form" asp-action="DisplayForm" asp-route-formId="@item.Id">Answer</a>
                 </td>
                 <td>
-                    <a asp-controller="Form" asp-action="ShareForm" asp-route-formId="@item.Id" asp-route-mails="@mails">Share</a>
+                    <a asp-controller="Form" asp-action="ShareForm" asp-route-formId="@item.Id" asp-route-owner="@item.Owner" asp-route-mails="@mails">Share</a>
                 </td>
-                <td>
+                @*<td>
                     <button name="Share" id="Share"type="button" class="btn btn-primary">Share</button>
-                </td>
+                </td>*@
             </tr>
         }
     </tbody>
 </table>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+    @*<script>
         $('#Share').on('click', () => {
             var input = prompt("Please enter emails:", "Emails here");
             if (input != null) {
-            @mails. = input
+            @mails = input
         }
         })
-    </script>
+    </script>*@
 
 }

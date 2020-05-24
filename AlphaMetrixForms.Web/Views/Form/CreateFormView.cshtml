@@ -70,7 +70,7 @@
             async: true,
             data: $('#form').serialize(),
             type: "POST",
-            url: '/Form/AddTextQuestion',
+            url: '/TextQuestion/AddTextQuestion',
             success: function (partialView) {
                 $('#detailsContainer').html(partialView);
             }
@@ -83,7 +83,7 @@
             async: true,
             data: $('#form').serialize(),
             type: "POST",
-            url: '/Form/AddOptionsQuestion',
+            url: '/OptionQuestion/AddOptionsQuestion',
             success: function (partialView) {
                 $('#detailsContainer').html(partialView);
             }
@@ -96,7 +96,7 @@
             async: true,
             data: $('#form').serialize(),
             type: "POST",
-            url: '/Form/AddDocumentQuestion',
+            url: '/DocumentQuestion/AddDocumentQuestion',
             success: function (partialView) {
                 $('#detailsContainer').html(partialView);
             }
