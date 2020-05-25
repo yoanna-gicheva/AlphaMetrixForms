@@ -32,13 +32,13 @@ namespace AlphaMetrixForms.Services.Services
             //I suppose we won't allow creating one with the same title even if it is deleted.
             //bool check = owner.Forms
             //    .Any(f => f.Title == formDTO.Title && f.IsDeleted == false);
-            
+
             //if(check)
             //{
             //    throw new ArgumentException($"This user has already created a form with Title: {formDTO.Title}");
             //}
 
-            Form form = new Form() 
+            Form form = new Form()
             {
                 Title = formDTO.Title,
                 Description = formDTO.Description,
@@ -46,6 +46,7 @@ namespace AlphaMetrixForms.Services.Services
                 //OwnerId = formDTO.OwnerId,
                 OwnerId = ownerId
             };
+            form.ModifiedOn = form.CreatedOn;
 
             await this.context.Forms.AddAsync(form);
             await this.context.SaveChangesAsync();

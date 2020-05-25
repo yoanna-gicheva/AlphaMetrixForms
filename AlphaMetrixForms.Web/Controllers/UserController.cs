@@ -17,10 +17,12 @@ namespace AlphaMetrixForms.Web.Controllers
 
         private readonly IUserService _service;
         private readonly IMapper _mapper;
-        public UserController(IUserService service, IMapper mapper)
+        private readonly IFormService _formService;
+        public UserController(IUserService service, IFormService formService, IMapper mapper)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _service = service ?? throw new ArgumentNullException(nameof(mapper));
+            _formService = formService ?? throw new ArgumentNullException(nameof(mapper));
         }
         public IActionResult Index()
         {
@@ -45,6 +47,5 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View("MyFormsView", result);
         }
-
     }
 }
