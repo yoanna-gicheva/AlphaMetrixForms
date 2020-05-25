@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AlphaMetrixForms.Web.Models.Question;
 using System.Threading.Tasks;
+using AlphaMetrixForms.Web.Models.Response;
 
 namespace AlphaMetrixForms.Web.Models.Form
 {
@@ -21,13 +22,11 @@ namespace AlphaMetrixForms.Web.Models.Form
         [MaxLength(150, ErrorMessage = "Title length cannot consist of more than 150 symbols.")]
         public string Title { get; set; }
         public string Description { get; set; }
-
         public string Owner { get; set; }
-
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public List<QuestionViewModel> Questions { get; set; }
-
-       
+        public ICollection<ResponseViewModel> Responses { get; set; }
+        public bool UpdateMode { get; set; }
     }
 }

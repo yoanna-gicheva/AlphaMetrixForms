@@ -12,7 +12,7 @@ namespace AlphaMetrixForms.Web.Controllers
     public class DocumentQuestionController : Controller
     {
         [HttpPost]
-        public IActionResult AddDocumentQuestion(FormViewModel form)
+        public IActionResult CreateDocumentQuestion(FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Current;

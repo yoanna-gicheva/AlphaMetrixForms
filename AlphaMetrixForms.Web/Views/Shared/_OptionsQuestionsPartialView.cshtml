@@ -4,6 +4,9 @@
 <div class="card">
     <div class="card-header">
         Option Question
+        <button id="@Model.OrderNumber" name="deleteQuestion" type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="card-body">
         <div class="col-md-12">
@@ -16,6 +19,9 @@
             <div id="optionsDiv">
                 @for (int i = 0; i < Model.Options.Count; i++)
                 {
+                    <button id="@Model.OrderNumber" value="@i" name="deleteOption" type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="@Model.Options[i]" class="control-label"></label>
@@ -42,22 +48,12 @@
             </div>
             @Html.Hidden("OrderNumber", Model.OrderNumber)
             @Html.Hidden("Type", Model.Type)
+            @Html.Hidden("ToRemove", Model.ToRemove)
         </div>
     </div>
 </div>
 
 <br></br>
-
-@*<style>
-        #container
-    {
-        display: flex;
-      justify-content: center;
-    }
-
-        </style>*@
-
-
 <script>
 
     $("button[name='addOption']").on("click", function addOption() {
@@ -67,9 +63,37 @@
             async: true,
             data: $('#form').serialize(),
             type: "POST",
-            url: '/OptionQuestion/AddOption',
+            url: '/OptionQuestion/CreateOption',
             success: function (partialView) {
                 console.log("partialView: " + partialView);
+                $('#detailsContainer').html(partialView);
+            }
+        });
+    });
+    $("button[name='deleteOption']").on("click", function deleteOption() {
+        document.getElementById('Current').value = $(this).attr('id');
+        let option = $(this).attr('value');
+        $.ajax({
+            async: true,
+            data: $('#form').serialize(),
+            type: "POST",
+            url: `/OptionQuestion/DeleteOption/${option}`,
+            success: function (partialView) {
+                console.log("partialView: " + partialView);
+                $('#detailsContainer').html(partialView);
+            }
+        });
+        });
+
+      $("button[name='deleteQuestion']").on('click', function () {
+            let orderNumber = $(this).attr('id');
+        document.getElementById('Current').value = orderNumber;
+        $.ajax({
+            async: true,
+            data: $('#form').serialize(),
+            type: "POST",
+            url: '/Form/DeleteQuestion',
+            success: function (partialView) {
                 $('#detailsContainer').html(partialView);
             }
         });

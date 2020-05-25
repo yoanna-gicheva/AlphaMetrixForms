@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-AlphaMetrixForms.Web-072F779C-DF16-4B18-B817-D85F84E907DB</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Views\Items\**" />
+    <Content Remove="Views\Items\**" />
+    <EmbeddedResource Remove="Views\Items\**" />
+    <None Remove="Views\Items\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
@@ -31,7 +38,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="Views\Items\" />
   </ItemGroup>
 
 </Project>
