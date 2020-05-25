@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AlphaMetrixForms.Services.Services
 {
@@ -19,15 +20,20 @@ namespace AlphaMetrixForms.Services.Services
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public UserDTO UserDetails(Guid id, IMapper mapper)
+        public async Task<UserDTO> UserDetails(Guid id, IMapper mapper)
         {
-            User user = context.Users./*Include(u=>u.Forms).*/FirstOrDefault(u => u.Id == id);
+            User user = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if(user == null)
             {
                 throw new ArgumentException();
             }
 
             return mapper.Map<UserDTO>(user);
+        }
+        public async Task<IEnumerable<FormDTO>> MyForms(Guid id, IMapper mapper)
+        {
+            ICollection<Form> forms = await context.Forms.Where(f => f.OwnerId == id).ToListAsync();
+            return mapper.Map<IEnumerable<FormDTO>>(forms);
         }
     }
 }

@@ -67,7 +67,7 @@
             async: true,
             data: $('#form').serialize(),
             type: "POST",
-            url: '/OptionQuestion/AddOption',
+            url: '/OptionQuestion/CreateOption',
             success: function (partialView) {
                 console.log("partialView: " + partialView);
                 $('#detailsContainer').html(partialView);

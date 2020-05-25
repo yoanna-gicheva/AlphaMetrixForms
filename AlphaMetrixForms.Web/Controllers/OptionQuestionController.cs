@@ -13,7 +13,7 @@ namespace AlphaMetrixForms.Web.Controllers
     {
 
         [HttpPost]
-        public IActionResult AddOptionsQuestion(FormViewModel form)
+        public IActionResult CreateOptionQuestion(FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Current;
@@ -30,7 +30,7 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddOption(FormViewModel form)
+        public IActionResult CreateOption(FormViewModel form)
         {
             int orderNum = form.Current;
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == orderNum);

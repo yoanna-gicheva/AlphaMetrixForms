@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOs;
+using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.User;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -25,20 +26,25 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             return View();
         }
-        public IActionResult Account()
+        public async Task<IActionResult> Account()
         {
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            UserDTO user = _service.UserDetails(userId, _mapper);
+            UserDTO user = await _service.UserDetails(userId, _mapper);
             if (user == null)
                 return RedirectToAction("Error");
 
             UserViewModel toPass = _mapper.Map<UserViewModel>(user);
             return View("AccountView", toPass);
         }
-        //public IActionResult UserForms()
-        //{
+        public async Task<IActionResult> MyForms()
+        {
+            Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IEnumerable<FormDTO> forms = await _service.MyForms(userId, _mapper);
+            IEnumerable<FormViewModel>  result = _mapper.Map<IEnumerable<FormViewModel>>(forms);
 
-        //}
+            return View("MyFormsView", result);
+        }
+
     }
 }
