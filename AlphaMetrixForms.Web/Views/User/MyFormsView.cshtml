@@ -1,0 +1,25 @@
+﻿@model IEnumerable<AlphaMetrixForms.Web.Models.Form.FormViewModel>
+
+<div class="container">
+    <div class="row">
+        @foreach (var form in Model.ToList())
+        {
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@form.Title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
+                        <p class="card-text">Created on: @form.CreatedOn</p>
+                        <p class="card-text">Modified on: @form.ModifiedOn</p>
+                        <p class="card-text">Answers: @form.Responses.Count</p>
+                        <a href="#" class="card-link">Edit</a>
+                        <a href="#" class="card-link">View answers</a>
+                        <a href="#" class="card-link">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<br>
+<a asp-controller="Form" asp-action="Create" class="btn btn-primary">Create New</a>

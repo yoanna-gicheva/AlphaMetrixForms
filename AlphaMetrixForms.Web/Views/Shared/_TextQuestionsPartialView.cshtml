@@ -1,9 +1,13 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
 <br></br>
+
 <div class="card" id="textCard">
     <div class="card-header">
         Text Question
+        <button id="@Model.OrderNumber" name="deleteQuestion" type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="card-body">
         <div class="col-md-12">
@@ -29,4 +33,18 @@
 @Html.Hidden("OrderNumber", Model.OrderNumber)
 @Html.Hidden("Type", Model.Type)
 
-
+<script>
+      $("button[name='deleteQuestion']").on('click', function () {
+            let orderNumber = $(this).attr('id');
+        document.getElementById('Current').value = orderNumber;
+        $.ajax({
+            async: true,
+            data: $('#form').serialize(),
+            type: "POST",
+            url: '/Form/DeleteQuestion',
+            success: function (partialView) {
+                $('#detailsContainer').html(partialView);
+            }
+        });
+        });
+    </script>
