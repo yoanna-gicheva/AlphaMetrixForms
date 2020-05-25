@@ -3,13 +3,25 @@
 @{
     ViewData["Title"] = "CreateFormView";
 }
+@{
+    string action;
+    if (Model.UpdateMode)
+    {
+        action = "Update";
+    }
+    else
+    {
+        action = "Create";
+    }
+}
+
     <div class="card">
         <div class="card-header">
             Form
         </div>
         <div class="card-body">
             <div class="col-md-6">
-                <form asp-action="SubmitForm" id="form">
+                <form asp-action="@action" id="form">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Title" class="control-label"></label>
@@ -35,7 +47,16 @@
 
                     </div>
                     <div name="sumbit" class="visible">
-                        <a asp-controller="Form" asp-action="SubmitForm" method="POST"><button class="btn btn-primary">CreateForm</button></a>
+                        @if (Model.UpdateMode)
+                        {
+                            <a asp-controller="Form" asp-action="Update" method="POST"><button class="btn btn-primary">Save</button></a>
+                            <a asp-controller="Form" asp-action="Update" method="POST"><button class="btn btn-primary">Preview</button></a>
+                            <a asp-controller="Form" asp-action="Delete" method="POST"><button class="btn btn-danger">Delete</button></a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Form" asp-action="Create" method="POST"><button class="btn btn-primary">Create</button></a>
+                        }
                     </div>
                     @Html.Hidden("Current", Model.Current)
                 </form>
@@ -101,7 +122,9 @@
                 $('#detailsContainer').html(partialView);
             }
         });
-        });
+            });
+
+      
     </script>
 }
 

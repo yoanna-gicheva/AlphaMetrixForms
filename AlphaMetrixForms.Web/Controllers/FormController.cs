@@ -72,7 +72,6 @@ namespace AlphaMetrixForms.Web.Controllers
             var result = await this._formService.ShareFormAsync(formId,owner,mails);
             return Ok();
         }
-
         public IActionResult Create()
         {
             var model = new FormViewModel();
@@ -81,7 +80,7 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SubmitForm(FormViewModel form)
+        public async Task<IActionResult> Create(FormViewModel form)
         {
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -112,6 +111,29 @@ namespace AlphaMetrixForms.Web.Controllers
                 }
             }
             return View("SubmissionSuccessfulView");
+        }
+        public async Task<IActionResult> Update(Guid formId)
+        {
+            FormDTO form = await _formService.GetFormAsync(formId);
+            FormViewModel result = _mapper.Map<FormViewModel>(form);
+            result.UpdateMode = true;
+
+            return View("CreateFormView", result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteQuestion(FormViewModel form)
+        {
+            if(form.UpdateMode)
+            {
+
+            }
+            else
+            {
+                QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
+                form.Questions.Remove(question);
+            }
+
+            return PartialView("_QuestionPartial", form);
         }
     }
 }
