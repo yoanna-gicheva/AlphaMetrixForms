@@ -13,9 +13,11 @@ using AlphaMetrixForms.Web.Models.Question;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AlphaMetrixForms.Web.Controllers
 {
+    //[Authorize]
     public class FormController : Controller
     {
         private readonly IFormService _formService;
@@ -35,6 +37,7 @@ namespace AlphaMetrixForms.Web.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var forms = await this._formService.GetAllFormsAsync();
@@ -43,6 +46,7 @@ namespace AlphaMetrixForms.Web.Controllers
             return View(formsVM);
         }
         [Route("Answer/{formId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> DisplayForm(Guid formId)
         {
             var form = await this._formService.GetFormAsync(formId);
@@ -66,12 +70,14 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View("DisplayFormView", formVM);
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> ShareForm(Guid formId, string owner, string mails)
         {
-            var result = await this._formService.ShareFormAsync(formId,owner,mails);
+            var result = await this._formService.ShareFormAsync(formId, owner, mails);
             return Ok();
         }
+
+        [Authorize]
         public IActionResult Create()
         {
             var model = new FormViewModel();
@@ -80,16 +86,17 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(FormViewModel form)
         {
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
             FormDTO newForm = await _formService.CreateFormAsync(formDTO, userId);
             Guid formId = newForm.Id;
-            if(form.Questions.Where(q=>q.Type.Equals(QuestionType.Text)).Count() > 0)
+            if (form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
             {
                 var result = await _textQuestionService.CreateTextQuestionAsync(_mapper.Map<ICollection<TextQuestionDTO>>(form.Questions), formId);
-                if(!result)
+                if (!result)
                 {
                     throw new ArgumentException();
                 }
@@ -102,7 +109,7 @@ namespace AlphaMetrixForms.Web.Controllers
                     throw new ArgumentException();
                 }
             }
-            if(form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
+            if (form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
             {
                 var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions), formId);
                 if (!result)
@@ -112,6 +119,7 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             return View("SubmissionSuccessfulView");
         }
+        [Authorize]
         public async Task<IActionResult> Update(Guid formId)
         {
             FormDTO form = await _formService.GetFormAsync(formId);
@@ -121,17 +129,11 @@ namespace AlphaMetrixForms.Web.Controllers
             return View("CreateFormView", result);
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> DeleteQuestion(FormViewModel form)
         {
-            if(form.UpdateMode)
-            {
-
-            }
-            else
-            {
-                QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
-                form.Questions.Remove(question);
-            }
+            QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
+            form.Questions.Remove(question);
 
             return PartialView("_QuestionPartial", form);
         }

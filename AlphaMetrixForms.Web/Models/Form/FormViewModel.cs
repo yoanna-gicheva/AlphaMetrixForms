@@ -28,6 +28,5 @@ namespace AlphaMetrixForms.Web.Models.Form
         public List<QuestionViewModel> Questions { get; set; }
         public ICollection<ResponseViewModel> Responses { get; set; }
         public bool UpdateMode { get; set; }
-
     }
 }

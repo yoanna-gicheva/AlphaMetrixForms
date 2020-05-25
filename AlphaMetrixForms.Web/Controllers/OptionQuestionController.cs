@@ -13,7 +13,7 @@ namespace AlphaMetrixForms.Web.Controllers
     {
 
         [HttpPost]
-        public IActionResult CreateOptionQuestion(FormViewModel form)
+        public async Task<IActionResult> CreateOptionQuestion(FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Current;
@@ -30,7 +30,7 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateOption(FormViewModel form)
+        public async Task<IActionResult> CreateOption(FormViewModel form)
         {
             int orderNum = form.Current;
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == orderNum);
@@ -40,6 +40,17 @@ namespace AlphaMetrixForms.Web.Controllers
             question.Options.Add(option);
 
             return PartialView("_QuestionPartial", form);
+        }
+        [HttpPost]
+        [Route("/OptionQuestion/DeleteOption/{option}")]
+        public async Task<IActionResult> DeleteOption(FormViewModel form, int option)
+        {
+            int orderNum = form.Current;
+            QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == orderNum);
+            question.Options.RemoveAt(option);
+
+            return PartialView("_QuestionPartial", form);
+
         }
     }
 }
