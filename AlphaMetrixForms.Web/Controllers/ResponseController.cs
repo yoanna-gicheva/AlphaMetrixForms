@@ -7,6 +7,7 @@ using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOs;
 using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Question;
+using AlphaMetrixForms.Web.Models.Response;
 using AlphaMetrixForms.Web.Models.User;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -31,11 +32,43 @@ namespace AlphaMetrixForms.Web.Controllers
             _documentQuestionService = documentQuestionService ?? throw new ArgumentNullException(nameof(documentQuestionService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        //[HttpPost]
-        //public async Task<IActionResult> SubmitResponse(QuestionViewModel question)
-        //{
-        //    throw new NotImplementedException();
+        [HttpPost]
+        public async Task<IActionResult> SubmitResponse(ResponseViewModel response)
+        {
+            throw new NotImplementedException();
 
-        //}
+        }
+
+        [Route("Response/{formId}")]
+        public async Task<IActionResult> DisplayForm(Guid formId)
+        {
+            var form = await this._formService.GetFormAsync(formId);
+            var formVM = _mapper.Map<FormViewModel>(form);
+
+            var textQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.TextQuestions);
+            var optionQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.OptionQuestions);
+            var documentQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.DocumentQuestions);
+
+            if (textQuestionsVM != null)
+            {
+                formVM.Questions.AddRange(textQuestionsVM);
+            }
+            if (optionQuestionsVM != null)
+            {
+                formVM.Questions.AddRange(optionQuestionsVM);
+            }
+            if (documentQuestionsVM != null)
+            {
+                formVM.Questions.AddRange(documentQuestionsVM);
+            }
+
+            ResponseViewModel response = new ResponseViewModel();
+            response.FormId = formVM.Id;
+            response.Title = formVM.Title;
+            response.Description = formVM.Description;
+            response.Questions = formVM.Questions;
+
+            return View("DisplayFormView", response);
+        }
     }
 }

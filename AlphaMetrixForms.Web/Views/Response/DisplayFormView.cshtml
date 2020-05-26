@@ -1,0 +1,31 @@
+﻿@model AlphaMetrixForms.Web.Models.Response.ResponseViewModel
+
+@{
+    ViewData["Title"] = "DisplayFormView";
+}
+    <div class="card">
+        <div class="card-header">
+            Form
+        </div>
+        <div class="card-body">
+            <div class="col-md-6">
+                <form asp-controller="Response" asp-action="SubmitResponse">
+                    <h3>@Model.Title</h3>
+                    <input type="hidden" asp-for="@Model.Title" />
+                    <h6>@Model.Description</h6>
+                    <input type="hidden" asp-for="@Model.Description" />
+                    <div id="questions">
+                        <input type="hidden" asp-for="@Model.FormId">
+                        @Html.EditorFor(model => model.Questions)
+                    </div>
+                    <button type="submit" class="=btn btn-primary">Submit Response</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}    
+}
+
+

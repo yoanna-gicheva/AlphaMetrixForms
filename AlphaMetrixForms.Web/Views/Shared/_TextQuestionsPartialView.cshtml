@@ -34,7 +34,7 @@
 @Html.Hidden("Type", Model.Type)
 
 <script>
-      $("button[name='deleteQuestion']").on('click', function () {
+    $("button[name='deleteQuestion']").on('click', function () {
             let orderNumber = $(this).attr('id');
         document.getElementById('Current').value = orderNumber;
         $.ajax({
