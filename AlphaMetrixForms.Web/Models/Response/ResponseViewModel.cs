@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlphaMetrixForms.Web.Models.Question;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +12,10 @@ namespace AlphaMetrixForms.Web.Models.Response
 
         public Guid FormId { get; set; }
 
-        public string Form { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
 
-        //public ICollection<TextQuestionAnswerDTO> TextQuestionAnswers { get; set; }
-        //public ICollection<OptionQuestionAnswerDTO> OptionQuestionAnswers { get; set; }
-        //public ICollection<DocumentQuestionAnswerDTO> DocumentQuestionAnswers { get; set; }
+        public ICollection<QuestionViewModel> Questions { get; set; }
+
     }
 }

@@ -42,7 +42,7 @@
                     @Html.DisplayFor(modelItem => item.Owner)
                 </td>
                 <td>
-                    <a asp-controller="Form" asp-action="DisplayForm" asp-route-formId="@item.Id">Answer</a>
+                    <a asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@item.Id">Answer</a>
                 </td>
                 <td>
                     <a asp-controller="Form" asp-action="ShareForm" asp-route-formId="@item.Id" asp-route-owner="@item.Owner" asp-route-mails="@mails">Share</a>
