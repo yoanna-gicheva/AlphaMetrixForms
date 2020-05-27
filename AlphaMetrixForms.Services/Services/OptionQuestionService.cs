@@ -32,14 +32,6 @@ namespace AlphaMetrixForms.Services.Services
         }
         public async Task<OptionQuestionDTO> CreateOptionQuestionAsync(OptionQuestionDTO questionDTO, Guid formId)
         {
-            var check = await this.context.OptionQuestions
-                .FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.FormId == formId && q.IsDeleted == false);
-
-            if (check != null)
-            {
-                throw new ArgumentException($"Option question with Text: {questionDTO.Text} already exists for this form.");
-            }
-
             var question = new OptionQuestion()
             {
                 FormId = questionDTO.FormId,

@@ -12,7 +12,7 @@ else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document &
 {
     <partial name="_DocumentQuestionsPartialView" model="@Model" />
 }
-else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text && Model.EditMode== true)
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text && Model.EditMode == true)
 {
     <partial name="_TextQuestionsPartialView" model="@Model" />
 }
@@ -36,3 +36,4 @@ else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document)
 {
     <partial name="_DocumentQuestionsAnswerPartialView" model="@Model" />
 }
+

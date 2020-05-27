@@ -128,12 +128,12 @@ namespace AlphaMetrixForms.Web.Controllers
             FormDTO form = await _formService.GetFormAsync(id);
             FormViewModel result = ViewModel_Generator(form);
             result.EditMode = true;
-            Questions_SetEditMode(result.Questions);
+            Questions_SetEditMode_OrderNumber(result.Questions);
 
 
             return View("CreateFormView", result);
         }
-        private void Questions_SetEditMode(ICollection<QuestionViewModel> questions)
+        private void Questions_SetEditMode_OrderNumber(ICollection<QuestionViewModel> questions)
         {
             foreach(var question in questions)
             {
@@ -147,7 +147,7 @@ namespace AlphaMetrixForms.Web.Controllers
             FormDTO formDTO = DataTransferObject_Generator(form);
             FormDTO updated = await _formService.UpdateFormAsync(form.Id, formDTO, _mapper);
             FormViewModel result = ViewModel_Generator(updated);
-            Questions_SetEditMode(result.Questions);
+            Questions_SetEditMode_OrderNumber(result.Questions);
             result.EditMode = true;
 
             if (updated == null)
@@ -169,11 +169,23 @@ namespace AlphaMetrixForms.Web.Controllers
         private FormViewModel ViewModel_Generator(FormDTO formDTO)
         {
             FormViewModel result = _mapper.Map<FormViewModel>(formDTO);
-            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.TextQuestions));
             result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.OptionQuestions));
+            QuestionType_Set(result.Questions, QuestionType.Option);
             result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.DocumentQuestions));
+            QuestionType_Set(result.Questions, QuestionType.Document);
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.TextQuestions));
 
             return result;
+        }
+        private void QuestionType_Set(ICollection<QuestionViewModel> questions, QuestionType type)
+        {
+            foreach(var question in questions)
+            {
+                if(question.Type == QuestionType.Text)
+                {
+                    question.Type = type;
+                }
+            }
         }
         [HttpPost]
         [Authorize]
