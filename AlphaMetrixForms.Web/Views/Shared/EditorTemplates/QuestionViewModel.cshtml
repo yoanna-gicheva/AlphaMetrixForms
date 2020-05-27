@@ -12,6 +12,18 @@ else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document &
 {
     <partial name="_DocumentQuestionsPartialView" model="@Model" />
 }
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text && Model.EditMode== true)
+{
+    <partial name="_TextQuestionsPartialView" model="@Model" />
+}
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Option && Model.EditMode == true)
+{
+    <partial name="_OptionsQuestionsPartialView" model="@Model" />
+}
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document && Model.EditMode == true)
+{
+    <partial name="_DocumentQuestionsPartialView" model="@Model" />
+}
 else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text)
 {
     <partial name="_TextQuestionsAnswerPartialView" model="@Model" />

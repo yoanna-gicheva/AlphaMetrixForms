@@ -5,9 +5,9 @@
 }
 @{
     string action;
-    if (Model.UpdateMode)
+    if (Model.EditMode)
     {
-        action = "Update";
+        action = "Edit";
     }
     else
     {
@@ -44,21 +44,25 @@
                         <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
                         <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
                         <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
-
                     </div>
                     <div name="sumbit" class="visible">
-                        @if (Model.UpdateMode)
+                        @if (Model.EditMode)
                         {
-                            <a asp-controller="Form" asp-action="Update" method="POST"><button class="btn btn-primary">Save</button></a>
-                            <a asp-controller="Form" asp-action="Update" method="POST"><button class="btn btn-primary">Preview</button></a>
-                            <a asp-controller="Form" asp-action="Delete" method="POST"><button class="btn btn-danger">Delete</button></a>
+                            <br>
+                            <button asp-controller="Form" asp-action="SaveChanges" class="btn btn-primary">Save</button>
+                            <button asp-controller="Form" asp-action="Preview" class="btn btn-primary">Preview</button>
+                            <button asp-controller="Form" asp-action="Delete" class="btn btn-primary">Delete</button>
                         }
                         else
                         {
-                            <a asp-controller="Form" asp-action="Create" method="POST"><button class="btn btn-primary">Create</button></a>
+                            <button asp-controller="Form" asp-action="Create" method="POST" class="btn btn-primary">Create</button>
+
+                            @*<a asp-controller="Form" asp-action="Create" method="POST"><button class="btn btn-primary">Create</button></a>*@
                         }
                     </div>
                     @Html.Hidden("Current", Model.Current)
+                    @Html.Hidden("Edit", Model.EditMode)
+
                 </form>
             </div>
         </div>

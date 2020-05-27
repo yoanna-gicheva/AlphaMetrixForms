@@ -19,7 +19,7 @@ namespace AlphaMetrixForms.Web.Models.Question
         public Guid Id { get; set; }
         public QuestionType Type { get; set; }
         public int OrderNumber { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Title is required.")]
         public string Text { get; set; }
         public bool IsRequired { get; set; }
 

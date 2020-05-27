@@ -85,8 +85,10 @@
         });
         });
 
-      $("button[name='deleteQuestion']").on('click', function () {
-            let orderNumber = $(this).attr('id');
+    $("button[name='deleteQuestion']").on('click', function () {
+         let orderNumber = $(this).attr('id');
+        //let collection = document.getElementById('Questions').value;
+        //collection.remove(orderNumber);
         document.getElementById('Current').value = orderNumber;
         $.ajax({
             async: true,
@@ -94,6 +96,7 @@
             type: "POST",
             url: '/Form/DeleteQuestion',
             success: function (partialView) {
+                //$("body").html(data);
                 $('#detailsContainer').html(partialView);
             }
         });

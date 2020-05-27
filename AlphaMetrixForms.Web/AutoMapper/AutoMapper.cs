@@ -15,8 +15,9 @@ namespace AlphaMetrixForms.Web.AutoMapper
     {
         public AutoMapper()
         {
-            CreateMap<FormDTO, FormViewModel>().ReverseMap();
+            CreateMap<FormDTO, FormViewModel>();
             CreateMap<FormViewModel, FormDTO>();
+
             CreateMap<Form, FormDTO>().ReverseMap();
 
             CreateMap<QuestionViewModel, TextQuestionDTO>();
@@ -25,6 +26,9 @@ namespace AlphaMetrixForms.Web.AutoMapper
             CreateMap<OptionQuestionDTO, QuestionViewModel>();
             CreateMap<QuestionViewModel, DocumentQuestionDTO>();
             CreateMap<DocumentQuestionDTO, QuestionViewModel>();
+            //CreateMap<string, OptionDTO>().ForMember(dest => dest.Text,
+            //   opts => opts.MapFrom(src => src)).ReverseMap();
+            //CreateMap<string, string>().ReverseMap();
 
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<UserDTO, UserViewModel>();

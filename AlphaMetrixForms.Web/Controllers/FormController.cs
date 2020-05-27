@@ -95,7 +95,8 @@ namespace AlphaMetrixForms.Web.Controllers
             Guid formId = newForm.Id;
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
             {
-                var result = await _textQuestionService.CreateTextQuestionAsync(_mapper.Map<ICollection<TextQuestionDTO>>(form.Questions), formId);
+                var textQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).ToList();
+                var result = await _textQuestionService.CreateTextQuestionAsync(_mapper.Map<ICollection<TextQuestionDTO>>(textQuestions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
@@ -103,7 +104,8 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
             {
-                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(form.Questions), formId);
+                var optionQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).ToList();
+                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(optionQuestions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
@@ -111,7 +113,8 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
             {
-                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions), formId);
+                var documentQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).ToList();
+                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(documentQuestions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
@@ -120,13 +123,30 @@ namespace AlphaMetrixForms.Web.Controllers
             return View("SubmissionSuccessfulView");
         }
         [Authorize]
-        public async Task<IActionResult> Update(Guid formId)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            FormDTO form = await _formService.GetFormAsync(formId);
+            FormDTO form = await _formService.GetFormAsync(id);
             FormViewModel result = _mapper.Map<FormViewModel>(form);
-            result.UpdateMode = true;
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(form.TextQuestions));
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(form.OptionQuestions));
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(form.DocumentQuestions));
+            result.EditMode = true;
+            SetEditMode(result.Questions);
 
             return View("CreateFormView", result);
+        }
+        private void SetEditMode(ICollection<QuestionViewModel> questions)
+        {
+            foreach(var question in questions)
+            {
+                question.EditMode = true;
+            }
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> SaveChanges(FormViewModel form)
+        {
+            return null;
         }
         [HttpPost]
         [Authorize]
@@ -134,8 +154,13 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
             form.Questions.Remove(question);
+            FormViewModel newForm = new FormViewModel();
+            newForm.Title = form.Title;
+            newForm.Description = form.Description;
+            newForm.EditMode = form.EditMode;
+            newForm.Questions = form.Questions;
 
-            return PartialView("_QuestionPartial", form);
+            return PartialView("_QuestionPartial", newForm);
         }
     }
 }
