@@ -135,8 +135,10 @@ namespace AlphaMetrixForms.Web.Controllers
         }
         private void Questions_SetEditMode_OrderNumber(ICollection<QuestionViewModel> questions)
         {
+            var orderNum = int.MaxValue;
             foreach(var question in questions)
             {
+                question.OrderNumber = orderNum;
                 question.EditMode = true;
             }
         }
