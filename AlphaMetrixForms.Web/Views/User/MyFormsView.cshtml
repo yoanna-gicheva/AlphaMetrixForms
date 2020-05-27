@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AlphaMetrixForms.Web.Models.Form.FormViewModel>
+﻿@*@model IEnumerable<AlphaMetrixForms.Web.Models.Form.FormViewModel>*@
+@model AlphaMetrixForms.Web.Utils.PaginatedList<AlphaMetrixForms.Web.Models.Form.FormViewModel>
 
 <div class="container">
     <div class="row">
@@ -20,40 +21,64 @@
             </div>
         }
     </div>
+    <br>
 </div>
 <br>
 <a asp-controller="Form" asp-action="Create" class="btn btn-primary">Create New</a>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<div>
+    <a asp-action="MyForms"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="MyForms"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+
 
 <script>
-     $("input[name='deleteForm']").on('click', function () {
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this form!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
+    $("input[name='deleteForm']").on('click', function () {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this form!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
 
-                    if (willDelete) {
-                        $.ajax({
-                            async: true,
-                            data: { "id": this.id },
-                            type: "POST",
-                            url: '/Form/Delete',
-                            success: function () {
-                                swal("Poof! Your form has been deleted!", {
-                                    icon: "success",
-                                })
-                                    .then(() => {
-                                         window.location.replace("https://localhost:44366/User/MyForms")
-                                    });
-                            }
-                        });
+                if (willDelete) {
+                    $.ajax({
+                        async: true,
+                        data: { "id": this.id },
+                        type: "POST",
+                        url: '/Form/Delete',
+                        success: function () {
+                            swal("Poof! Your form has been deleted!", {
+                                icon: "success",
+                            })
+                                .then(() => {
+                                    window.location.replace("https://localhost:44366/User/MyForms")
+                                });
+                        }
+                    });
 
-                    } else {
-                        swal("Your form is safe!");
-                    }
-                });
-        });
-    </script>
+                } else {
+                    swal("Your form is safe!");
+                }
+            });
+    });
+</script>
