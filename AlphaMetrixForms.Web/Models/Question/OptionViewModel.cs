@@ -7,6 +7,9 @@ namespace AlphaMetrixForms.Web.Models.Question
 {
     public class OptionViewModel
     {
+        public OptionViewModel()
+        {
+        }
         public string Text { get; set; }
     }
 }

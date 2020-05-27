@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" />
+                <input asp-for="Text" class="form-control" placeholder="Type text question here..."/>
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="custom-control custom-switch float-right" style="display: flex; justify-content: space-around">
@@ -32,10 +32,14 @@
 <br></br>
 @Html.Hidden("OrderNumber", Model.OrderNumber)
 @Html.Hidden("Type", Model.Type)
+@Html.Hidden("Id", Model.Id)
+@Html.Hidden("EditMode", Model.EditMode)
+
+
 
 <script>
     $("button[name='deleteQuestion']").on('click', function () {
-            let orderNumber = $(this).attr('id');
+        let orderNumber = $(this).attr('id');
         document.getElementById('Current').value = orderNumber;
         $.ajax({
             async: true,
@@ -46,5 +50,5 @@
                 $('#detailsContainer').html(partialView);
             }
         });
-        });
-    </script>
+    });
+</script>

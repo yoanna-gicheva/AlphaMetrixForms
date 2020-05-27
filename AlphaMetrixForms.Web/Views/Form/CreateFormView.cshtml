@@ -5,9 +5,9 @@
 }
 @{
     string action;
-    if (Model.UpdateMode)
+    if (Model.EditMode)
     {
-        action = "Update";
+        action = "Edit";
     }
     else
     {
@@ -15,116 +15,139 @@
     }
 }
 
-    <div class="card">
-        <div class="card-header">
-            Form
-        </div>
-        <div class="card-body">
-            <div class="col-md-6">
-                <form asp-action="@action" id="form">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Title" class="control-label"></label>
-                        <input asp-for="Title" class="form-control" />
-                        <span asp-validation-for="Title" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Description" class="control-label"></label>
-                        <input asp-for="Description" class="form-control" />
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                    <div id="detailsContainer">
-                        @Html.EditorFor(model => model.Questions)
-                    </div>
-                    <div name="main" class="visible">
-                        <button name="main" type="button" class="btn btn-primary">Add Question</button>
-                    </div>
-                    <div name="inside" class="invisible">
-                        <button name="add" type="button" class="btn btn-primary">+</button>
-                        <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
-                        <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
-                        <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
 
-                    </div>
-                    <div name="sumbit" class="visible">
-                        @if (Model.UpdateMode)
-                        {
-                            <a asp-controller="Form" asp-action="Update" method="POST"><button class="btn btn-primary">Save</button></a>
-                            <a asp-controller="Form" asp-action="Update" method="POST"><button class="btn btn-primary">Preview</button></a>
-                            <a asp-controller="Form" asp-action="Delete" method="POST"><button class="btn btn-danger">Delete</button></a>
-                        }
-                        else
-                        {
-                            <a asp-controller="Form" asp-action="Create" method="POST"><button class="btn btn-primary">Create</button></a>
-                        }
-                    </div>
-                    @Html.Hidden("Current", Model.Current)
-                </form>
-            </div>
+
+<div class="card">
+
+    <div class="card-header">
+        Form
+    </div>
+    <div class="card-body">
+        <div class="col-md-6">
+            <form asp-action="@action" id="form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" placeholder="Type description here..."/>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div id="detailsContainer">
+                    @Html.EditorFor(model => model.Questions)
+                </div>
+                <div name="main" class="visible">
+                    <button name="main" type="button" class="btn btn-primary">Add Question</button>
+                </div>
+                <div name="inside" class="invisible">
+                    <button name="add" type="button" class="btn btn-primary">+</button>
+                    <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
+                    <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
+                    <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
+                </div>
+                <div name="sumbit" class="visible">
+                    @if (Model.EditMode)
+                    {
+                        <br>
+                        <input type="button" name="saveChanges" class="btn btn-primary" value="Save">
+                        <button asp-controller="Form" asp-action="Preview" class="btn btn-primary">Preview</button>
+                        <button asp-controller="Form" asp-action="Delete" class="btn btn-primary">Delete</button>
+                    }
+                    else
+                    {
+                        <button asp-controller="Form" asp-action="Create" method="POST" class="btn btn-primary">Create</button>
+                    }
+                </div>
+                <div id="alerts">
+                </div>
+                @Html.Hidden("Current", Model.Current)
+                @Html.Hidden("Id", Model.Id)
+        </form>
         </div>
     </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
         let counter = 0;
         $("div[name='main']").on("click", function () {
-        var $buttons = $("div[name='inside']");
-        var $buttonToHide = $("div[name='main']");
-        if ($buttons.hasClass("invisible")) {
-            $buttons.removeClass("invisible");
-            $buttons.addClass("visible");
-            $buttonToHide.hide();
-        }
-    });
-    $("button[name='add']").on("click", function () {
-        var $buttonsToHide = $("div[name='inside']");
-        var $buttonToShow = $("div[name='main']");
-        $buttonsToHide.removeClass("visible");
-        $buttonsToHide.addClass("invisible");
-        $buttonToShow.show();
-    });
-        $("button[name='textQuestion']").on('click', function () {
-             counter++;
-             document.getElementById('Current').value = counter;
-        $.ajax({
-            async: true,
-            data: $('#form').serialize(),
-            type: "POST",
-            url: '/TextQuestion/CreateTextQuestion',
-            success: function (partialView) {
-                $('#detailsContainer').html(partialView);
+            var $buttons = $("div[name='inside']");
+            var $buttonToHide = $("div[name='main']");
+            if ($buttons.hasClass("invisible")) {
+                $buttons.removeClass("invisible");
+                $buttons.addClass("visible");
+                $buttonToHide.hide();
             }
         });
-    });
+        $("button[name='add']").on("click", function () {
+            var $buttonsToHide = $("div[name='inside']");
+            var $buttonToShow = $("div[name='main']");
+            $buttonsToHide.removeClass("visible");
+            $buttonsToHide.addClass("invisible");
+            $buttonToShow.show();
+        });
+        $("button[name='textQuestion']").on('click', function () {
+            counter++;
+            document.getElementById('Current').value = counter;
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/TextQuestion/CreateTextQuestion',
+                success: function (partialView) {
+                    $('#detailsContainer').html(partialView);
+                }
+            });
+        });
         $("button[name='optionsQuestion']").on('click', function () {
             counter++;
             document.getElementById('Current').value = counter;
-        $.ajax({
-            async: true,
-            data: $('#form').serialize(),
-            type: "POST",
-            url: '/OptionQuestion/CreateOptionQuestion',
-            success: function (partialView) {
-                $('#detailsContainer').html(partialView);
-            }
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/OptionQuestion/CreateOptionQuestion',
+                success: function (partialView) {
+                    $('#detailsContainer').html(partialView);
+                }
+            });
         });
-        });
-            $("button[name='documentQuestion']").on('click', function () {
+        $("button[name='documentQuestion']").on('click', function () {
             counter++;
             document.getElementById('Current').value = counter;
-        $.ajax({
-            async: true,
-            data: $('#form').serialize(),
-            type: "POST",
-            url: '/DocumentQuestion/CreateDocumentQuestion',
-            success: function (partialView) {
-                $('#detailsContainer').html(partialView);
-            }
-        });
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/DocumentQuestion/CreateDocumentQuestion',
+                success: function (partialView) {
+                    $('#detailsContainer').html(partialView);
+                }
             });
+        });
 
-      
+        $("input[name='saveChanges']").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Form/SaveChanges',
+                success: function () {
+                    swal({
+                        title: "Success!",
+                        text: "Changes were saved successfully!",
+                        icon: "success",
+                        button: "Ok!",
+                    });
+                }
+            });
+        });
+
+
     </script>
 }
 
