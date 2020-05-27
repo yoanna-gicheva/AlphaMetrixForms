@@ -29,6 +29,7 @@ namespace AlphaMetrixForms.Web.AutoMapper
             //CreateMap<string, OptionDTO>().ForMember(dest => dest.Text,
             //   opts => opts.MapFrom(src => src)).ReverseMap();
             //CreateMap<string, string>().ReverseMap();
+            CreateMap<OptionViewModel, OptionDTO>().ReverseMap();
 
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<UserDTO, UserViewModel>();

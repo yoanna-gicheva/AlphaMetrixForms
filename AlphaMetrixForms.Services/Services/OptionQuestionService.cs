@@ -34,7 +34,7 @@ namespace AlphaMetrixForms.Services.Services
         {
             var question = new OptionQuestion()
             {
-                FormId = questionDTO.FormId,
+                FormId = formId,
                 Text = questionDTO.Text,
                 IsRequired = questionDTO.IsRequired,
                 IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed,
