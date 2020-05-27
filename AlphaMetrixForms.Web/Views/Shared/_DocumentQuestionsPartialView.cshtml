@@ -50,19 +50,21 @@
 
     @Html.Hidden("OrderNumber", Model.OrderNumber)
     @Html.Hidden("Type", Model.Type)
+    @Html.Hidden("Id", Model.Id)
 
-<script>
-      $("button[name='deleteQuestion']").on('click', function () {
+
+    <script>
+        $("button[name='deleteQuestion']").on('click', function () {
             let orderNumber = $(this).attr('id');
-        document.getElementById('Current').value = orderNumber;
-        $.ajax({
-            async: true,
-            data: $('#form').serialize(),
-            type: "POST",
-            url: '/Form/DeleteQuestion',
-            success: function (partialView) {
-                $('#detailsContainer').html(partialView);
-            }
+            document.getElementById('Current').value = orderNumber;
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Form/DeleteQuestion',
+                success: function (partialView) {
+                    $('#detailsContainer').html(partialView);
+                }
+            });
         });
-        });
-</script>
+    </script>

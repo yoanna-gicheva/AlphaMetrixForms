@@ -126,16 +126,13 @@ namespace AlphaMetrixForms.Web.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             FormDTO form = await _formService.GetFormAsync(id);
-            FormViewModel result = _mapper.Map<FormViewModel>(form);
-            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(form.TextQuestions));
-            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(form.OptionQuestions));
-            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(form.DocumentQuestions));
+            FormViewModel result = ViewModel_Generator(form);
             result.EditMode = true;
-            SetEditMode(result.Questions);
+            Questions_SetEditMode(result.Questions);
 
             return View("CreateFormView", result);
         }
-        private void SetEditMode(ICollection<QuestionViewModel> questions)
+        private void Questions_SetEditMode(ICollection<QuestionViewModel> questions)
         {
             foreach(var question in questions)
             {
@@ -146,7 +143,35 @@ namespace AlphaMetrixForms.Web.Controllers
         [Authorize]
         public async Task<IActionResult> SaveChanges(FormViewModel form)
         {
-            return null;
+            FormDTO formDTO = DataTransferObject_Generator(form);
+            FormDTO updated = await _formService.UpdateFormAsync(form.Id, formDTO, _mapper);
+            FormViewModel result = ViewModel_Generator(updated);
+            Questions_SetEditMode(result.Questions);
+            result.EditMode = true;
+
+            if (updated == null)
+            {
+                throw new ArgumentException();
+            }
+            return View("CreateFormView", result);
+        }
+        private FormDTO DataTransferObject_Generator(FormViewModel form)
+        {
+            FormDTO formDTO = _mapper.Map<FormDTO>(form);
+            formDTO.TextQuestions = _mapper.Map<ICollection<TextQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Text));
+            formDTO.OptionQuestions = _mapper.Map<ICollection<OptionQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Option));
+            formDTO.DocumentQuestions = _mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Document));
+
+            return formDTO;
+        }
+        private FormViewModel ViewModel_Generator(FormDTO formDTO)
+        {
+            FormViewModel result = _mapper.Map<FormViewModel>(formDTO);
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.TextQuestions));
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.OptionQuestions));
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.DocumentQuestions));
+
+            return result;
         }
         [HttpPost]
         [Authorize]

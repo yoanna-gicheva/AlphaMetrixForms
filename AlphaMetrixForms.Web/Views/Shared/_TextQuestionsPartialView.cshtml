@@ -32,10 +32,14 @@
 <br></br>
 @Html.Hidden("OrderNumber", Model.OrderNumber)
 @Html.Hidden("Type", Model.Type)
+@Html.Hidden("Id", Model.Id)
+@Html.Hidden("EditMode", Model.EditMode)
+
+
 
 <script>
-      $("button[name='deleteQuestion']").on('click', function () {
-            let orderNumber = $(this).attr('id');
+    $("button[name='deleteQuestion']").on('click', function () {
+        let orderNumber = $(this).attr('id');
         document.getElementById('Current').value = orderNumber;
         $.ajax({
             async: true,
@@ -46,5 +50,5 @@
                 $('#detailsContainer').html(partialView);
             }
         });
-        });
-    </script>
+    });
+</script>

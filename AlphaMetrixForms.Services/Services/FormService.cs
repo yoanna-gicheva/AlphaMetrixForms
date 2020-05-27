@@ -4,6 +4,7 @@ using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOmappers;
 using AlphaMetrixForms.Services.DTOs;
 using AlphaMetrixForms.Services.Providers;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,16 @@ namespace AlphaMetrixForms.Services.Services
     public class FormService : IFormService
     {
         private readonly FormsContext context;
+        private readonly ITextQuestionService textQuestionService;
+        private readonly IOptionQuestionService optionQuestionService;
+        private readonly IDocumentQuestionService documentQuestionService;
+
         public FormService(FormsContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
+            textQuestionService = new TextQuestionService(context);
+            optionQuestionService = new OptionQuestionService(context);
+            documentQuestionService = new DocumentQuestionService(context);
         }
 
         public async Task<FormDTO> CreateFormAsync(FormDTO formDTO, Guid ownerId)
@@ -108,7 +116,7 @@ namespace AlphaMetrixForms.Services.Services
             return form.GetDto();
         }
 
-        public async Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO)
+        public async Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO, IMapper mapper)
         {
             Form form = await this.context.Forms
                 .FirstOrDefaultAsync(f => f.Id == formDTO.Id && f.IsDeleted == false);
@@ -117,22 +125,61 @@ namespace AlphaMetrixForms.Services.Services
             {
                 throw new ArgumentNullException($"There is no such form with ID: {formDTO.Id}");
             }
-            //I am not sure what is the idea of the below rows. 
-            //I was thinking that this method should allow us to change the title or description of the form only.
-
-            //form = FormMapper.GetEntity(formDTO);
-            //form.TextQuestions = TextQuestionMapper.GetEntities(formDTO.TextQuestions);
-            //form.OptionQuestions = OptionQuestionMapper.GetEntities(formDTO.OptionQuestions);
-            //form.DocumentQuestions = DocumentQuestionMapper.GetEntities(formDTO.DocumentQuestions);
-            //form.Responses = ResponseMapper.GetEntities(formDTO.Responses);
-
             form.Title = formDTO.Title;
             form.Description = formDTO.Description;
             form.ModifiedOn = DateTime.UtcNow;
 
-            await this.context.SaveChangesAsync();
+            await TextQuestion_DetectChanges(formId, formDTO.TextQuestions, mapper);
+            await OptionQuestion_DetectChanges(formId, formDTO.OptionQuestions, mapper);
+            await DocumentQuestion_DetectChanges(formId, formDTO.DocumentQuestions, mapper);
+
+
+            await context.SaveChangesAsync();
 
             return formDTO;
+        }
+        private async Task TextQuestion_DetectChanges(Guid formId, ICollection<TextQuestionDTO> questions, IMapper mapper)
+        {
+            foreach(var question in questions)
+            {
+                if(context.TextQuestions.Any(q=>q.Id == question.Id))
+                {
+                    await textQuestionService.UpdateTextQuestionAsync(question.Id, question);
+                }
+                else
+                {
+                    await textQuestionService.CreateTextQuestionAsync(question, formId);
+                }
+            }
+
+        }
+        private async Task OptionQuestion_DetectChanges(Guid formId, ICollection<OptionQuestionDTO> questions, IMapper mapper)
+        {
+            foreach (var question in questions)
+            {
+                if (context.OptionQuestions.Any(q => q.Id == question.Id))
+                {
+                    await optionQuestionService.UpdateOptionQuestionAsync(question.Id, question);
+                }
+                else
+                {
+                    await optionQuestionService.CreateOptionQuestionAsync(question, formId);
+                }
+            }
+        }
+        private async Task DocumentQuestion_DetectChanges(Guid formId, ICollection<DocumentQuestionDTO> questions, IMapper mapper)
+        {
+            foreach (var question in questions)
+            {
+                if (context.DocumentQuestions.Any(q => q.Id == question.Id))
+                {
+                    await documentQuestionService.UpdateDocumentQuestionAsync(question.Id, question);
+                }
+                else
+                {
+                    await documentQuestionService.CreateDocumentQuestionAsync(question, formId);
+                }
+            }
         }
 
         public async Task<bool> ShareFormAsync (Guid formId, string owner, string mails)
