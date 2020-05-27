@@ -191,9 +191,9 @@ namespace AlphaMetrixForms.Web.Controllers
         }
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Delete(FormViewModel form)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            await _formService.DeleteFormAsync(form.Id);
+            await _formService.DeleteFormAsync(id);
             //return RedirectToAction("MyForms", "User");
             return Ok();
         }

@@ -12,9 +12,9 @@
                         <p class="card-text">Created on: @form.CreatedOn</p>
                         <p class="card-text">Modified on: @form.ModifiedOn</p>
                         <p class="card-text">Answers: @form.Responses.Count</p>
-                        <a class="card-link" asp-controller="Form" asp-action="Edit" asp-route-id="@form.Id">Edit</a>
-                        <a href="#" class="card-link">View answers</a>
-                        <a href="#" class="card-link">Delete</a>
+                        <a type="button" class="btn btn-primary" class="card-link" asp-controller="Form" asp-action="Edit" asp-route-id="@form.Id">Edit</a>
+                        <input type="button" name="preview" class="btn btn-primary" value="View answers">
+                        <input type="button" name="deleteForm" class="btn btn-danger" id="@form.Id" value="Delete">
                     </div>
                 </div>
             </div>
@@ -23,3 +23,37 @@
 </div>
 <br>
 <a asp-controller="Form" asp-action="Create" class="btn btn-primary">Create New</a>
+
+<script>
+     $("input[name='deleteForm']").on('click', function () {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this form!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+
+                    if (willDelete) {
+                        $.ajax({
+                            async: true,
+                            data: { "id": this.id },
+                            type: "POST",
+                            url: '/Form/Delete',
+                            success: function () {
+                                swal("Poof! Your form has been deleted!", {
+                                    icon: "success",
+                                })
+                                    .then(() => {
+                                         window.location.replace("https://localhost:44366/User/MyForms")
+                                    });
+                            }
+                        });
+
+                    } else {
+                        swal("Your form is safe!");
+                    }
+                });
+        });
+    </script>
