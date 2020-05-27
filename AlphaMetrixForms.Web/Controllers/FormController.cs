@@ -130,6 +130,7 @@ namespace AlphaMetrixForms.Web.Controllers
             result.EditMode = true;
             Questions_SetEditMode(result.Questions);
 
+
             return View("CreateFormView", result);
         }
         private void Questions_SetEditMode(ICollection<QuestionViewModel> questions)
@@ -153,6 +154,7 @@ namespace AlphaMetrixForms.Web.Controllers
             {
                 throw new ArgumentException();
             }
+
             return View("CreateFormView", result);
         }
         private FormDTO DataTransferObject_Generator(FormViewModel form)
