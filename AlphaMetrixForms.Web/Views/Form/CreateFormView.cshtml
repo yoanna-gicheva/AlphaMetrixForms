@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" placeholder="Type description here..."/>
+                    <input asp-for="Description" class="form-control" placeholder="Type description here..." />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div id="detailsContainer">
@@ -53,8 +53,8 @@
                     {
                         <br>
                         <input type="button" name="saveChanges" class="btn btn-primary" value="Save">
-                        <button asp-controller="Form" asp-action="Preview" class="btn btn-primary">Preview</button>
-                        <button asp-controller="Form" asp-action="Delete" class="btn btn-primary">Delete</button>
+                        <input type="button" name="preview" class="btn btn-primary" value="Preview">
+                        <input type="button" name="deleteForm" class="btn btn-danger" value="Delete">
                     }
                     else
                     {
@@ -65,7 +65,7 @@
                 </div>
                 @Html.Hidden("Current", Model.Current)
                 @Html.Hidden("Id", Model.Id)
-        </form>
+            </form>
         </div>
     </div>
 </div>
@@ -146,6 +146,41 @@
                 }
             });
         });
+        $("input[name='deleteForm']").on('click', function () {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+
+                    if (willDelete) {
+                        $.ajax({
+                            async: true,
+                            data: $('#form').serialize(),
+                            type: "POST",
+                            url: '/Form/Delete',
+                            success: function () {
+                                swal("Poof! Your imaginary file has been deleted!", {
+                                    icon: "success",
+                                })
+                                    .then((value) => {
+                                         window.location.replace("https://localhost:44366/User/MyForms")
+                                    });
+
+                            }
+                        });
+
+                    } else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
+
+
+        });
+
 
 
     </script>

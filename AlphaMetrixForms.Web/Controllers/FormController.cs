@@ -191,6 +191,15 @@ namespace AlphaMetrixForms.Web.Controllers
         }
         [HttpPost]
         [Authorize]
+        public async Task<IActionResult> Delete(FormViewModel form)
+        {
+            await _formService.DeleteFormAsync(form.Id);
+            //return RedirectToAction("MyForms", "User");
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> DeleteQuestion(FormViewModel form)
         {
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
@@ -201,6 +210,7 @@ namespace AlphaMetrixForms.Web.Controllers
             newForm.EditMode = form.EditMode;
             newForm.Questions = form.Questions;
 
+            
             return PartialView("_QuestionPartial", newForm);
         }
     }
