@@ -11,7 +11,9 @@
             <div class="form-group">
                 <div class="form-group">
                     <label for="Title">@Model.Text</label>
+                    <input type="hidden" asp-for="@Model.Text" />
                 </div>
+                <input type="hidden" asp-for="@Model.Id">
             </div>
             @if (@Model.IsLongAnswer)
             {
