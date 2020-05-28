@@ -45,31 +45,7 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View(formsVM);
         }
-        [Route("Answer/{formId}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> DisplayForm(Guid formId)
-        {
-            var form = await this._formService.GetFormAsync(formId);
-            var formVM = _mapper.Map<FormViewModel>(form);
-
-            var textQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.TextQuestions);
-            var optionQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.OptionQuestions);
-            var documentQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.DocumentQuestions);
-            if (textQuestionsVM != null)
-            {
-                formVM.Questions.AddRange(textQuestionsVM);
-            }
-            if (optionQuestionsVM != null)
-            {
-                formVM.Questions.AddRange(optionQuestionsVM);
-            }
-            if (documentQuestionsVM != null)
-            {
-                formVM.Questions.AddRange(documentQuestionsVM);
-            }
-
-            return View("DisplayFormView", formVM);
-        }
+        
         [AllowAnonymous]
         public async Task<IActionResult> ShareForm(Guid formId, string owner, string mails)
         {
@@ -213,6 +189,16 @@ namespace AlphaMetrixForms.Web.Controllers
         public async Task<IActionResult> DeleteQuestion(FormViewModel form)
         {
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
+            //int count = form.Questions.Count;
+            //int currentOrderNumber = question.OrderNumber;
+            //if (currentOrderNumber < count)
+            //{
+            //    for (int i = currentOrderNumber + 1; i <= count; i++)
+            //    {
+            //        form.Questions[i].OrderNumber--;
+            //    }
+            //}
+            //form.Current--;
             form.Questions.Remove(question);
             FormViewModel newForm = new FormViewModel();
             newForm.Title = form.Title;
