@@ -19,6 +19,8 @@ namespace AlphaMetrixForms.Data.Entities
         public string Description { get; set; }
         public Guid OwnerId { get; set; }
         public User Owner { get; set; }
+
+        public bool IsClosed { get; set; }
         public ICollection<TextQuestion> TextQuestions { get; set; }
         public ICollection<OptionQuestion> OptionQuestions { get; set; }
         public ICollection<DocumentQuestion> DocumentQuestions { get; set; }

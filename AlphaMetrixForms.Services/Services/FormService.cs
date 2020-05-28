@@ -51,10 +51,9 @@ namespace AlphaMetrixForms.Services.Services
                 Title = formDTO.Title,
                 Description = formDTO.Description,
                 CreatedOn = DateTime.UtcNow,
-                //OwnerId = formDTO.OwnerId,
+                ModifiedOn = DateTime.UtcNow,
                 OwnerId = ownerId
             };
-            form.ModifiedOn = form.CreatedOn;
 
             await this.context.Forms.AddAsync(form);
             await this.context.SaveChangesAsync();

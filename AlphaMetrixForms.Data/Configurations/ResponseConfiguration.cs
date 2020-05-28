@@ -13,7 +13,7 @@ namespace AlphaMetrixForms.Data.Configurations
         {
             builder.HasKey(r => r.Id);
 
-            builder.HasOne(r => r.Form).WithMany(f => f.Responses).HasForeignKey(r => r.FormId);
+            builder.HasOne(r => r.Form).WithMany(f => f.Responses).HasForeignKey(r => r.FormId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -10,6 +10,12 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200522101043_SeederInformation.cs" />
     <Compile Remove="Migrations\20200522101043_SeederInformation.Designer.cs" />
+    <Compile Remove="Migrations\20200528143034_SeederAdded3.cs" />
+    <Compile Remove="Migrations\20200528143034_SeederAdded3.Designer.cs" />
+    <Compile Remove="Migrations\20200528143738_SeederAdded3.cs" />
+    <Compile Remove="Migrations\20200528143738_SeederAdded3.Designer.cs" />
+    <Compile Remove="Migrations\20200528143952_SeederAdded3.cs" />
+    <Compile Remove="Migrations\20200528143952_SeederAdded3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

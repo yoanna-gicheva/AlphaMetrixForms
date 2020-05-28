@@ -18,6 +18,8 @@ namespace AlphaMetrixForms.Services.DTOs
         public int FileNumberLimit { get; set; }
         public int FileSizeLimit { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public ICollection<DocumentQuestionAnswerDTO> Answers { get; set; }
     }
 }

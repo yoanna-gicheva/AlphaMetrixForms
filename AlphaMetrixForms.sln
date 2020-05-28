@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlphaMetrixForms.Web", "Alp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlphaMetrixForms.Data", "AlphaMetrixForms.Data\AlphaMetrixForms.Data.csproj", "{3A146CCA-B4C3-4C81-B1F0-80C2CB9548BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaMetrixForms.Services", "AlphaMetrixForms.Services\AlphaMetrixForms.Services.csproj", "{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlphaMetrixForms.Services", "AlphaMetrixForms.Services\AlphaMetrixForms.Services.csproj", "{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaMetrix.Services.Tests", "AlphaMetrix.Services.Tests\AlphaMetrix.Services.Tests.csproj", "{D6D27915-EE7F-4745-927D-25D4687059FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1C2406F-86A7-4FA4-A126-C7A53E7601EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6D27915-EE7F-4745-927D-25D4687059FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6D27915-EE7F-4745-927D-25D4687059FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6D27915-EE7F-4745-927D-25D4687059FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6D27915-EE7F-4745-927D-25D4687059FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
