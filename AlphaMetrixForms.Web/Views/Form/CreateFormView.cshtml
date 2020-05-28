@@ -28,43 +28,45 @@
                     <input asp-for="Title" class="form-control" placeholder="Type form description here..." />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
-                    <div class="form-group">
-                        <label asp-for="Description" class="control-label"></label>
-                        <input asp-for="Description" class="form-control" placeholder="Type form description here..." />
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                    <div id="detailsContainer">
-                        @Html.EditorFor(model => model.Questions)
-                    </div>
-                    <div name="main" class="visible">
-                        <button name="main" type="button" class="btn btn-primary">Add Question</button>
-                    </div>
-                    <div name="inside" class="invisible">
-                        <button name="add" type="button" class="btn btn-primary">+</button>
-                        <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
-                        <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
-                        <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
-                    </div>
-                    <div name="sumbit" class="visible">
-                        @if (Model.EditMode)
-                        {
-                            <br>
-                            <input type="button" name="saveChanges" class="btn btn-primary" value="Save">
-                            <input type="button" name="preview" class="btn btn-primary" value="Preview">
-                            <input type="button" name="preview" class="btn btn-primary" value="Share">
-                            <input type="button" name="deleteForm" class="btn btn-danger" id="@Model.Id" value="Delete">
-                        }
-                        else
-                        {
-                            <input type="button" name="createForm" class="btn btn-primary" value="Create">
-                            <input type="button" name="preview" class="btn btn-primary" value="Preview">
-                        }
-                    </div>
-                    <div id="alerts">
-                    </div>
-                    @Html.Hidden("Current", Model.Current)
-                    @Html.Hidden("Id", Model.Id)
-</form>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" placeholder="Type form description here..." />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div id="detailsContainer">
+                    @Html.EditorFor(model => model.Questions)
+                </div>
+                <div name="main" class="visible">
+                    <button name="main" type="button" class="btn btn-primary">Add Question</button>
+                </div>
+                <div name="inside" class="invisible">
+                    <button name="add" type="button" class="btn btn-primary">+</button>
+                    <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
+                    <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
+                    <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
+                </div>
+                <div name="sumbit" class="visible">
+                    @if (Model.EditMode)
+                    {
+                        <br>
+                        <input type="submit" name="saveChanges" class="btn btn-primary" value="Save">
+                        <input type="button" name="preview" class="btn btn-primary" value="Preview">
+                        <input type="button" name="preview" class="btn btn-primary" value="Share">
+                        <input type="button" name="deleteForm" class="btn btn-danger" id="@Model.Id" value="Delete">
+                    }
+                    else
+                    {
+                        <input type="submit" name="createForm" class="btn btn-primary" value="Create">
+                        <input type="button" name="preview" class="btn btn-primary" value="Preview">
+                    }
+                </div>
+                <div id="alerts">
+                </div>
+                @Html.Hidden("Current", Model.Current)
+                @Html.Hidden("Id", Model.Id)
+                @Html.Hidden("EditMode", Model.EditMode)
+
+            </form>
         </div>
     </div>
 </div>
@@ -131,22 +133,44 @@
             });
         });
 
-        $("input[name='saveChanges']").on('click', function () {
-            $.ajax({
-                async: true,
-                data: $('#form').serialize(),
-                type: "POST",
-                url: '/Form/SaveChanges',
-                success: function () {
-                    swal({
-                        title: "Success!",
-                        text: "Changes were saved successfully!",
-                        icon: "success",
-                        button: "Ok!",
-                    });
-                }
-            });
+        //$("input[name='saveChanges']").on('click', function () {
+        //    $.ajax({
+        //        async: true,
+        //        data: $('#form').serialize(),
+        //        type: "POST",
+        //        url: '/Form/SaveChanges',
+        //        success: function () {
+        //            swal({
+        //                title: "Success!",
+        //                text: "Changes were saved successfully!",
+        //                icon: "success",
+        //                button: "Ok!",
+        //            });
+        //        }
+        //    });
+        //});
+        $('form').submit(function (e) {
+            e.preventDefault();
+            let edit = document.getElementById('EditMode').value;
+            console.log(edit);
+            if (edit) {
+                $.ajax({
+                    async: true,
+                    data: $('#form').serialize(),
+                    type: "POST",
+                    url: '/Form/SaveChanges',
+                    success: function () {
+                        swal({
+                            title: "Success!",
+                            text: "Changes were saved successfully!",
+                            icon: "success",
+                            button: "Ok!",
+                        });
+                    }
+                });
+            }
         });
+
         $("input[name='createForm']").on('click', function () {
             $.ajax({
                 async: true,

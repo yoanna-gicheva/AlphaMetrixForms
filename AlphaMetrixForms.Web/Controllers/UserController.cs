@@ -48,8 +48,7 @@ namespace AlphaMetrixForms.Web.Controllers
 
 
             int pageSize = 9;
-            return View("MyFormsView", PaginatedList<FormViewModel>.CreateAsync(result, pageNumber ?? 1, pageSize));
-            return View("MyFormsView", result);
+            return View("MyFormsView", PaginatedList<FormViewModel>.CreateAsync(result.Reverse(), pageNumber ?? 1, pageSize));
         }
     }
 }
