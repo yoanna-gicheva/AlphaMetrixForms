@@ -16,6 +16,8 @@ using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using React.AspNet;
 
 namespace AlphaMetrixForms.Web
 {
@@ -54,14 +56,16 @@ namespace AlphaMetrixForms.Web
             });
 
             services.AddControllersWithViews();
-            services.AddRazorPages();
-                 //.AddMvcOptions(options =>
-                 //{
-                 //    options.MaxModelValidationErrors = 50;
-                 //    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
-                 //        _ => "The field is required.");
-                 //}); 
+            services.AddRazorPages()
+                 .AddMvcOptions(options =>
+                 {
+                     options.MaxModelValidationErrors = 50;
+                     options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                         _ => "The field is required.");
+                 });
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
