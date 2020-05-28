@@ -52,6 +52,12 @@ namespace AlphaMetrixForms.Web.Controllers
             var result = await this._formService.ShareFormAsync(formId, owner, mails);
             return Ok();
         }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Share()
+        {
+            return Ok();
+        }
 
         [Authorize]
         public IActionResult Create()
@@ -61,10 +67,15 @@ namespace AlphaMetrixForms.Web.Controllers
             return View("CreateFormView", model);
         }
 
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(FormViewModel form)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //   return View("CreateFormView", form);
+            //}
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
             FormDTO newForm = await _formService.CreateFormAsync(formDTO, userId);
@@ -96,7 +107,7 @@ namespace AlphaMetrixForms.Web.Controllers
                     throw new ArgumentException();
                 }
             }
-            return View("SubmissionSuccessfulView");
+            return Ok();
         }
         [Authorize]
         public async Task<IActionResult> Edit(Guid id)
@@ -167,6 +178,14 @@ namespace AlphaMetrixForms.Web.Controllers
         }
         [HttpPost]
         [Authorize]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _formService.DeleteFormAsync(id);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> DeleteQuestion(FormViewModel form)
         {
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
@@ -187,6 +206,7 @@ namespace AlphaMetrixForms.Web.Controllers
             newForm.EditMode = form.EditMode;
             newForm.Questions = form.Questions;
 
+            
             return PartialView("_QuestionPartial", newForm);
         }
     }

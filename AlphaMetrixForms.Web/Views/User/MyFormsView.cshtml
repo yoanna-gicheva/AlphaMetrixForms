@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AlphaMetrixForms.Web.Models.Form.FormViewModel>
+﻿@*@model IEnumerable<AlphaMetrixForms.Web.Models.Form.FormViewModel>*@
+@model AlphaMetrixForms.Web.Utils.PaginatedList<AlphaMetrixForms.Web.Models.Form.FormViewModel>
 
 <div class="container">
     <div class="row">
@@ -7,19 +8,114 @@
             <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">@form.Title</h5>
+                        <a class="card-link" asp-controller="Form" asp-action="Edit" asp-route-id="@form.Id">
+                            <h5 class="card-title">@form.Title</h5>
+                        </a>
                         <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
                         <p class="card-text">Created on: @form.CreatedOn</p>
                         <p class="card-text">Modified on: @form.ModifiedOn</p>
                         <p class="card-text">Answers: @form.Responses.Count</p>
-                        <a class="card-link" asp-controller="Form" asp-action="Edit" asp-route-id="@form.Id">Edit</a>
-                        <a href="#" class="card-link">View answers</a>
-                        <a href="#" class="card-link">Delete</a>
+                        <input type="button" name="viewAnswers" class="btn btn-primary" value="View answers">
+                        <input type="button" name="shareForm" class="btn btn-primary" value="Share">
+                        <input type="button" name="deleteForm" class="btn btn-danger" id="@form.Id" value="Delete">
                     </div>
                 </div>
             </div>
         }
     </div>
+    <br>
+</div>
+<a asp-controller="Form" asp-action="Create" class="btn btn-primary">Create New</a>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<br>
+<br>
+
+
+<div align="center">
+    <a asp-action="MyForms"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="MyForms"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
 </div>
 <br>
-<a asp-controller="Form" asp-action="Create" class="btn btn-primary">Create New</a>
+<br>
+<br>
+<br>
+
+
+
+<script>
+    $("input[name='shareForm']").on('click', function () {
+
+  // Swal.fire({
+  //title: 'How old are you?',
+  //icon: 'question',
+  //input: 'range',
+  //inputAttributes: {
+  //  min: 8,
+  //  max: 120,
+  //  step: 1
+  //},
+  //inputValue: 25
+  // })
+
+     swal({
+         title: 'Input email address',
+  content: 'input',
+  inputPlaceholder: 'Enter your email address'
+})
+
+//if (email) {
+//  Swal.fire(`Entered email: ${email}`)
+//}
+        //$.ajax({
+        //    async: true,
+        //    //data: $('#form').serialize(),
+        //    type: "POST",
+        //    url: '/Form/Share',
+        //    success: function () {
+        //    }
+        //});
+    });
+  
+    $("input[name='deleteForm']").on('click', function () {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this form!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                if (willDelete) {
+                    $.ajax({
+                        async: true,
+                        data: { "id": this.id },
+                        type: "POST",
+                        url: '/Form/Delete',
+                        success: function () {
+                            swal("Poof! Your form has been deleted!", {
+                                icon: "success",
+                            })
+                                .then(() => {
+                                    window.location.replace("https://localhost:44366/User/MyForms")
+                                });
+                        }
+                    });
+
+                } else {
+                    swal("Your form is safe!");
+                }
+            });
+    });
+</script>

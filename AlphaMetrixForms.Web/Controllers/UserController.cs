@@ -7,6 +7,7 @@ using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOs;
 using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.User;
+using AlphaMetrixForms.Web.Utils;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,12 +40,15 @@ namespace AlphaMetrixForms.Web.Controllers
             UserViewModel toPass = _mapper.Map<UserViewModel>(user);
             return View("AccountView", toPass);
         }
-        public async Task<IActionResult> MyForms()
+        public async Task<IActionResult> MyForms(int? pageNumber)
         {
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
             IEnumerable<FormDTO> forms = await _service.MyForms(userId, _mapper);
             IEnumerable<FormViewModel>  result = _mapper.Map<IEnumerable<FormViewModel>>(forms);
 
+
+            int pageSize = 9;
+            return View("MyFormsView", PaginatedList<FormViewModel>.CreateAsync(result, pageNumber ?? 1, pageSize));
             return View("MyFormsView", result);
         }
     }
