@@ -13,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" />
+                <input asp-for="Text" class="form-control" placeholder="Type option question here..."/>
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div id="optionsDiv">
@@ -24,9 +24,9 @@
                     </button>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="@Model.Options[i]" class="control-label"></label>
-                        <input asp-for="@Model.Options[i]" class="form-control" />
-                        <span asp-validation-for="@Model.Options[i]" class="text-danger"></span>
+                        <label asp-for="@Model.Options[i].Text" class="control-label">Option @i:</label>
+                        <input asp-for="@Model.Options[i].Text" class="form-control" placeholder="Option @i"/>
+                        <span asp-validation-for="@Model.Options[i].Text" class="text-danger"></span>
                     </div>
                 }
             </div>
@@ -49,6 +49,8 @@
             @Html.Hidden("OrderNumber", Model.OrderNumber)
             @Html.Hidden("Type", Model.Type)
             @Html.Hidden("ToRemove", Model.ToRemove)
+            @Html.Hidden("Id", Model.Id)
+            @Html.Hidden("EditMode", Model.EditMode)
         </div>
     </div>
 </div>
@@ -86,7 +88,9 @@
         });
 
     $("button[name='deleteQuestion']").on('click', function () {
-            let orderNumber = $(this).attr('id');
+         let orderNumber = $(this).attr('id');
+        //let collection = document.getElementById('Questions').value;
+        //collection.remove(orderNumber);
         document.getElementById('Current').value = orderNumber;
         $.ajax({
             async: true,
@@ -94,6 +98,7 @@
             type: "POST",
             url: '/Form/DeleteQuestion',
             success: function (partialView) {
+                //$("body").html(data);
                 $('#detailsContainer').html(partialView);
             }
         });

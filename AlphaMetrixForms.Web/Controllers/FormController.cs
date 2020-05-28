@@ -52,6 +52,12 @@ namespace AlphaMetrixForms.Web.Controllers
             var result = await this._formService.ShareFormAsync(formId, owner, mails);
             return Ok();
         }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Share()
+        {
+            return Ok();
+        }
 
         [Authorize]
         public IActionResult Create()
@@ -61,17 +67,23 @@ namespace AlphaMetrixForms.Web.Controllers
             return View("CreateFormView", model);
         }
 
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(FormViewModel form)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //   return View("CreateFormView", form);
+            //}
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
             FormDTO newForm = await _formService.CreateFormAsync(formDTO, userId);
             Guid formId = newForm.Id;
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
             {
-                var result = await _textQuestionService.CreateTextQuestionAsync(_mapper.Map<ICollection<TextQuestionDTO>>(form.Questions), formId);
+                var textQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).ToList();
+                var result = await _textQuestionService.CreateTextQuestionAsync(_mapper.Map<ICollection<TextQuestionDTO>>(textQuestions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
@@ -79,7 +91,8 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
             {
-                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(form.Questions), formId);
+                var optionQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).ToList();
+                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(optionQuestions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
@@ -87,23 +100,90 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
             {
-                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions), formId);
+                var documentQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).ToList();
+                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(documentQuestions), formId);
                 if (!result)
                 {
                     throw new ArgumentException();
                 }
             }
-            return View("SubmissionSuccessfulView");
+            return Ok();
         }
         [Authorize]
-        public async Task<IActionResult> Update(Guid formId)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            FormDTO form = await _formService.GetFormAsync(formId);
-            FormViewModel result = _mapper.Map<FormViewModel>(form);
-            result.UpdateMode = true;
+            FormDTO form = await _formService.GetFormAsync(id);
+            FormViewModel result = ViewModel_Generator(form);
+            result.EditMode = true;
+            Questions_SetEditMode_OrderNumber(result.Questions);
+
 
             return View("CreateFormView", result);
         }
+        private void Questions_SetEditMode_OrderNumber(ICollection<QuestionViewModel> questions)
+        {
+            var orderNum = int.MaxValue;
+            foreach(var question in questions)
+            {
+                question.OrderNumber = orderNum;
+                question.EditMode = true;
+            }
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> SaveChanges(FormViewModel form)
+        {
+            FormDTO formDTO = DataTransferObject_Generator(form);
+            FormDTO updated = await _formService.UpdateFormAsync(form.Id, formDTO, _mapper);
+            FormViewModel result = ViewModel_Generator(updated);
+            Questions_SetEditMode_OrderNumber(result.Questions);
+            result.EditMode = true;
+
+            if (updated == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return View("CreateFormView", result);
+        }
+        private FormDTO DataTransferObject_Generator(FormViewModel form)
+        {
+            FormDTO formDTO = _mapper.Map<FormDTO>(form);
+            formDTO.TextQuestions = _mapper.Map<ICollection<TextQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Text));
+            formDTO.OptionQuestions = _mapper.Map<ICollection<OptionQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Option));
+            formDTO.DocumentQuestions = _mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Document));
+
+            return formDTO;
+        }
+        private FormViewModel ViewModel_Generator(FormDTO formDTO)
+        {
+            FormViewModel result = _mapper.Map<FormViewModel>(formDTO);
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.OptionQuestions));
+            QuestionType_Set(result.Questions, QuestionType.Option);
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.DocumentQuestions));
+            QuestionType_Set(result.Questions, QuestionType.Document);
+            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.TextQuestions));
+
+            return result;
+        }
+        private void QuestionType_Set(ICollection<QuestionViewModel> questions, QuestionType type)
+        {
+            foreach(var question in questions)
+            {
+                if(question.Type == QuestionType.Text)
+                {
+                    question.Type = type;
+                }
+            }
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _formService.DeleteFormAsync(id);
+            return Ok();
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> DeleteQuestion(FormViewModel form)
@@ -120,8 +200,14 @@ namespace AlphaMetrixForms.Web.Controllers
             //}
             //form.Current--;
             form.Questions.Remove(question);
+            FormViewModel newForm = new FormViewModel();
+            newForm.Title = form.Title;
+            newForm.Description = form.Description;
+            newForm.EditMode = form.EditMode;
+            newForm.Questions = form.Questions;
 
-            return PartialView("_QuestionPartial", form);
+            
+            return PartialView("_QuestionPartial", newForm);
         }
     }
 }

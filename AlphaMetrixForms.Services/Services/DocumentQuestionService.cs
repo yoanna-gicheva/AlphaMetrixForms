@@ -33,14 +33,6 @@ namespace AlphaMetrixForms.Services.Services
         }
         public async Task<DocumentQuestionDTO> CreateDocumentQuestionAsync(DocumentQuestionDTO questionDTO, Guid formId)
         {
-            var check = await this.context.DocumentQuestions
-                .FirstOrDefaultAsync(q => q.Text == questionDTO.Text && q.FormId == formId && q.IsDeleted == false);
-
-            if (check != null)
-            {
-                throw new ArgumentException($"Document question with Text: {questionDTO.Text} already exists for this form.");
-            }
-
             var question = new DocumentQuestion()
             {
                 FormId = formId,

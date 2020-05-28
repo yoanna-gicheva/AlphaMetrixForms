@@ -12,21 +12,21 @@ namespace AlphaMetrixForms.Web.Models.Question
     {
         public QuestionViewModel()
         {
-            Options = new List<string>();
+            Options = new List<OptionViewModel>();
         }
 
         // MAIN
         public Guid Id { get; set; }
         public QuestionType Type { get; set; }
         public int OrderNumber { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Title is required.")]
         public string Text { get; set; }
         public bool IsRequired { get; set; }
 
 
         //OPTION
         public bool IsMultipleAnswerAllowed { get; set; }
-        public List<string> Options { get; set; }
+        public List<OptionViewModel> Options { get; set; }
         public int ToRemove { get; set; }
 
         // TEXT
