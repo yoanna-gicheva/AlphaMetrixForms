@@ -16,7 +16,7 @@ namespace AlphaMetrixForms.Web.Controllers
         public IActionResult CreateTextQuestion(FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
-            model.OrderNumber = form.Current;
+            model.OrderNumber = form.Questions.Count;
             model.Type = QuestionType.Text;
             form.Questions.Add(model);
 

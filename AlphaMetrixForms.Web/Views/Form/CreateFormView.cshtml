@@ -101,8 +101,6 @@
             $buttonToShow.show();
         });
         $("button[name='textQuestion']").on('click', function () {
-            counter++;
-            document.getElementById('Current').value = counter;
             $.ajax({
                 async: true,
                 data: $('#form').serialize(),
@@ -114,8 +112,6 @@
             });
         });
         $("button[name='optionsQuestion']").on('click', function () {
-            counter++;
-            document.getElementById('Current').value = counter;
             $.ajax({
                 async: true,
                 data: $('#form').serialize(),
@@ -127,8 +123,8 @@
             });
         });
         $("button[name='documentQuestion']").on('click', function () {
-            counter++;
-            document.getElementById('Current').value = counter;
+            //counter++;
+            //document.getElementById('Current').value = counter;
             $.ajax({
                 async: true,
                 data: $('#form').serialize(),

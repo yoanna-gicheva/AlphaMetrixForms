@@ -16,7 +16,7 @@ namespace AlphaMetrixForms.Web.Controllers
         public async Task<IActionResult> CreateOptionQuestion(FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
-            model.OrderNumber = form.Current;
+            model.OrderNumber = form.Questions.Count;
             model.Type = QuestionType.Option;
             form.Questions.Add(model);
 
