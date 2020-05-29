@@ -1,68 +1,84 @@
-﻿@model IEnumerable<AlphaMetrixForms.Web.Models.Form.FormViewModel>
-
+﻿@model AlphaMetrixForms.Web.Utils.PaginatedList<AlphaMetrixForms.Web.Models.Form.FormViewModel>
 @{
     ViewData["Title"] = "Index";
     string mails = "sad";
 }
 
-<h1>Forms</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Owner)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+<div class="container">
+    <div class="row">
+        @foreach (var form in Model.ToList())
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Owner)
-                </td>
-                <td>
-                    <a asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@item.Id">Answer</a>
-                </td>
-                <td>
-                    <a asp-controller="Form" asp-action="ShareForm" asp-route-formId="@item.Id" asp-route-owner="@item.Owner" asp-route-mails="@mails">Share</a>
-                </td>
-                @*<td>
-                    <button name="Share" id="Share"type="button" class="btn btn-primary">Share</button>
-                </td>*@
-            </tr>
-        }
-    </tbody>
-</table>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @*<script>
-        $('#Share').on('click', () => {
-            var input = prompt("Please enter emails:", "Emails here");
-            if (input != null) {
-            @mails = input
-        }
-        })
-    </script>*@
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@form.Title</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
+                    <p class="card-text">Created on: @form.CreatedOn</p>
+                    <p class="card-text">Answers: @form.Responses.Count</p>
+                    <a asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id">Answer</a>
+                    <a asp-controller="Form" asp-action="ShareForm" asp-route-formId="@form.Id" asp-route-owner="@form.Owner" asp-route-mails="@mails">Share</a>
 
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    <br>
+</div>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
+<br>
+<br>
+
+<div align="center">
+    <a asp-action="MyForms"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="MyForms"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</div>
+<br>
+<br>
+<br>
+<br>
+<script>
+    $("input[name='shareForm']").on('click', function () {
+        // Swal.fire({
+        //title: 'How old are you?',
+        //icon: 'question',
+        //input: 'range',
+        //inputAttributes: {
+        //  min: 8,
+        //  max: 120,
+        //  step: 1
+        //},
+        //inputValue: 25
+        // })
+
+        swal({
+            title: 'Input email address',
+            content: 'input',
+            inputPlaceholder: 'Enter your email address'
+        })
+
+        //if (email) {
+        //  Swal.fire(`Entered email: ${email}`)
+        //}
+        //$.ajax({
+        //    async: true,
+        //    //data: $('#form').serialize(),
+        //    type: "POST",
+        //    url: '/Form/Share',
+        //    success: function () {
+        //    }
+        //});
+    });
+
+</script>
