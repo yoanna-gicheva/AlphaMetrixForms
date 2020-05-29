@@ -14,6 +14,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
+using AlphaMetrixForms.Web.Utils;
 
 namespace AlphaMetrixForms.Web.Controllers
 {
@@ -38,12 +39,13 @@ namespace AlphaMetrixForms.Web.Controllers
 
         }
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
             var forms = await this._formService.GetAllFormsAsync();
-            var formsVM = _mapper.Map<ICollection<FormViewModel>>(forms);
+            var formsVM = _mapper.Map<IEnumerable<FormViewModel>>(forms);
 
-            return View(formsVM);
+            int pageSize = 9;
+            return View("Index", PaginatedList<FormViewModel>.CreateAsync(formsVM.Reverse(), pageNumber ?? 1, pageSize));
         }
         
         [AllowAnonymous]
@@ -63,7 +65,7 @@ namespace AlphaMetrixForms.Web.Controllers
         public IActionResult Create()
         {
             var model = new FormViewModel();
-            model.Title = "Untitled";
+            //model.Title = "Untitled";
             return View("CreateFormView", model);
         }
 
@@ -115,17 +117,15 @@ namespace AlphaMetrixForms.Web.Controllers
             FormDTO form = await _formService.GetFormAsync(id);
             FormViewModel result = ViewModel_Generator(form);
             result.EditMode = true;
-            Questions_SetEditMode_OrderNumber(result.Questions);
-
+            Questions_SetEditMode(result.Questions);
+            result.Questions = result.Questions.OrderBy(q => q.OrderNumber).ToList();
 
             return View("CreateFormView", result);
         }
-        private void Questions_SetEditMode_OrderNumber(ICollection<QuestionViewModel> questions)
+        private void Questions_SetEditMode(ICollection<QuestionViewModel> questions)
         {
-            var orderNum = int.MaxValue;
             foreach(var question in questions)
             {
-                question.OrderNumber = orderNum;
                 question.EditMode = true;
             }
         }
@@ -133,10 +133,14 @@ namespace AlphaMetrixForms.Web.Controllers
         [Authorize]
         public async Task<IActionResult> SaveChanges(FormViewModel form)
         {
+            if(!form.EditMode)
+            {
+                throw new ArgumentException("Edit mode mistaken!");
+            }
             FormDTO formDTO = DataTransferObject_Generator(form);
             FormDTO updated = await _formService.UpdateFormAsync(form.Id, formDTO, _mapper);
             FormViewModel result = ViewModel_Generator(updated);
-            Questions_SetEditMode_OrderNumber(result.Questions);
+            Questions_SetEditMode(result.Questions);
             result.EditMode = true;
 
             if (updated == null)
@@ -189,16 +193,6 @@ namespace AlphaMetrixForms.Web.Controllers
         public async Task<IActionResult> DeleteQuestion(FormViewModel form)
         {
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
-            //int count = form.Questions.Count;
-            //int currentOrderNumber = question.OrderNumber;
-            //if (currentOrderNumber < count)
-            //{
-            //    for (int i = currentOrderNumber + 1; i <= count; i++)
-            //    {
-            //        form.Questions[i].OrderNumber--;
-            //    }
-            //}
-            //form.Current--;
             form.Questions.Remove(question);
             FormViewModel newForm = new FormViewModel();
             newForm.Title = form.Title;

@@ -20,11 +20,12 @@ namespace AlphaMetrixForms.Services.DTOmappers
             {
                 Id = entity.Id,
                 FormId = entity.FormId,
+                OrderNumber = entity.OrderNumber,
+
                 Form = entity.Form.Title,
                 Text = entity.Text,
                 IsRequired = entity.IsRequired,
                 IsLongAnswer = entity.IsLongAnswer,
-                OrderNumber = entity.OrderNumber
                 //Answers = entity.Answers.GetDtos()
             };
         }

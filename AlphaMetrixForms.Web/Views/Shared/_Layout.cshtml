@@ -1,11 +1,84 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+        <meta charset="utf-8">
+        <title>Multiple Emails</title>
+
+        <!-- For the plug-in dependencies -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+        <!-- For Semantic UI Button -->
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.2/semantic.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.2/semantic.min.js"></script>
+
+        <!-- For Bootstrap UI Button -->
+        <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+        <script type="text/javascript" src="./multiple-emails.js"></script>
+        <link type="text/css" rel="stylesheet" href="./multiple-emails.css">
+
+        <script type="text/javascript">
+
+            //Plug-in function for the bootstrap version of the multiple email
+            $(function () {
+                //To render the input device to multiple email input using BootStrap icon
+                $('#example_emailBS').multiple_emails({ position: "bottom" });
+                //OR $('#example_emailBS').multiple_emails("Bootstrap");
+
+                //Shows the value of the input device, which is in JSON format
+                $('#current_emailsBS').text($('#example_emailBS').val());
+                $('#example_emailBS').change(function () {
+                    $('#current_emailsBS').text($(this).val());
+                });
+            });
+
+            //Plug-in function for the Semantic UI version of the multiple email
+            $(function () {
+                //To render the input device to multiple email input using SemanticUI icon
+                $('#example_emailSUI').multiple_emails({ theme: "SemanticUI" });
+
+                //Shows the value of the input device, which is in JSON format
+                $('#current_emailsSUI').text($('#example_emailSUI').val());
+                $('#example_emailSUI').change(function () {
+                    $('#current_emailsSUI').text($(this).val());
+                });
+            });
+
+            //Plug-in function for the bootstrap version of the multiple email
+            $(function () {
+                //To render the input device to multiple email input using a simple hyperlink text
+                $('#example_emailB').multiple_emails({ theme: "Basic" });
+
+                //Shows the value of the input device, which is in JSON format
+                $('#current_emailsB').text($('#example_emailB').val());
+                $('#example_emailB').change(function () {
+                    $('#current_emailsB').text($(this).val());
+                });
+            });
+        </script>
+
+
+
+    @*Validation*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>*@
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AlphaMetrixForms.Web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+
+    @*MultipleEmails*@
+    <link rel="stylesheet" href="multiple-emails.css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="multiple-emails.js"></script>
+
+
 
     @*Sweet alerts*@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -34,49 +107,49 @@
  n.js"></script>
 
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AlphaMetrixForms.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Form" asp-action="Index">Forms</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AlphaMetrixForms.Web</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <partial name="_LoginPartial" />
+                        <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyForms">My Forms</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Form" asp-action="Index">Forms</a>
                             </li>
-                        }
-                    </ul>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyForms">My Forms</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+            </nav>
+        </header>
         <div class="container">
-            &copy; 2020 - AlphaMetrixForms.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
-</body>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2020 - AlphaMetrixForms.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
+    </body>
 </html>
