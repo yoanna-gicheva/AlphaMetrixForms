@@ -36,6 +36,7 @@ namespace AlphaMetrixForms.Services.Services
             {
                 FormId = formId,
                 Text = questionDTO.Text,
+                OrderNumber = questionDTO.OrderNumber,
                 IsRequired = questionDTO.IsRequired,
                 IsLongAnswer = questionDTO.IsLongAnswer,
                 CreatedOn = DateTime.UtcNow

@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-header">
         Option Question
-        <button id="@Model.OrderNumber" name="deleteQuestion" type="button" class="close" aria-label="Close">
+        <button id="@Model.OrderNumber" name="deleteOptionQuestion" type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -87,10 +87,8 @@
         });
         });
 
-    $("button[name='deleteQuestion']").on('click', function () {
+    $("button[name='deleteOptionQuestion']").on('click', function () {
          let orderNumber = $(this).attr('id');
-        //let collection = document.getElementById('Questions').value;
-        //collection.remove(orderNumber);
         document.getElementById('Current').value = orderNumber;
         $.ajax({
             async: true,
@@ -98,7 +96,6 @@
             type: "POST",
             url: '/Form/DeleteQuestion',
             success: function (partialView) {
-                //$("body").html(data);
                 $('#detailsContainer').html(partialView);
             }
         });

@@ -115,17 +115,15 @@ namespace AlphaMetrixForms.Web.Controllers
             FormDTO form = await _formService.GetFormAsync(id);
             FormViewModel result = ViewModel_Generator(form);
             result.EditMode = true;
-            Questions_SetEditMode_OrderNumber(result.Questions);
-
+            Questions_SetEditMode(result.Questions);
+            result.Questions = result.Questions.OrderBy(q => q.OrderNumber).ToList();
 
             return View("CreateFormView", result);
         }
-        private void Questions_SetEditMode_OrderNumber(ICollection<QuestionViewModel> questions)
+        private void Questions_SetEditMode(ICollection<QuestionViewModel> questions)
         {
-            var orderNum = int.MaxValue;
             foreach(var question in questions)
             {
-                question.OrderNumber = orderNum;
                 question.EditMode = true;
             }
         }
@@ -136,7 +134,7 @@ namespace AlphaMetrixForms.Web.Controllers
             FormDTO formDTO = DataTransferObject_Generator(form);
             FormDTO updated = await _formService.UpdateFormAsync(form.Id, formDTO, _mapper);
             FormViewModel result = ViewModel_Generator(updated);
-            Questions_SetEditMode_OrderNumber(result.Questions);
+            Questions_SetEditMode(result.Questions);
             result.EditMode = true;
 
             if (updated == null)

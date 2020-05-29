@@ -5,7 +5,7 @@
 <div class="card" id="textCard">
     <div class="card-header">
         Text Question
-        <button id="@Model.OrderNumber" name="deleteQuestion" type="button" class="close" aria-label="Close">
+        <button id="@Model.OrderNumber" name="deleteTextQuestion" type="button" class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -38,7 +38,7 @@
 
 
 <script>
-    $("button[name='deleteQuestion']").on('click', function () {
+    $("button[name='deleteTextQuestion']").on('click', function () {
         let orderNumber = $(this).attr('id');
         document.getElementById('Current').value = orderNumber;
         $.ajax({

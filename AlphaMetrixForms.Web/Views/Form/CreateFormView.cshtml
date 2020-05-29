@@ -65,8 +65,9 @@
                 @Html.Hidden("Current", Model.Current)
                 @Html.Hidden("Id", Model.Id)
                 @Html.Hidden("EditMode", Model.EditMode)
-
             </form>
+            <div id="@Model.Questions.Count" name="idHolder" hidden>
+             </div>
         </div>
     </div>
 </div>
@@ -76,7 +77,13 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
-        let counter = 0;
+        let counter = -1;
+        let questionsNum = $("div[name='main']").attr('id')
+        if (questionsNum > 0) {
+            counter = questionsNum - 1;
+        }
+
+
         $("div[name='main']").on("click", function () {
             var $buttons = $("div[name='inside']");
             var $buttonToHide = $("div[name='main']");
