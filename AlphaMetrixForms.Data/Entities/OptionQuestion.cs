@@ -19,6 +19,8 @@ namespace AlphaMetrixForms.Data.Entities
         public bool IsRequired { get; set; }
         public bool IsMultipleAnswerAllowed { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public ICollection<Option> Options { get; set; }
 
         public ICollection<OptionQuestionAnswer> Answers { get; set; }

@@ -36,30 +36,22 @@ namespace AlphaMetrixForms.Services.Services
             {
                 FormId = formId,
                 Text = questionDTO.Text,
+                OrderNumber = questionDTO.OrderNumber,
                 IsRequired = questionDTO.IsRequired,
                 IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed,
                 CreatedOn = DateTime.UtcNow
             };
+            await context.OptionQuestions.AddAsync(question);
+            await context.SaveChangesAsync();
 
-            await this.context.OptionQuestions.AddAsync(question);
-
-            //added 2 new options for each newly created option question as per project assignment
-            var option1 = new Option()
+            foreach (var option in questionDTO.Options)
             {
-                QuestionId = question.Id,
-                Text = "Option 1",
-                CreatedOn = DateTime.UtcNow
-            };
-            var option2 = new Option()
-            {
-                QuestionId = question.Id,
-                Text = "Option 2",
-                CreatedOn = DateTime.UtcNow
-            };
-            await this.context.Options.AddAsync(option1);
-            await this.context.Options.AddAsync(option2);
-            await this.context.SaveChangesAsync();
-
+                Option toAdd = new Option();
+                toAdd.Text = option.Text;
+                toAdd.QuestionId = question.Id;
+                await context.Options.AddAsync(toAdd);
+            }
+            await context.SaveChangesAsync();
             questionDTO.Id = question.Id;
             return questionDTO;
         }

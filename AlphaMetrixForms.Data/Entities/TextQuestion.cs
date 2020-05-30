@@ -18,6 +18,8 @@ namespace AlphaMetrixForms.Data.Entities
         public bool IsRequired { get; set; }
         public bool IsLongAnswer { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public ICollection<TextQuestionAnswer> Answers { get; set; }
     }
 }

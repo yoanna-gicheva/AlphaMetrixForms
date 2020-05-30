@@ -21,6 +21,7 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 Id = entity.Id,
                 FormId = entity.FormId,
                 Form = entity.Form.Title,
+                OrderNumber = entity.OrderNumber,
                 Text = entity.Text,
                 IsRequired = entity.IsRequired,
                 FileNumberLimit = entity.FileNumberLimit,

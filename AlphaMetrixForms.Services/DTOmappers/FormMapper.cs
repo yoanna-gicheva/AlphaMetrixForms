@@ -25,6 +25,7 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 Owner = entity.Owner.UserName,
                 CreatedOn = entity.CreatedOn,
                 ModifiedOn = entity.ModifiedOn,
+                IsClosed = entity.IsClosed,
                 TextQuestions = entity.TextQuestions.GetDtos(),
                 OptionQuestions = entity.OptionQuestions.GetDtos(),
                 DocumentQuestions = entity.DocumentQuestions.GetDtos(),

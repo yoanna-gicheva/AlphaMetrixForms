@@ -17,6 +17,8 @@ namespace AlphaMetrixForms.Services.DTOs
         public bool IsRequired { get; set; }
         public bool IsLongAnswer { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public ICollection<TextQuestionAnswerDTO> Answers { get; set; }
     }
 }

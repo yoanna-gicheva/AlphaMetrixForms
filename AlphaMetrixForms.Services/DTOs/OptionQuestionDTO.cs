@@ -17,6 +17,8 @@ namespace AlphaMetrixForms.Services.DTOs
         public bool IsRequired { get; set; }
         public bool IsMultipleAnswerAllowed { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public ICollection<OptionDTO> Options { get; set; }
 
         public ICollection<OptionQuestionAnswerDTO> Answers { get; set; }

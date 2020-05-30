@@ -18,6 +18,7 @@ using AlphaMetrixForms.Services.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using React.AspNet;
+using AlphaMetrixForms.Web.Middlewares;
 
 namespace AlphaMetrixForms.Web
 {
@@ -89,6 +90,8 @@ namespace AlphaMetrixForms.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<PageNotFoundMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

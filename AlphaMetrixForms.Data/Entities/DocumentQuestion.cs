@@ -19,6 +19,8 @@ namespace AlphaMetrixForms.Data.Entities
         public int FileNumberLimit { get; set; }
         public int FileSizeLimit { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public ICollection<DocumentQuestionAnswer> Answers { get; set; }
 
     }

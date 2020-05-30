@@ -15,8 +15,7 @@ namespace AlphaMetrixForms.Web.Controllers
         public IActionResult CreateDocumentQuestion(FormViewModel form)
         {
             QuestionViewModel model = new QuestionViewModel();
-            model.OrderNumber = form.Current;
-            model.Type = QuestionType.Document;
+            model.OrderNumber = form.Questions.Count;
             form.Questions.Add(model);
 
             return PartialView("_QuestionPartial", form);

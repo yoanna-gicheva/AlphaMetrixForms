@@ -13,6 +13,8 @@ namespace AlphaMetrixForms.Services.DTOs
         public string Owner { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
+        public int OrderNumber { get; set; }
+        public bool IsClosed { get; set; }
         public ICollection<TextQuestionDTO> TextQuestions { get; set; }
         public ICollection<OptionQuestionDTO> OptionQuestions { get; set; }
         public ICollection<DocumentQuestionDTO> DocumentQuestions { get; set; }

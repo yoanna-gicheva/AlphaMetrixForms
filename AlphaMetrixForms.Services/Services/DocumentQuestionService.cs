@@ -37,6 +37,7 @@ namespace AlphaMetrixForms.Services.Services
             {
                 FormId = formId,
                 Text = questionDTO.Text,
+                OrderNumber = questionDTO.OrderNumber,
                 IsRequired = questionDTO.IsRequired,
                 FileNumberLimit = questionDTO.FileNumberLimit,
                 FileSizeLimit = questionDTO.FileSizeLimit,
