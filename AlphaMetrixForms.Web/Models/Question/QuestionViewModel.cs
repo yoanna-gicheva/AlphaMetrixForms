@@ -1,4 +1,5 @@
 ﻿using AlphaMetrixForms.Web.Models.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace AlphaMetrixForms.Web.Models.Question
     {
         public QuestionViewModel()
         {
+            DocumentAnswer = new FormFileCollection();
             Options = new List<OptionViewModel>();
         }
 
@@ -41,7 +43,8 @@ namespace AlphaMetrixForms.Web.Models.Question
         //ADDITIONAL
         public bool EditMode { get; set; }
 
-        public string Answer{get;set;}
+        public string TextAnswer{get;set;}
+        public IFormFileCollection DocumentAnswer { get; set; }
 
     }
 }

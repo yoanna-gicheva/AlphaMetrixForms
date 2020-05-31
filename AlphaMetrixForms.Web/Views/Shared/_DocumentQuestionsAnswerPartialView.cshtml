@@ -1,2 +1,23 @@
-﻿
-<input id="input-id" type="file" class="file" data-preview-file-type="text">
+﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
+<br></br>
+<div class="card" id="textCard">
+    <div class="card-header">
+        Document Question
+    </div>
+    <div class="card-body">
+        <div class="col-md-12">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="Title">@Model.Text</label>
+                    <input asp-for="DocumentAnswer" id="input-id" type="file" class="file form-control custom-control-input" data-preview-file-type="text">
+                </div>
+                <input type="hidden" asp-for="@Model.Id">
+            </div>
+
+        </div>
+    </div>
+</div>
+<br></br>
+
+

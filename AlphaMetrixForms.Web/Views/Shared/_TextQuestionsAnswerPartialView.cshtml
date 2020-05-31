@@ -17,11 +17,11 @@
             </div>
             @if (@Model.IsLongAnswer)
             {
-                <textarea class="form-control" label id="Answer" rows="4" cols="50" asp-for="@Model.Answer"></textarea>
+                <textarea class="form-control" label id="Answer" rows="4" cols="50" asp-for="@Model.TextAnswer"></textarea>
             }
             else
             {
-                <input class="form-control" type="text" id="Answer" asp-for="@Model.Answer"><br><br>
+                <input class="form-control" type="text" id="Answer" asp-for="@Model.TextAnswer"><br><br>
             }
         </div>
     </div>
