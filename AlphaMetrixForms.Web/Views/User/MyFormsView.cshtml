@@ -10,12 +10,15 @@
                         <a class="card-link" asp-controller="Form" asp-action="Edit" asp-route-id="@form.Id">
                             <h5 class="card-title">@form.Title</h5>
                         </a>
+
                         <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
                         <p class="card-text">Created on: @form.CreatedOn</p>
                         <p class="card-text">Modified on: @form.ModifiedOn</p>
                         <p class="card-text">Answers: @form.Responses.Count</p>
                         <input type="button" name="viewAnswers" class="btn btn-primary" value="View answers">
-                        <input type="button" name="shareForm" class="btn btn-primary" value="Share">
+                        @*<input type="submit" asp-controller="Form" asp-action="Share" id="shareForm" class="btn btn-primary" value="Share">*@
+                        <a class="card-link" asp-controller="Form" asp-action="Share" value="Share">Share</a>
+
                         <input type="button" name="deleteForm" class="btn btn-danger" id="@form.Id" value="Delete">
                     </div>
                 </div>

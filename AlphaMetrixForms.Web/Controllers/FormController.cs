@@ -54,11 +54,15 @@ namespace AlphaMetrixForms.Web.Controllers
             var result = await this._formService.ShareFormAsync(formId, owner, mails);
             return Ok();
         }
-        [Authorize]
         [HttpPost]
+        public async Task<IActionResult> Share(ListEmails emailList)
+        {
+            return View("MultipleEmailView");
+        }
+        [Authorize]
         public async Task<IActionResult> Share()
         {
-            return Ok();
+            return View("MultipleEmailView");
         }
 
         [Authorize]

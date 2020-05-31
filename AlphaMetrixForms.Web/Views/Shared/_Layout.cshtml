@@ -1,66 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-        <meta charset="utf-8">
-        <title>Multiple Emails</title>
-
-        <!-- For the plug-in dependencies -->
-        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-        <!-- For Semantic UI Button -->
-        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.2/semantic.min.css">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.2/semantic.min.js"></script>
-
-        <!-- For Bootstrap UI Button -->
-        <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-
-        <script type="text/javascript" src="./multiple-emails.js"></script>
-        <link type="text/css" rel="stylesheet" href="./multiple-emails.css">
-
-        <script type="text/javascript">
-
-            //Plug-in function for the bootstrap version of the multiple email
-            $(function () {
-                //To render the input device to multiple email input using BootStrap icon
-                $('#example_emailBS').multiple_emails({ position: "bottom" });
-                //OR $('#example_emailBS').multiple_emails("Bootstrap");
-
-                //Shows the value of the input device, which is in JSON format
-                $('#current_emailsBS').text($('#example_emailBS').val());
-                $('#example_emailBS').change(function () {
-                    $('#current_emailsBS').text($(this).val());
-                });
-            });
-
-            //Plug-in function for the Semantic UI version of the multiple email
-            $(function () {
-                //To render the input device to multiple email input using SemanticUI icon
-                $('#example_emailSUI').multiple_emails({ theme: "SemanticUI" });
-
-                //Shows the value of the input device, which is in JSON format
-                $('#current_emailsSUI').text($('#example_emailSUI').val());
-                $('#example_emailSUI').change(function () {
-                    $('#current_emailsSUI').text($(this).val());
-                });
-            });
-
-            //Plug-in function for the bootstrap version of the multiple email
-            $(function () {
-                //To render the input device to multiple email input using a simple hyperlink text
-                $('#example_emailB').multiple_emails({ theme: "Basic" });
-
-                //Shows the value of the input device, which is in JSON format
-                $('#current_emailsB').text($('#example_emailB').val());
-                $('#example_emailB').change(function () {
-                    $('#current_emailsB').text($(this).val());
-                });
-            });
-        </script>
-
-
-
     @*Validation*@
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
@@ -71,13 +11,6 @@
     <title>@ViewData["Title"] - AlphaMetrixForms.Web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-
-
-    @*MultipleEmails*@
-    <link rel="stylesheet" href="multiple-emails.css">
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="multiple-emails.js"></script>
-
 
 
     @*Sweet alerts*@
@@ -101,10 +34,10 @@
 
 
     @*Client-side validation*@
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
+    @*<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.mi
- n.js"></script>
+ n.js"></script>*@
 
 </head>
     <body>
