@@ -3,6 +3,7 @@ using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOmappers;
 using AlphaMetrixForms.Services.DTOs;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,22 @@ namespace AlphaMetrixForms.Services.Services
             await this.context.SaveChangesAsync();
 
             return textQuestionDTO;
+        }
+
+        public async Task TextQuestion_DetectChanges(Guid formId, ICollection<TextQuestionDTO> questions)
+        {
+            foreach (var question in questions)
+            {
+                if (context.TextQuestions.Any(q => q.Id == question.Id))
+                {
+                    await this.UpdateTextQuestionAsync(question.Id, question);
+                }
+                else
+                {
+                    await this.CreateTextQuestionAsync(question, formId);
+                }
+            }
+
         }
     }
 }
