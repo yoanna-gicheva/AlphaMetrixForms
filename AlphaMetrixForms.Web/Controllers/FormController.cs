@@ -80,8 +80,10 @@ namespace AlphaMetrixForms.Web.Controllers
             //}
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             FormDTO newForm = await _formService.CreateFormAsync(formDTO, userId);
             Guid formId = newForm.Id;
+
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
             {
                 var textQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).ToList();
@@ -138,7 +140,7 @@ namespace AlphaMetrixForms.Web.Controllers
                 throw new ArgumentException("Edit mode mistaken!");
             }
             FormDTO formDTO = DataTransferObject_Generator(form);
-            FormDTO updated = await _formService.UpdateFormAsync(form.Id, formDTO, _mapper);
+            FormDTO updated = await _formService.UpdateFormAsync(form.Id, formDTO);
             FormViewModel result = ViewModel_Generator(updated);
             Questions_SetEditMode(result.Questions);
             result.EditMode = true;

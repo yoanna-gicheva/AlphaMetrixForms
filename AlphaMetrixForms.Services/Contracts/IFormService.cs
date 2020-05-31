@@ -9,14 +9,20 @@ namespace AlphaMetrixForms.Services.Contracts
 {
     public interface IFormService
     {
-        Task<FormDTO> GetFormAsync(Guid formId);
-        Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO, IMapper mapper);
         Task<FormDTO> CreateFormAsync(FormDTO formDTO, Guid ownerId);
-        Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId);
 
-        Task<ICollection<FormDTO>> GetAllFormsAsync();
         Task<bool> DeleteFormAsync(Guid formId);
 
+        Task<ICollection<FormDTO>> GetAllFormsAsync();
+
+        Task<FormDTO> GetFormAsync(Guid formId);
+
         Task<bool> ShareFormAsync(Guid formId, string owner, string mails);
+
+        Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO);
+        
+
+        //Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId);
+        
     }
 }

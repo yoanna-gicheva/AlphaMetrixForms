@@ -1,4 +1,5 @@
 ﻿using AlphaMetrixForms.Services.DTOs;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,5 +15,8 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<bool> CreateDocumentQuestionAsync(ICollection<DocumentQuestionDTO> questionDTOs, Guid formId);
         Task<ICollection<DocumentQuestionDTO>> GetAllDocumentQuestionsAsync(Guid formId);
         Task<bool> DeleteDocumentQuestionAsync(Guid questionId);
+
+        Task DocumentQuestion_DetectChanges(Guid formId, ICollection<DocumentQuestionDTO> questions);
+        
     }
 }

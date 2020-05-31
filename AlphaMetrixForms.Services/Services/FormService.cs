@@ -22,29 +22,27 @@ namespace AlphaMetrixForms.Services.Services
         private readonly IOptionQuestionService optionQuestionService;
         private readonly IDocumentQuestionService documentQuestionService;
 
-        public FormService(FormsContext context)
+        public FormService(FormsContext context, ITextQuestionService textQuestionService, IOptionQuestionService optionQuestionService, IDocumentQuestionService documentQuestionService)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            textQuestionService = new TextQuestionService(context);
-            optionQuestionService = new OptionQuestionService(context);
-            documentQuestionService = new DocumentQuestionService(context);
+            this.textQuestionService = textQuestionService ?? throw new ArgumentNullException(nameof(textQuestionService));
+            this.optionQuestionService = optionQuestionService ?? throw new ArgumentNullException(nameof(optionQuestionService));
+            this.documentQuestionService = documentQuestionService ?? throw new ArgumentNullException(nameof(documentQuestionService));
         }
 
         public async Task<FormDTO> CreateFormAsync(FormDTO formDTO, Guid ownerId)
         {
-            //User owner = await this.context.Users
-            //    .Include(u => u.Forms)
-            //    .FirstOrDefaultAsync(u => u.Id == formDTO.OwnerId/*ownerId*/);
+            User owner = await this.context.Users
+               .FirstOrDefaultAsync(u => u.Id == ownerId);
 
-            //not sure if we need to check if the form is deleted.
-            //I suppose we won't allow creating one with the same title even if it is deleted.
-            //bool check = owner.Forms
-            //    .Any(f => f.Title == formDTO.Title && f.IsDeleted == false);
-
-            //if(check)
-            //{
-            //    throw new ArgumentException($"This user has already created a form with Title: {formDTO.Title}");
-            //}
+            if (owner==null)
+            {
+                throw new ArgumentException($"User with id {ownerId} does not exist.");
+            }
+            if (formDTO.Title==null)
+            {
+                throw new ArgumentException($"Form title cannot be null.");
+            }
 
             Form form = new Form()
             {
@@ -75,23 +73,26 @@ namespace AlphaMetrixForms.Services.Services
             form.IsDeleted = true;
             form.DeletedOn = DateTime.UtcNow;
             await this.context.SaveChangesAsync();
+
             return true;
         }
 
-        public async Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId)
-        {
-            List<Form> forms = await this.context.Forms
-                .Where(f => f.OwnerId == ownerId && f.IsDeleted == false)
-                .ToListAsync();
+        //Not used anywhere yet
+        //
+        //public async Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId)
+        //{
+        //    List<Form> forms = await this.context.Forms
+        //        .Where(f => f.OwnerId == ownerId && f.IsDeleted == false)
+        //        .ToListAsync();
 
-            return forms.GetDtos();
-        }
+        //    return forms.GetDtos();
+        //}
 
         public async Task<ICollection<FormDTO>> GetAllFormsAsync()
         {
             List<Form> forms = await this.context.Forms
                 .Include(f=>f.Owner)
-                .Where(f => f.IsDeleted == false)
+                .Where(f => f.IsDeleted == false && f.IsClosed == false)
                 .ToListAsync();
 
             return forms.GetDtos();
@@ -109,76 +110,33 @@ namespace AlphaMetrixForms.Services.Services
 
             if (form == null)
             {
-                throw new ArgumentNullException($"There is no such Form with ID: {formId}");
+                throw new ArgumentException($"Form with ID: {formId} does not exist.");
             }
 
             return form.GetDto();
         }
 
-        public async Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO, IMapper mapper)
+        public async Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO)
         {
             Form form = await this.context.Forms
                 .FirstOrDefaultAsync(f => f.Id == formDTO.Id && f.IsDeleted == false);
 
             if(form == null)
             {
-                throw new ArgumentNullException($"There is no such form with ID: {formDTO.Id}");
+                throw new ArgumentException($"Form with ID: {formId} does not exist.");
             }
+
             form.Title = formDTO.Title;
             form.Description = formDTO.Description;
             form.ModifiedOn = DateTime.UtcNow;
 
-            await TextQuestion_DetectChanges(formId, formDTO.TextQuestions, mapper);
-            await OptionQuestion_DetectChanges(formId, formDTO.OptionQuestions, mapper);
-            await DocumentQuestion_DetectChanges(formId, formDTO.DocumentQuestions, mapper);
-
+            await textQuestionService.TextQuestion_DetectChanges(formId, formDTO.TextQuestions);
+            await optionQuestionService.OptionQuestion_DetectChanges(formId, formDTO.OptionQuestions);
+            await documentQuestionService.DocumentQuestion_DetectChanges(formId, formDTO.DocumentQuestions);
 
             await context.SaveChangesAsync();
 
             return formDTO;
-        }
-        private async Task TextQuestion_DetectChanges(Guid formId, ICollection<TextQuestionDTO> questions, IMapper mapper)
-        {
-            foreach(var question in questions)
-            {
-                if(context.TextQuestions.Any(q=>q.Id == question.Id))
-                {
-                    await textQuestionService.UpdateTextQuestionAsync(question.Id, question);
-                }
-                else
-                {
-                    await textQuestionService.CreateTextQuestionAsync(question, formId);
-                }
-            }
-
-        }
-        private async Task OptionQuestion_DetectChanges(Guid formId, ICollection<OptionQuestionDTO> questions, IMapper mapper)
-        {
-            foreach (var question in questions)
-            {
-                if (context.OptionQuestions.Any(q => q.Id == question.Id))
-                {
-                    await optionQuestionService.UpdateOptionQuestionAsync(question.Id, question);
-                }
-                else
-                {
-                    await optionQuestionService.CreateOptionQuestionAsync(question, formId);
-                }
-            }
-        }
-        private async Task DocumentQuestion_DetectChanges(Guid formId, ICollection<DocumentQuestionDTO> questions, IMapper mapper)
-        {
-            foreach (var question in questions)
-            {
-                if (context.DocumentQuestions.Any(q => q.Id == question.Id))
-                {
-                    await documentQuestionService.UpdateDocumentQuestionAsync(question.Id, question);
-                }
-                else
-                {
-                    await documentQuestionService.CreateDocumentQuestionAsync(question, formId);
-                }
-            }
         }
 
         public async Task<bool> ShareFormAsync (Guid formId, string owner, string mails)

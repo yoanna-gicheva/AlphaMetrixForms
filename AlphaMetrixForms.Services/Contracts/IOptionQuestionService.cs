@@ -1,4 +1,5 @@
 ﻿using AlphaMetrixForms.Services.DTOs;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,6 +18,7 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<bool> AddOptionToOptionQuestionAsync(OptionDTO optionDTO);
         Task<bool> RemoveOptionFromOptionQuestionAsync(OptionDTO optionDTO);
         Task<bool> UpdateOptionForOptionQuestionAsync(OptionDTO optionDTO);
+        Task OptionQuestion_DetectChanges(Guid formId, ICollection<OptionQuestionDTO> questions);
 
     }
 }
