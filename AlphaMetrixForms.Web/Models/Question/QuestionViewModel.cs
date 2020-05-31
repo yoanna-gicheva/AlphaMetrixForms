@@ -41,7 +41,7 @@ namespace AlphaMetrixForms.Web.Models.Question
         //ADDITIONAL
         public bool EditMode { get; set; }
 
-        public string Answers{get;set;}
+        public string Answer{get;set;}
 
     }
 }

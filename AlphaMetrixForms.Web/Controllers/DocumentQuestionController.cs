@@ -16,6 +16,7 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             QuestionViewModel model = new QuestionViewModel();
             model.OrderNumber = form.Questions.Count;
+            model.Type = QuestionType.Document;
             form.Questions.Add(model);
 
             return PartialView("_QuestionPartial", form);

@@ -50,15 +50,23 @@ namespace AlphaMetrixForms.Web.Controllers
             var documentQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.DocumentQuestions);
 
             if (textQuestionsVM != null)
-            {
+            {    
                 formVM.Questions.AddRange(textQuestionsVM);
             }
             if (optionQuestionsVM != null)
             {
+                foreach (var question in optionQuestionsVM)
+                {
+                    question.Type = Models.Enums.QuestionType.Option;
+                }
                 formVM.Questions.AddRange(optionQuestionsVM);
             }
             if (documentQuestionsVM != null)
             {
+                foreach (var question in documentQuestionsVM)
+                {
+                    question.Type = Models.Enums.QuestionType.Document;
+                }
                 formVM.Questions.AddRange(documentQuestionsVM);
             }
 
