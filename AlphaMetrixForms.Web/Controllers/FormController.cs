@@ -59,11 +59,6 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             return View("MultipleEmailView");
         }
-        [Authorize]
-        public async Task<IActionResult> Share()
-        {
-            return View("MultipleEmailView");
-        }
 
         [Authorize]
         public IActionResult Create()

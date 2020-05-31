@@ -8,19 +8,20 @@
     <div class="row">
         @foreach (var form in Model.ToList())
         {
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@form.Title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
-                    <p class="card-text">Created on: @form.CreatedOn</p>
-                    <p class="card-text">Answers: @form.Responses.Count</p>
-                    <a asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id">Answer</a>
-                    <a asp-controller="Form" asp-action="ShareForm" asp-route-formId="@form.Id" asp-route-owner="@form.Owner" asp-route-mails="@mails">Share</a>
-
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@form.Title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
+                        <p class="card-text">Created on: @form.CreatedOn</p>
+                        <p class="card-text">Answers: @form.Responses.Count</p>
+                        <a asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id"><button class="btn btn-primary">Answer</button></a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            Share
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
         }
     </div>
     <br>
@@ -48,6 +49,9 @@
 <br>
 <br>
 <br>
+
+<partial name="_MultipleEmailPartialView" />
+
 <script>
     $("input[name='shareForm']").on('click', function () {
         // Swal.fire({

@@ -36,7 +36,6 @@ namespace AlphaMetrixForms.Web.Controllers
         public async Task<IActionResult> SubmitResponse(ResponseViewModel response)
         {
             throw new NotImplementedException();
-
         }
 
         [Route("Response/{formId}")]
