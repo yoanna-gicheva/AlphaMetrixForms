@@ -32,7 +32,6 @@
                 int counter = 0;
                 for (int i = 0; i < Model.Options.Count; i++)
                 {
-
                     <div class="custom-control custom-radio">
                         <input type="radio" asp-for="@Model.OptionQuestionAnswer[i]" value="true" class="custom-control-input" id="@counter+@Model.OrderNumber" name="groupOfDefaultRadios">
                         <label class="custom-control-label" for="@counter+@Model.OrderNumber">@Model.Options[i].Text</label>
