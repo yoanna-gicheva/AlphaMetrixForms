@@ -57,6 +57,10 @@ namespace AlphaMetrixForms.Web.Controllers
             {
                 foreach (var question in optionQuestionsVM)
                 {
+                    foreach(var option in question.Options)
+                    {
+                        question.OptionQuestionAnswer.Add(false);
+                    }
                     question.Type = Models.Enums.QuestionType.Option;
                 }
                 formVM.Questions.AddRange(optionQuestionsVM);

@@ -15,6 +15,7 @@ namespace AlphaMetrixForms.Web.Models.Question
         {
             DocumentAnswer = new FormFileCollection();
             Options = new List<OptionViewModel>();
+            OptionQuestionAnswer = new List<bool>();
         }
 
         // MAIN
@@ -45,6 +46,8 @@ namespace AlphaMetrixForms.Web.Models.Question
 
         public string TextAnswer{get;set;}
         public IFormFileCollection DocumentAnswer { get; set; }
+
+        public List<bool> OptionQuestionAnswer { get; set; }
 
     }
 }
