@@ -3,7 +3,6 @@
 <br></br>
 <div class="card" id="textCard">
     <div class="card-header">
-        Text Question
     </div>
     <div class="card-body">
         <div class="col-md-12">
@@ -16,27 +15,25 @@
             </div>
             @if (@Model.IsMultipleAnswerAllowed)
             {
-                int counter = 0;
                 for (int i = 0; i < Model.Options.Count; i++)
                 {
-
                     <div class="custom-control custom-checkbox">
-                        <input asp-for="@Model.OptionQuestionAnswer[i]" type="checkbox" class="custom-control-input" id="@counter+@Model.OrderNumber">
-                        <label class="custom-control-label" for="@counter+@Model.OrderNumber">@Model.Options[i].Text</label>
+                        <input asp-for="@Model.OptionQuestionAnswerCheckbox[i]" type="checkbox" class="custom-control-input" id="@i+@Model.OrderNumber">
+                        <label class="custom-control-label" for="@i+@Model.OrderNumber">@Model.Options[i].Text</label>
                     </div>
-                    counter++;
+                    <span asp-validation-for="@Model.OptionQuestionAnswerCheckbox[i]" class="text-danger"></span>
                 }
             }
             else
             {
-                int counter = 0;
                 for (int i = 0; i < Model.Options.Count; i++)
                 {
                     <div class="custom-control custom-radio">
-                        <input type="radio" asp-for="@Model.OptionQuestionAnswer[i]" value="true" class="custom-control-input" id="@counter+@Model.OrderNumber" name="groupOfDefaultRadios">
-                        <label class="custom-control-label" for="@counter+@Model.OrderNumber">@Model.Options[i].Text</label>
+                        <input type="radio" asp-for="@Model.OptionQuestionAnswerRadio" value="@Model.Options[i].Text" class="custom-control-input" id="@i+@Model.OrderNumber">
+                        <label class="custom-control-label" for="@i+@Model.OrderNumber">@Model.Options[i].Text</label>
                     </div>
-                    counter++;
+                    <span asp-validation-for="@Model.OptionQuestionAnswerRadio" class="text-danger"></span>
+
                 }
             }
         </div>

@@ -55,7 +55,6 @@ namespace AlphaMetrixForms.Web.Controllers
             question.Options.RemoveAt(option);
 
             return PartialView("_QuestionPartial", form);
-
         }
     }
 }

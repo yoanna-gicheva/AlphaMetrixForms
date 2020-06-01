@@ -53,8 +53,10 @@
                                 return this.innerText;
                             })
                             .get();
-                        var elmId = $("email-sender").attr("id");
-                        var postData = { emails: emailsList, formid: elmId };
+                        let elmId = $("button[name='unique']").attr("id");
+                        console.log(elmId);
+                        var postData = { emails: emailsList, formId: elmId };
+                        $("button[name='unique']").attr("name", "main-email-send");
                         $.ajax({
                             async: true,
                             data: postData,
@@ -89,81 +91,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-<script>
-    $('#demo').multiple_emails();
-    $('#current_emails').text($('#demo').val());
-    $('#demo').change(function () {
-        $('#current_emails').text($(this).val());
-    });
-
-    $("input[name='shareForm']").on('click', function () {
-        // Swal.fire({
-        //title: 'How old are you?',
-        //icon: 'question',
-        //input: 'range',
-        //inputAttributes: {
-        //  min: 8,
-        //  max: 120,
-        //  step: 1
-        //},
-        //inputValue: 25
-        // })
-
-        swal({
-            title: 'Input email address',
-            content: 'input',
-            inputPlaceholder: 'Enter your email address'
-        })
-
-        //if (email) {
-        //  Swal.fire(`Entered email: ${email}`)
-        //}
-        //$.ajax({
-        //    async: true,
-        //    //data: $('#form').serialize(),
-        //    type: "POST",
-        //    url: '/Form/Share',
-        //    success: function () {
-        //    }
-        //});
-    });
-
-    $("input[name='deleteForm']").on('click', function () {
-        swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this form!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-            .then((willDelete) => {
-
-                if (willDelete) {
-                    $.ajax({
-                        async: true,
-                        data: { "id": this.id },
-                        type: "POST",
-                        url: '/Form/Delete',
-                        success: function () {
-                            swal("Poof! Your form has been deleted!", {
-                                icon: "success",
-                            })
-                                .then(() => {
-                                    window.location.replace("https://localhost:44366/User/MyForms")
-                                });
-                        }
-                    });
-
-                } else {
-                    swal("Your form is safe!");
-                }
-            });
-    });
-
-
-</script>

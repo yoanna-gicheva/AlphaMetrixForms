@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AlphaMetrixForms.Web.Utils
 {
-    public class ListEmails
+    public class EmailProvider
     {
         public ICollection<string> Emails { get; set; }
         public Guid FormId { get; set; }
