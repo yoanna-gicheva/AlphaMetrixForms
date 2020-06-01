@@ -1,9 +1,8 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
-
 <br></br>
-<div class="card" id="textCard">
+<div class="card" id="documentCard">
     <div class="card-header">
-        Text Question
+        Document Question
     </div>
     <div class="card-body">
         <div class="col-md-12">
@@ -11,18 +10,11 @@
             <div class="form-group">
                 <div class="form-group">
                     <label for="Title">@Model.Text</label>
-                    <input type="hidden" asp-for="@Model.Text" />
+                    <input asp-for="DocumentAnswer" id="input-id" type="file" class="file form-control custom-control-input" data-preview-file-type="text">
                 </div>
                 <input type="hidden" asp-for="@Model.Id">
             </div>
-            @if (@Model.IsLongAnswer)
-            {
-                <textarea class="form-control" label id="Answer" rows="4" cols="50" asp-for="@Model.TextAnswer"></textarea>
-            }
-            else
-            {
-                <input class="form-control" type="text" id="Answer" asp-for="@Model.TextAnswer"><br><br>
-            }
+
         </div>
     </div>
 </div>
