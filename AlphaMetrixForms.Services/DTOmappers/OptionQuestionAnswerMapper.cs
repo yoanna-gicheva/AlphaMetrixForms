@@ -19,7 +19,7 @@ namespace AlphaMetrixForms.Services.DTOmappers
             return new OptionQuestionAnswerDTO
             {
                 OptionQuestionId = entity.OptionQuestionId,
-                OptionQuestion = entity.OptionQuestion.Text,
+                //OptionQuestion = entity.OptionQuestion.Text,
                 ResponseId = entity.ResponseId,
                 Answer = entity.Answer
             };

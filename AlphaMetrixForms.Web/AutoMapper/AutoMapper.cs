@@ -2,6 +2,7 @@
 using AlphaMetrixForms.Services.DTOs;
 using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Question;
+using AlphaMetrixForms.Web.Models.Response;
 using AlphaMetrixForms.Web.Models.User;
 using AutoMapper;
 using System;
@@ -17,6 +18,8 @@ namespace AlphaMetrixForms.Web.AutoMapper
         {
             CreateMap<FormDTO, FormViewModel>();
             CreateMap<FormViewModel, FormDTO>();
+            CreateMap<ResponseViewModel, ResponseDTO>();
+            CreateMap<ResponseDTO, ResponseViewModel>();
 
             CreateMap<Form, FormDTO>().ReverseMap();
 

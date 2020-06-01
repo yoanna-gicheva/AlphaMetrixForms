@@ -92,6 +92,9 @@ namespace AlphaMetrixForms.Services.Services
         {
             List<Form> forms = await this.context.Forms
                 .Include(f=>f.Owner)
+                .Include(f => f.Responses).ThenInclude(r => r.TextQuestionAnswers)
+                .Include(f => f.Responses).ThenInclude(r => r.DocumentQuestionAnswers)
+                .Include(f => f.Responses).ThenInclude(r => r.OptionQuestionAnswers)
                 .Where(f => f.IsDeleted == false && f.IsClosed == false)
                 .ToListAsync();
 
