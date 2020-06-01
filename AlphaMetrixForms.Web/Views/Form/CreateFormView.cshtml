@@ -51,7 +51,7 @@
                         <br>
                         <input type="submit" name="saveChanges" class="btn btn-primary" value="Save">
                         <input type="button" name="preview" class="btn btn-primary" value="Preview">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        <button type="button" id="@Model.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Share
                         </button>
                         <input type="button" name="deleteForm" class="btn btn-danger" id="@Model.Id" value="Delete">
@@ -88,7 +88,9 @@
             counter = questionsNum - 1;
         }
 
-
+         $("button[name='main-email-send']").on('click', function () {
+            $(this).attr("name", "unique");
+        });
         $("div[name='main']").on("click", function () {
             var $buttons = $("div[name='inside']");
             var $buttonToHide = $("div[name='main']");
