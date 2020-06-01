@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOs;
+using AlphaMetrixForms.Web.Models.Enums;
 using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Question;
 using AlphaMetrixForms.Web.Models.Response;
@@ -20,22 +21,53 @@ namespace AlphaMetrixForms.Web.Controllers
         private readonly ITextQuestionService _textQuestionService;
         private readonly IOptionQuestionService _optionQuestionService;
         private readonly IDocumentQuestionService _documentQuestionService;
+        private readonly IResponseService _responseService;
         private readonly IMapper _mapper;
 
 
         public ResponseController(IFormService formService, ITextQuestionService textQuestionService, IOptionQuestionService optionQuestionService,
-            IDocumentQuestionService documentQuestionService, IMapper mapper)
+            IDocumentQuestionService documentQuestionService, IResponseService responseService, IMapper mapper)
         {
             _formService = formService ?? throw new ArgumentNullException(nameof(formService));
             _textQuestionService = textQuestionService ?? throw new ArgumentNullException(nameof(textQuestionService));
             _optionQuestionService = optionQuestionService ?? throw new ArgumentNullException(nameof(optionQuestionService));
             _documentQuestionService = documentQuestionService ?? throw new ArgumentNullException(nameof(documentQuestionService));
+            _responseService = responseService ?? throw new ArgumentNullException(nameof(responseService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         [HttpPost]
         public async Task<IActionResult> SubmitResponse(ResponseViewModel response)
         {
-            throw new NotImplementedException();
+            var responseGuid = await _responseService.CreateResponseAsync(response.FormId);
+            if (response.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
+            {
+                var textQuestions = response.Questions
+                    .Where(q => q.Type.Equals(QuestionType.Text))
+                    .ToList();
+                for (int i = 0; i < textQuestions.Count; i++)
+                {
+                    await _textQuestionService.CreateTextQuestionAnswerAsync(responseGuid, textQuestions[i].Id, textQuestions[i].TextAnswer);
+                }
+            }
+            //if (form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
+            //{
+            //    var optionQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).ToList();
+            //    var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(optionQuestions), formId);
+            //    if (!result)
+            //    {
+            //        throw new ArgumentException();
+            //    }
+            //}
+            //if (form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
+            //{
+            //    var documentQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).ToList();
+            //    var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(documentQuestions), formId);
+            //    if (!result)
+            //    {
+            //        throw new ArgumentException();
+            //    }
+            //}
+            return Ok();
         }
 
         [Route("Response/{formId}")]

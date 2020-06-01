@@ -17,5 +17,7 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<bool> DeleteTextQuestionAsync(Guid questionId);
 
         Task TextQuestion_DetectChanges(Guid formId, ICollection<TextQuestionDTO> questions);
+
+        Task CreateTextQuestionAnswerAsync(Guid responseId, Guid questionId, string answer);
     }
 }

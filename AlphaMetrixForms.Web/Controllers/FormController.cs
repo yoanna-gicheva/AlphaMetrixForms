@@ -85,8 +85,11 @@ namespace AlphaMetrixForms.Web.Controllers
 
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
             {
-                var textQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).ToList();
-                var result = await _textQuestionService.CreateTextQuestionAsync(_mapper.Map<ICollection<TextQuestionDTO>>(textQuestions), formId);
+                var textQuestions = form.Questions
+                    .Where(q => q.Type.Equals(QuestionType.Text))
+                    .ToList();
+                var textQuestionsDTOs = _mapper.Map<ICollection<TextQuestionDTO>>(textQuestions);
+                var result = await _textQuestionService.CreateTextQuestionAsync(textQuestionsDTOs, formId);
                 if (!result)
                 {
                     throw new ArgumentException();
@@ -94,8 +97,11 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
             {
-                var optionQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).ToList();
-                var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(optionQuestions), formId);
+                var optionQuestions = form.Questions
+                    .Where(q => q.Type.Equals(QuestionType.Option))
+                    .ToList();
+                var optionQuestionsDTOs = _mapper.Map<ICollection<OptionQuestionDTO>>(optionQuestions);
+                var result = await _optionQuestionService.CreateOptionQuestionAsync(optionQuestionsDTOs, formId);
                 if (!result)
                 {
                     throw new ArgumentException();
@@ -103,8 +109,11 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             if (form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
             {
-                var documentQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).ToList();
-                var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(documentQuestions), formId);
+                var documentQuestions = form.Questions
+                    .Where(q => q.Type.Equals(QuestionType.Document))
+                    .ToList();
+                var documentQuestionsDTOs = _mapper.Map<ICollection<DocumentQuestionDTO>>(documentQuestions);
+                var result = await _documentQuestionService.CreateDocumentQuestionAsync(documentQuestionsDTOs, formId);
                 if (!result)
                 {
                     throw new ArgumentException();

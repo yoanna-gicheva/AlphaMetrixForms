@@ -38,6 +38,7 @@ namespace AlphaMetrixForms.Web
             services.AddScoped<ITextQuestionService, TextQuestionService>();
             services.AddScoped<IOptionQuestionService, OptionQuestionService>();
             services.AddScoped<IDocumentQuestionService, DocumentQuestionService>();
+            services.AddScoped<IResponseService, ResponseService>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddDbContext<FormsContext>(options =>

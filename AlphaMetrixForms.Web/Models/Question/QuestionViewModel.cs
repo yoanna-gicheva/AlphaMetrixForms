@@ -1,5 +1,5 @@
 ﻿using AlphaMetrixForms.Web.Models.Enums;
-using AlphaMetrixForms.Web.Utils.Validations;
+//using AlphaMetrixForms.Web.Utils.Validations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -47,8 +47,8 @@ namespace AlphaMetrixForms.Web.Models.Question
 
         public string TextAnswer{get;set;}
 
-        //[MinimumElements(2)]
-        [MinimumElements(ErrorMessage = "At least a person is required")]
+        ////[MinimumElements(2)]
+        //[MinimumElements(ErrorMessage = "At least a person is required")]
         public IFormFileCollection DocumentAnswer { get; set; }
 
         [Required]

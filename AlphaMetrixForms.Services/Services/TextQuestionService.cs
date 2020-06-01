@@ -124,5 +124,18 @@ namespace AlphaMetrixForms.Services.Services
             }
 
         }
+
+        public async Task CreateTextQuestionAnswerAsync(Guid responseId, Guid questionId, string answer)
+        {
+            var textAnswer = new TextQuestionAnswer
+            {
+                ResponseId = responseId,
+                TextQuestionId = questionId,
+                Answer = answer
+            };
+
+            await this.context.TextQuestionAnswers.AddAsync(textAnswer);
+            await this.context.SaveChangesAsync();
+        }
     }
 }
