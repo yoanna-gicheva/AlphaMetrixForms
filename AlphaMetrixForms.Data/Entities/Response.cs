@@ -12,6 +12,8 @@ namespace AlphaMetrixForms.Data.Entities
 
         public Form Form { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         public ICollection<TextQuestionAnswer> TextQuestionAnswers {get;set;}
         public ICollection<OptionQuestionAnswer> OptionQuestionAnswers {get;set;}
         public ICollection<DocumentQuestionAnswer> DocumentQuestionAnswers {get;set;}

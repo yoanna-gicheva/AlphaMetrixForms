@@ -16,6 +16,8 @@
     <Compile Remove="Migrations\20200528143738_SeederAdded3.Designer.cs" />
     <Compile Remove="Migrations\20200528143952_SeederAdded3.cs" />
     <Compile Remove="Migrations\20200528143952_SeederAdded3.Designer.cs" />
+    <Compile Remove="Migrations\20200601212940_RemoveUnnecessaryProperties.cs" />
+    <Compile Remove="Migrations\20200601212940_RemoveUnnecessaryProperties.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

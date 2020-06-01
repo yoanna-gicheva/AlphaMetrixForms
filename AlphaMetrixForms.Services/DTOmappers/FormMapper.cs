@@ -25,7 +25,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 Owner = entity.Owner.UserName,
                 CreatedOn = entity.CreatedOn,
                 ModifiedOn = entity.ModifiedOn,
-                IsClosed = entity.IsClosed,
                 TextQuestions = entity.TextQuestions.GetDtos(),
                 OptionQuestions = entity.OptionQuestions.GetDtos(),
                 DocumentQuestions = entity.DocumentQuestions.GetDtos(),
@@ -36,24 +35,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        //public static Form GetEntity(this FormDTO formDTO)
-        //{
-        //    if (formDTO == null)
-        //    {
-        //        throw new ArgumentException();
-        //    };
 
-        //    return new Form
-        //    {
-        //        Id = formDTO.Id,
-        //        Title = formDTO.Title,
-        //        Description = formDTO.Description,
-        //        OwnerId = formDTO.OwnerId,
-        //    };
-        //}
-        //public static ICollection<Form> GetEntities(this ICollection<FormDTO> formDTOs)
-        //{
-        //    return formDTOs.Select(GetEntity).ToList();
-        //}
     }
 }

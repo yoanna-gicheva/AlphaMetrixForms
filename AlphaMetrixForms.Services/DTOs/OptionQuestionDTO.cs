@@ -10,8 +10,6 @@ namespace AlphaMetrixForms.Services.DTOs
 
         public Guid FormId { get; set; }
 
-        public string Form { get; set; }
-
         public string Text { get; set; }
 
         public bool IsRequired { get; set; }

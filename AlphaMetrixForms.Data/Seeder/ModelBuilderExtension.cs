@@ -73,8 +73,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Please enter your name:",
                 OrderNumber = 1,
                 IsRequired = true,
-                IsLongAnswer = false,
-                CreatedOn = DateTime.UtcNow
+                IsLongAnswer = false
             };
 
             var textQuestion2 = new TextQuestion
@@ -84,8 +83,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Are you satisfied with the services provided by TestBank in overall:",
                 OrderNumber = 8,
                 IsRequired = true,
-                IsLongAnswer = true,
-                CreatedOn = DateTime.UtcNow
+                IsLongAnswer = true
             };
 
             var textQuestion3 = new TextQuestion
@@ -95,8 +93,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Here you can share feedback for the form:",
                 OrderNumber = 9,
                 IsRequired = false,
-                IsLongAnswer = true,
-                CreatedOn = DateTime.UtcNow
+                IsLongAnswer = true
             };
 
             var textQuestion4 = new TextQuestion
@@ -106,8 +103,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Q4:",
                 OrderNumber = 4,
                 IsRequired = false,
-                IsLongAnswer = false,
-                CreatedOn = DateTime.UtcNow
+                IsLongAnswer = false
             };
 
             var textQuestion5 = new TextQuestion
@@ -117,8 +113,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Q2:",
                 OrderNumber = 2,
                 IsRequired = false,
-                IsLongAnswer = true,
-                CreatedOn = DateTime.UtcNow
+                IsLongAnswer = true
             };
 
             var textQuestion6 = new TextQuestion
@@ -128,8 +123,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Q1:",
                 OrderNumber = 1,
                 IsRequired = true,
-                IsLongAnswer = false,
-                CreatedOn = DateTime.UtcNow
+                IsLongAnswer = false
             };
 
             var textQuestion7 = new TextQuestion
@@ -139,8 +133,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Q3:",
                 OrderNumber = 3,
                 IsRequired = true,
-                IsLongAnswer = true,
-                CreatedOn = DateTime.UtcNow
+                IsLongAnswer = true
             };
 
             builder.Entity<TextQuestion>().HasData(textQuestion1,textQuestion2,textQuestion3,
@@ -155,8 +148,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 OrderNumber = 2,
                 IsRequired = true,
                 FileNumberLimit = 2,
-                FileSizeLimit = 100,
-                CreatedOn = DateTime.UtcNow
+                FileSizeLimit = 100
             };
 
             var documentQuestion2 = new DocumentQuestion
@@ -167,8 +159,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 OrderNumber = 3,
                 IsRequired = true,
                 FileNumberLimit = 1,
-                FileSizeLimit = 100,
-                CreatedOn = DateTime.UtcNow
+                FileSizeLimit = 100
             };
 
             var documentQuestion3 = new DocumentQuestion
@@ -179,8 +170,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 OrderNumber = 4,
                 IsRequired = false,
                 FileNumberLimit = 10,
-                FileSizeLimit = 1000,
-                CreatedOn = DateTime.UtcNow
+                FileSizeLimit = 1000
             };
 
             var documentQuestion4 = new DocumentQuestion
@@ -191,8 +181,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 OrderNumber = 1,
                 IsRequired = true,
                 FileNumberLimit = 1,
-                FileSizeLimit = 1,
-                CreatedOn = DateTime.UtcNow
+                FileSizeLimit = 1
             };
 
             var documentQuestion5 = new DocumentQuestion
@@ -203,8 +192,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 OrderNumber = 2,
                 IsRequired = false,
                 FileNumberLimit = 10,
-                FileSizeLimit = 10,
-                CreatedOn = DateTime.UtcNow
+                FileSizeLimit = 10
             };
 
             builder.Entity<DocumentQuestion>().HasData(documentQuestion1, documentQuestion2, documentQuestion3,
@@ -218,8 +206,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Please choose for how long have you been a customer of TestBank:",
                 OrderNumber = 5,
                 IsRequired = true,
-                IsMultipleAnswerAllowed = false,
-                CreatedOn = DateTime.UtcNow
+                IsMultipleAnswerAllowed = false
             };
 
             var optionQuestion1option1 = new Option
@@ -257,8 +244,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Which products of TestBank are you using:",
                 OrderNumber = 6,
                 IsRequired = true,
-                IsMultipleAnswerAllowed = true,
-                CreatedOn = DateTime.UtcNow
+                IsMultipleAnswerAllowed = true
             };
 
 
@@ -339,8 +325,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Are you considering changing TestBank as your servicing bank:",
                 OrderNumber = 7,
                 IsRequired = false,
-                IsMultipleAnswerAllowed = false,
-                CreatedOn = DateTime.UtcNow
+                IsMultipleAnswerAllowed = false
             };
 
             var optionQuestion3option1 = new Option
@@ -371,8 +356,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Q4:",
                 OrderNumber = 4,
                 IsRequired = true,
-                IsMultipleAnswerAllowed = true,
-                CreatedOn = DateTime.UtcNow
+                IsMultipleAnswerAllowed = true
             };
 
             var testOption1 = new Option
@@ -403,8 +387,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Q3:",
                 OrderNumber = 3,
                 IsRequired = true,
-                IsMultipleAnswerAllowed = false,
-                CreatedOn = DateTime.UtcNow
+                IsMultipleAnswerAllowed = false
             };
 
             var testOption4 = new Option
@@ -435,8 +418,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Q2:",
                 OrderNumber = 2,
                 IsRequired = false,
-                IsMultipleAnswerAllowed = true,
-                CreatedOn = DateTime.UtcNow
+                IsMultipleAnswerAllowed = true
             };
 
             var testOption7 = new Option
@@ -467,8 +449,7 @@ namespace AlphaMetrixForms.Data.Seeder
                 Text = "Q1:",
                 OrderNumber = 1,
                 IsRequired = false,
-                IsMultipleAnswerAllowed = false,
-                CreatedOn = DateTime.UtcNow
+                IsMultipleAnswerAllowed = false
             };
 
             var testOption10 = new Option

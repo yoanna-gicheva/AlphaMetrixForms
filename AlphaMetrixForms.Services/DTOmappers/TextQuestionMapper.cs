@@ -21,8 +21,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 Id = entity.Id,
                 FormId = entity.FormId,
                 OrderNumber = entity.OrderNumber,
-
-                Form = entity.Form.Title,
                 Text = entity.Text,
                 IsRequired = entity.IsRequired,
                 IsLongAnswer = entity.IsLongAnswer,
@@ -34,25 +32,5 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        //public static TextQuestion GetEntity(this TextQuestionDTO textQuestionDTO)
-        //{
-        //    if (textQuestionDTO == null)
-        //    {
-        //        throw new ArgumentException();
-        //    };
-
-        //    return new TextQuestion
-        //    {
-        //        Id = textQuestionDTO.Id,
-        //        FormId = textQuestionDTO.FormId,
-        //        Text = textQuestionDTO.Text,
-        //        IsRequired = textQuestionDTO.IsRequired,
-        //        IsLongAnswer = textQuestionDTO.IsLongAnswer,
-        //    };
-        //}
-        //public static ICollection<TextQuestion> GetEntities(this ICollection<TextQuestionDTO> dtos)
-        //{
-        //    return dtos.Select(GetEntity).ToList();
-        //}
     }
 }
