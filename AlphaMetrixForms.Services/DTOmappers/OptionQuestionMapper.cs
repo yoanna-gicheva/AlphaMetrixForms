@@ -21,7 +21,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 Id = entity.Id,
                 FormId = entity.FormId,
                 OrderNumber = entity.OrderNumber,
-                Form = entity.Form.Title,
                 Text = entity.Text,
                 IsRequired = entity.IsRequired,
                 IsMultipleAnswerAllowed = entity.IsMultipleAnswerAllowed,
@@ -34,25 +33,5 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        //public static OptionQuestion GetEntity(this OptionQuestionDTO optionQuestionDTO)
-        //{
-        //    if (optionQuestionDTO == null)
-        //    {
-        //        throw new ArgumentException();
-        //    };
-
-        //    return new OptionQuestion
-        //    {
-        //        Id = optionQuestionDTO.Id,
-        //        FormId = optionQuestionDTO.FormId,
-        //        Text = optionQuestionDTO.Text,
-        //        IsRequired = optionQuestionDTO.IsRequired,
-        //        Options = OptionMapper.GetEntities(optionQuestionDTO.Options),
-        //    };
-        //}
-        //public static ICollection<OptionQuestion> GetEntities(this ICollection<OptionQuestionDTO> dtos)
-        //{
-        //    return dtos.Select(GetEntity).ToList();
-        //}
     }
 }

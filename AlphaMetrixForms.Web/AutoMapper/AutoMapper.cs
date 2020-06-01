@@ -36,6 +36,7 @@ namespace AlphaMetrixForms.Web.AutoMapper
 
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<UserDTO, UserViewModel>();
+            CreateMap<Response, ResponseDTO>();
 
         }
     }

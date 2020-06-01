@@ -3,7 +3,7 @@ using System;
 
 namespace AlphaMetrixForms.Data.Entities
 {
-    public class TextQuestionAnswer : Entity
+    public class TextQuestionAnswer
     {
         public Guid TextQuestionId { get; set; }
         public TextQuestion TextQuestion { get; set; }

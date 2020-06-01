@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AlphaMetrixForms.Data.Entities
 {
-    public class TextQuestion : Entity
+    public class TextQuestion 
     {
         public Guid Id { get; set; }
 

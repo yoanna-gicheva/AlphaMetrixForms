@@ -39,8 +39,7 @@ namespace AlphaMetrixForms.Services.Services
                 Text = questionDTO.Text,
                 OrderNumber = questionDTO.OrderNumber,
                 IsRequired = questionDTO.IsRequired,
-                IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed,
-                CreatedOn = DateTime.UtcNow
+                IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed
             };
             await context.OptionQuestions.AddAsync(question);
             await context.SaveChangesAsync();
@@ -57,50 +56,10 @@ namespace AlphaMetrixForms.Services.Services
             return questionDTO;
         }
 
-        public async Task<bool> DeleteOptionQuestionAsync(Guid questionId)
-        {
-            OptionQuestion question = await this.context.OptionQuestions
-                .FirstOrDefaultAsync(f => f.Id == questionId && f.IsDeleted == false);
-
-            if (question == null)
-            {
-                return false;
-            }
-
-            question.IsDeleted = true;
-            question.DeletedOn = DateTime.UtcNow;
-
-            await this.context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<ICollection<OptionQuestionDTO>> GetAllOptionQuestionsAsync(Guid formId)
-        {
-            List<OptionQuestion> questions = await this.context.OptionQuestions
-                .Where(q => q.FormId == formId && q.IsDeleted == false)
-                .ToListAsync();
-
-            return questions.GetDtos();
-        }
-
-        public async Task<OptionQuestionDTO> GetOptionQuestionAsync(Guid questionId)
-        {
-            OptionQuestion question = await this.context.OptionQuestions
-                .Include(q => q.Options)
-                .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
-
-            if (question == null)
-            {
-                throw new ArgumentNullException($"There is no such OptionQuestion with ID: {questionId}");
-            }
-
-            return question.GetDto();
-        }
-
         public async Task<OptionQuestionDTO> UpdateOptionQuestionAsync(Guid questionId, OptionQuestionDTO questionDTO)
         {
             OptionQuestion question = await this.context.OptionQuestions
-                .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
+                .FirstOrDefaultAsync(q => q.Id == questionId);
 
             if (question == null)
             {
@@ -110,102 +69,10 @@ namespace AlphaMetrixForms.Services.Services
             question.Text = questionDTO.Text;
             question.IsRequired = questionDTO.IsRequired;
             question.IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed;
-            question.ModifiedOn = DateTime.UtcNow;
 
             await this.context.SaveChangesAsync();
 
             return questionDTO;
-        }
-
-        public async Task<bool> AddOptionToOptionQuestionAsync(OptionDTO optionDTO)
-        {
-            OptionQuestion question = await this.context.OptionQuestions
-                .Include(q => q.Options)
-                .FirstOrDefaultAsync(f => f.Id == optionDTO.QuestionId && f.IsDeleted == false);
-
-            if (question == null)
-            {
-                return false;
-            }
-
-            var check = question.Options
-                .Any(o => o.Text == optionDTO.Text);
-
-            if (check)
-            {
-                return false;
-            }
-
-            var option = new Option()
-            {
-                QuestionId = optionDTO.QuestionId,
-                Text = optionDTO.Text,
-                CreatedOn = DateTime.UtcNow
-            };
-
-            await this.context.Options.AddAsync(option);
-            await this.context.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<bool> RemoveOptionFromOptionQuestionAsync(OptionDTO optionDTO)
-        {
-            OptionQuestion question = await this.context.OptionQuestions
-                .Include(q => q.Options)
-                .FirstOrDefaultAsync(f => f.Id == optionDTO.QuestionId && f.IsDeleted == false);
-
-            if (question == null)
-            {
-                return false;
-            }
-
-            if (question.Options.Count == 2)
-            {
-                throw new ArgumentNullException($"Options can not be less than 2.");
-            }
-
-            var check = question.Options
-                .Any(o => o.Id == optionDTO.Id);
-
-            if (check == false)
-            {
-                return false;
-            }
-
-            Option option = await this.context.Options
-                .Where(o => o.Id == optionDTO.Id)
-                .FirstOrDefaultAsync();
-
-            option.IsDeleted = true;
-            option.DeletedOn = DateTime.UtcNow;
-
-            await this.context.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<bool> UpdateOptionForOptionQuestionAsync(OptionDTO optionDTO)
-        {
-            OptionQuestion question = await this.context.OptionQuestions
-                .Include(q => q.Options)
-                .FirstOrDefaultAsync(f => f.Id == optionDTO.QuestionId && f.IsDeleted == false);
-
-            if (question == null)
-            {
-                return false;
-            }
-
-            Option option = await this.context.Options
-                 .Where(o => o.Id == optionDTO.Id)
-                 .FirstOrDefaultAsync();
-
-            option.Text = optionDTO.Text;
-            option.ModifiedOn = DateTime.UtcNow;
-
-            await this.context.SaveChangesAsync();
-
-            return true;
         }
 
         public async Task OptionQuestion_DetectChanges(Guid formId, ICollection<OptionQuestionDTO> questions)
