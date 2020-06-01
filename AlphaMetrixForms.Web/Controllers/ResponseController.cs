@@ -58,7 +58,7 @@ namespace AlphaMetrixForms.Web.Controllers
                 {
                     foreach(var option in question.Options)
                     {
-                        question.OptionQuestionAnswer.Add(false);
+                        question.OptionQuestionAnswerCheckbox.Add(false);
                     }
                     question.Type = Models.Enums.QuestionType.Option;
                 }
