@@ -55,7 +55,7 @@ namespace AlphaMetrixForms.Web.Controllers
             return Ok();
         }
         [HttpPost]
-        public async Task<IActionResult> Share(ListEmails emailList)
+        public async Task<IActionResult> Share(EmailProvider emailList)
         {
             return View("MultipleEmailView");
         }

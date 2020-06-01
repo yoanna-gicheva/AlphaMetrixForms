@@ -15,14 +15,13 @@
                         <p class="card-text">Modified on: @form.ModifiedOn</p>
                         <p class="card-text">Answers: @form.Responses.Count</p>
                         <input type="button" name="viewAnswers" class="btn btn-primary" value="View answers">
-                        <button type="button" id="@form.Id" name="email-sender" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        <button type="button" id="@form.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Share
                         </button>
                         <input type="button" name="deleteForm" class="btn btn-danger" id="@form.Id" value="Delete">
                     </div>
                 </div>
             </div>
-            @Html.Hidden("FormId", form.Id)
         }
     </div>
     <br>
@@ -55,38 +54,9 @@
 
 
 <script>
-    $("input[name='shareForm']").on('click', function () {
-        // Swal.fire({
-        //title: 'How old are you?',
-        //icon: 'question',
-        //input: 'range',
-        //inputAttributes: {
-        //  min: 8,
-        //  max: 120,
-        //  step: 1
-        //},
-        //inputValue: 25
-        // })
-
-        swal({
-            title: 'Input email address',
-            content: 'input',
-            inputPlaceholder: 'Enter your email address'
-        })
-
-        //if (email) {
-        //  Swal.fire(`Entered email: ${email}`)
-        //}
-        //$.ajax({
-        //    async: true,
-        //    //data: $('#form').serialize(),
-        //    type: "POST",
-        //    url: '/Form/Share',
-        //    success: function () {
-        //    }
-        //});
-    });
-
+    $("button[name='main-email-send']").on('click', function () {
+            $(this).attr("name", "unique");
+        });
     $("input[name='deleteForm']").on('click', function () {
         swal({
             title: "Are you sure?",
