@@ -23,7 +23,6 @@ namespace AlphaMetrixForms.Web.Models.Question
         public Guid Id { get; set; }
         public QuestionType Type { get; set; }
         public int OrderNumber { get; set; }
-        [Required(ErrorMessage = "Question text is required.")]
         public string Text { get; set; }
         public bool IsRequired { get; set; }
 
@@ -46,15 +45,8 @@ namespace AlphaMetrixForms.Web.Models.Question
         public bool EditMode { get; set; }
 
         public string TextAnswer{get;set;}
-
-        ////[MinimumElements(2)]
-        //[MinimumElements(ErrorMessage = "At least a person is required")]
         public IFormFileCollection DocumentAnswer { get; set; }
-
-        [Required]
         public List<bool> OptionQuestionAnswerCheckbox { get; set; }
-        [Required]
         public string OptionQuestionAnswerRadio { get; set; }
-
     }
 }

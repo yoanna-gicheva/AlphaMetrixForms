@@ -73,10 +73,13 @@ namespace AlphaMetrixForms.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Create(FormViewModel form)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //   return View("CreateFormView", form);
-            //}
+            string _errorMessage = ModelValidator_Message(form);
+            if (_errorMessage != null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return Json(new { success = false, responseText = _errorMessage });
+            }
+
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -120,6 +123,36 @@ namespace AlphaMetrixForms.Web.Controllers
                 }
             }
             return Ok();
+        }
+
+        private string ModelValidator_Message(FormViewModel form)
+        {
+            if (form.Title == null)
+            {
+                return "Please, insert a title!";
+            }
+            else if (form.Title.Count() > 150)
+            {
+                return "A form title should be less than 150 symbols.";
+            }
+            foreach (var question in form.Questions)
+            {
+                if (question.Text == null)
+                {
+                    return "Oops, there is a question without text.";
+                }
+            }
+            foreach (var question in form.Questions.Where(q => q.Type == QuestionType.Option))
+            {
+                foreach (var option in question.Options)
+                {
+                    if (option.Text == null)
+                    {
+                        return "Please, provide a text for each option.";
+                    }
+                }
+            }
+            return null;
         }
         [Authorize]
         public async Task<IActionResult> Edit(Guid id)

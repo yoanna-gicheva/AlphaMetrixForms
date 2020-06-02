@@ -194,6 +194,9 @@
                         .then(() => {
                             window.location.replace("https://localhost:44366/User/MyForms")
                         });
+                },
+                error: function (xhr) {
+                    swal(xhr.responseJSON.responseText);
                 }
             });
         });

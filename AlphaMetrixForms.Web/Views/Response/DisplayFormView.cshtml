@@ -1,8 +1,11 @@
 ﻿@model AlphaMetrixForms.Web.Models.Response.ResponseViewModel
 
 @{
-    ViewData["Title"] = "DisplayFormView";
+        ViewData["Title"] = "DisplayFormView";
+        ViewData["ModelIsValid"] = ViewData.ModelState.IsValid;
 }
+
+@Html.ValidationSummary(true, "", new { @class = "custom-validation-summary" })
 <div class="card">
     <div class="card-header">
         Form
@@ -26,10 +29,25 @@
 <br>
 <br>
 <br>
-
+<style>
+    .custom-validation-summary ul {
+        list-style-type: none;
+        color: red;
+        padding: 0;
+    }
+</style>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+    $(document).ready(function () {
+        @if(!(bool)ViewData["ModelIsValid"])
+        {
+            //$("#createSiteModal").modal('show');
+               
+        }
+    });
+    </script>
 }
 
 

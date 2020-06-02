@@ -38,6 +38,15 @@ namespace AlphaMetrixForms.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitResponse(ResponseViewModel response)
         {
+
+            foreach(var question in response.Questions)
+            {
+                if(question.DocumentAnswer.Count > 1)
+                {
+                    ModelState.AddModelError(string.Empty, "Cannot upload more than 2 files.");
+                    return View("DisplayFormView", response);
+                }
+            }
             var responseGuid = await _responseService.CreateResponseAsync(response.FormId);
             if (response.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
             {

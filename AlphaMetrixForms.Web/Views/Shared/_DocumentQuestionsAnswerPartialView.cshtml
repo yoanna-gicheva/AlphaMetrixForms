@@ -8,9 +8,8 @@
             <div class="form-group">
                 <label for="Title">@Model.Text</label>
                 <p>Upload one or more files:</p>
-                <input asp-for="DocumentAnswer" ID="FileUpload2" type="file" multiple="multiple" />
+                 <input asp-for="DocumentAnswer" type="file" multiple />
                 <span asp-validation-for="DocumentAnswer" class="text-danger"></span>
-
             </div>
             <input type="hidden" asp-for="@Model.Id">
             <input type="hidden" asp-for="@Model.Type">
