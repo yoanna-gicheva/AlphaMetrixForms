@@ -124,5 +124,25 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View("DisplayFormView", response);
         }
+
+        [Route("Answer/{formId}")]
+        public async Task<IActionResult> RetrieveResponse()
+        {
+            var Id = Guid.Parse("b41ba95b-e19f-4ed6-b443-6c85cf9b5c3d");
+            var responseId = Guid.Parse("DAA0771A-D27F-4DCC-E7A3-08D8065F6CEA");
+            var VAR = await _responseService.RetrieveResponseAsync(responseId, Id);
+            var vm = _mapper.Map<FormViewModel>(VAR);
+            var textQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(VAR.TextQuestions);
+
+            var optionQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(VAR.OptionQuestions);
+            var documentQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(VAR.DocumentQuestions);
+
+            if (textQuestionsVM != null)
+            {
+                vm.Questions.AddRange(textQuestionsVM);
+            }
+
+            return View("DisplayFormView", VAR);
+        }
     }
 }
