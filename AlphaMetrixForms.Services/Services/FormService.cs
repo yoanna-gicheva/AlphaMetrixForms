@@ -113,7 +113,7 @@ namespace AlphaMetrixForms.Services.Services
 
             if (form == null)
             {
-                throw new ArgumentException($"Form with ID: {formId} does not exist.");
+                return null;
             }
 
             return form.GetDto();

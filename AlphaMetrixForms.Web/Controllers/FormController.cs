@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
 using AlphaMetrixForms.Web.Utils;
+using AlphaMetrixForms.Web.Models.Response;
 
 namespace AlphaMetrixForms.Web.Controllers
 {
@@ -43,7 +44,7 @@ namespace AlphaMetrixForms.Web.Controllers
             var formsVM = _mapper.Map<IEnumerable<FormViewModel>>(forms);
 
             int pageSize = 9;
-            return View("Index", PaginatedList<FormViewModel>.CreateAsync(formsVM.Reverse(), pageNumber ?? 1, pageSize));
+            return View("Index", PaginatedList<FormViewModel>.CreateAsync(formsVM.OrderBy(f=>f.CreatedOn), pageNumber ?? 1, pageSize));
         }
         
         [AllowAnonymous]
@@ -222,6 +223,17 @@ namespace AlphaMetrixForms.Web.Controllers
 
             
             return PartialView("_QuestionPartial", newForm);
+        }
+
+        [HttpPost]
+        public IActionResult FormPreview(FormViewModel form)
+        {
+            foreach(var question in form.Questions)
+            {
+                question.PreviewMode = true;
+            }
+            
+            return PartialView("_QuestionPartial", form);
         }
     }
 }

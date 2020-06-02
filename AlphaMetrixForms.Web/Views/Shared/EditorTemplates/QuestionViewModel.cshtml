@@ -1,6 +1,18 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
-@if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text && Model.Id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
+@if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text && Model.PreviewMode == true)
+{
+    <partial name="_TextQuestionsAnswerPartialView" model="@Model" />
+}
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Option && Model.PreviewMode == true)
+{
+    <partial name="_OptionQuestionsAnswerPartialView" model="@Model" />
+}
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document && Model.PreviewMode == true)
+{
+    <partial name="_DocumentQuestionsAnswerPartialView" model="@Model" />
+}
+else if (Model.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text && Model.Id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
 {
     <partial name="_TextQuestionsPartialView" model="@Model" />
 }

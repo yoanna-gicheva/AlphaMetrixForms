@@ -1,0 +1,29 @@
+﻿@model AlphaMetrixForms.Web.Models.Response.ResponseViewModel
+
+@{
+    ViewData["Title"] = "FormPreview";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>@Model.Title</h3>
+    </div>
+    <div class="card-body">
+        <div class="col-md-6">
+            <form id="form" enctype="multipart/form-data" asp-controller="Response" asp-action="SubmitResponse">
+                <input type="hidden" asp-for="@Model.Title" />
+                <h6>@Model.Description</h6>
+                <input type="hidden" asp-for="@Model.Description" />
+                <div id="questions">
+                    <input type="hidden" asp-for="@Model.FormId">
+                    @Html.EditorFor(model => model.Questions)
+                </div>
+                <input type="submit" value="Submit Response" class="btn btn-primary" />
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+
