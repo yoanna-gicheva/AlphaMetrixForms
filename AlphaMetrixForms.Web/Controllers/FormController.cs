@@ -65,7 +65,7 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             var model = new FormViewModel();
             //model.Title = "Untitled";
-            return View("CreateFormView", model);
+            return View("ModifyFormView", model);
         }
 
 
@@ -157,13 +157,14 @@ namespace AlphaMetrixForms.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(Guid id)
         {
+            
             FormDTO form = await _formService.GetFormAsync(id);
             FormViewModel result = ViewModel_Generator(form);
             result.EditMode = true;
             Questions_SetEditMode(result.Questions);
             result.Questions = result.Questions.OrderBy(q => q.OrderNumber).ToList();
 
-            return View("CreateFormView", result);
+            return View("ModifyFormView", result);
         }
         private void Questions_SetEditMode(ICollection<QuestionViewModel> questions)
         {
@@ -176,7 +177,13 @@ namespace AlphaMetrixForms.Web.Controllers
         [Authorize]
         public async Task<IActionResult> SaveChanges(FormViewModel form)
         {
-            if(!form.EditMode)
+            string _errorMessage = ModelValidator_Message(form);
+            if (_errorMessage != null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return Json(new { success = false, responseText = _errorMessage });
+            }
+            if (!form.EditMode)
             {
                 throw new ArgumentException("Edit mode mistaken!");
             }
@@ -191,7 +198,7 @@ namespace AlphaMetrixForms.Web.Controllers
                 throw new ArgumentException();
             }
 
-            return View("CreateFormView", result);
+            return View("ModifyFormView", result);
         }
         private FormDTO DataTransferObject_Generator(FormViewModel form)
         {
