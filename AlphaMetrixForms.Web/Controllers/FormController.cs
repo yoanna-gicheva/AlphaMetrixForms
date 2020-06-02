@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
 using AlphaMetrixForms.Web.Utils;
-using AlphaMetrixForms.Web.Utils.Contracts;
 
 namespace AlphaMetrixForms.Web.Controllers
 {

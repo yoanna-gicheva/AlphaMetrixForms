@@ -77,11 +77,11 @@ namespace AlphaMetrixForms.Web.Utils
             {
                 if (optionQuestion.IsMultipleAnswerAllowed && !optionQuestion.OptionQuestionAnswerCheckbox.Any(o=>o == true) && optionQuestion.IsRequired)
                 {
-                    return $"Please, provide answer for question #{optionQuestion.OrderNumber}";
+                    return $"Please, provide answer for question #{optionQuestion.OrderNumber + 1}";
                 }
                 if (!optionQuestion.IsMultipleAnswerAllowed && optionQuestion.OptionQuestionAnswerRadio == null && optionQuestion.IsRequired)
                 {
-                    return $"Please, provide answer for question #{optionQuestion.OrderNumber}";
+                    return $"Please, provide answer for question #{optionQuestion.OrderNumber + 1}";
                 }
             }
             return null;
@@ -96,7 +96,7 @@ namespace AlphaMetrixForms.Web.Utils
                 }
                 if (documentQuestion.DocumentAnswer != null && documentQuestion.DocumentAnswer.Count() > documentQuestion.FileNumberLimit)
                 {
-                    return $"There is a file number limit of {documentQuestion.FileNumberLimit} for question #{documentQuestion.OrderNumber}";
+                    return $"There is a file number limit of {documentQuestion.FileNumberLimit} for question #{documentQuestion.OrderNumber+1}";
                 }
                 if(documentQuestion.DocumentAnswer != null && documentQuestion.DocumentAnswer.Count() > 0)
                 {
@@ -104,7 +104,7 @@ namespace AlphaMetrixForms.Web.Utils
                     {
                         if(document.Length/ (1024 * 1024) > documentQuestion.FileSizeLimit)
                         {
-                            return $"There is a file size limit of {documentQuestion.FileSizeLimit} for question #{documentQuestion.OrderNumber}";
+                            return $"There is a file size limit of {documentQuestion.FileSizeLimit} for question #{documentQuestion.OrderNumber+1}";
                         }
                     }
                 }

@@ -1,14 +1,17 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
-
+@{
+    int orderNum = Model.OrderNumber + 1;
+    string text = $"{orderNum}. {Model.Text}";
+}
 <br>
 <div class="card" id="textCard">
     <div class="card-header">
+        <label for="Title">@text</label>
     </div>
     <div class="card-body">
         <div class="col-md-12">
             <div class="form-group">
                 <div class="form-group">
-                    <label for="Title">@Model.Text</label>
                     <input type="hidden" asp-for="@Model.Text" />
                 </div>
                 <input type="hidden" asp-for="@Model.Id">
