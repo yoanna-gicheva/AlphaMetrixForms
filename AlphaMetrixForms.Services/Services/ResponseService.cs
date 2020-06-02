@@ -42,13 +42,52 @@ namespace AlphaMetrixForms.Services.Services
 
             Response response = new Response()
             {
-                FormId = formId
+                FormId = formId,
+                CreatedOn = DateTime.UtcNow
             };
 
             await this.context.Responses.AddAsync(response);
             await this.context.SaveChangesAsync();
 
             return response.Id;
+        }
+
+        public async Task<FormDTO> RetrieveResponseAsync(Guid responseId, Guid formId)
+        {
+            Form form = await this.context.Forms
+                .Include(f => f.Owner)
+                .Include(f => f.TextQuestions)
+                .Include(f => f.OptionQuestions)
+                .Include(f => f.OptionQuestions)
+                .Include(f => f.DocumentQuestions)
+                .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
+
+            //this.context.Entry(form)
+            //    .Collection(f => f.TextQuestions)
+            //    .Query()
+            //    .Where(t => t. == responseId)
+            //    .Include(t => t.Answers)
+            //    .Load();
+
+            //foreach (var item in form.TextQuestions)
+            //{
+            //    item.Answers = item.Answers.Where(a => a.ResponseId == responseId).ToList();
+            //}
+            //foreach (var item in form.OptionQuestions)
+            //{
+            //    item.Answers = item.Answers.Where(a => a.ResponseId == responseId).ToList();
+            //}
+            //foreach (var item in form.DocumentQuestions)
+            //{
+            //    item.Answers = item.Answers.Where(a => a.ResponseId == responseId).ToList();
+            //}
+
+            //if (form == null)
+            //{
+            //    throw new ArgumentException($"Response with id {responseId} does not exist.");
+            //}
+
+            return form.GetDto();
         }
 
     }
