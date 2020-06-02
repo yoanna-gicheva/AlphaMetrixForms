@@ -19,7 +19,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
             return new DocumentQuestionAnswerDTO
             {
                 DocumentQuestionId = entity.DocumentQuestionId,
-                DocumentQuestion = entity.DocumentQuestion.Text,
                 ResponseId = entity.ResponseId,
                 Answer = entity.Answer
             };
@@ -29,23 +28,5 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        //public static DocumentQuestionAnswer GetEntity(this DocumentQuestionAnswerDTO documentQuestionAnswerDTO)
-        //{
-        //    if (documentQuestionAnswerDTO == null)
-        //    {
-        //        throw new ArgumentException();
-        //    };
-
-        //    return new DocumentQuestionAnswer
-        //    {
-        //        DocumentQuestionId = documentQuestionAnswerDTO.DocumentQuestionId,
-        //        ResponseId = documentQuestionAnswerDTO.ResponseId,
-        //        Answer = documentQuestionAnswerDTO.Answer
-        //    };
-        //}
-        //public static ICollection<DocumentQuestionAnswer> GetEntities(this ICollection<DocumentQuestionAnswerDTO> dtos)
-        //{
-        //    return dtos.Select(GetEntity).ToList();
-        //}
     }
 }

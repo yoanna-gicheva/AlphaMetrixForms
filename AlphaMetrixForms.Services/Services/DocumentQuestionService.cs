@@ -3,6 +3,7 @@ using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOmappers;
 using AlphaMetrixForms.Services.DTOs;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -40,8 +41,7 @@ namespace AlphaMetrixForms.Services.Services
                 OrderNumber = questionDTO.OrderNumber,
                 IsRequired = questionDTO.IsRequired,
                 FileNumberLimit = questionDTO.FileNumberLimit,
-                FileSizeLimit = questionDTO.FileSizeLimit,
-                CreatedOn = DateTime.UtcNow
+                FileSizeLimit = questionDTO.FileSizeLimit
             };
 
             await this.context.DocumentQuestions.AddAsync(question);
@@ -51,49 +51,10 @@ namespace AlphaMetrixForms.Services.Services
             return questionDTO;
         }
 
-        public async Task<bool> DeleteDocumentQuestionAsync(Guid questionId)
-        {
-            DocumentQuestion question = await this.context.DocumentQuestions
-                .FirstOrDefaultAsync(f => f.Id == questionId && f.IsDeleted == false);
-
-            if (question == null)
-            {
-                return false;
-            }
-
-            question.IsDeleted = true;
-            question.DeletedOn = DateTime.UtcNow;
-
-            await this.context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<ICollection<DocumentQuestionDTO>> GetAllDocumentQuestionsAsync(Guid formId)
-        {
-            List<DocumentQuestion> questions = await this.context.DocumentQuestions
-                .Where(q => q.FormId == formId && q.IsDeleted == false)
-                .ToListAsync();
-
-            return questions.GetDtos();
-        }
-
-        public async Task<DocumentQuestionDTO> GetDocumentQuestionAsync(Guid questionId)
-        {
-            DocumentQuestion question = await this.context.DocumentQuestions
-                .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
-
-            if(question == null)
-            {
-                throw new ArgumentNullException($"There is no such DocumentQuestion with ID: {questionId}");
-            }
-
-            return question.GetDto();
-        }
-
         public async Task<DocumentQuestionDTO> UpdateDocumentQuestionAsync(Guid questionId, DocumentQuestionDTO questionDTO)
         {
             DocumentQuestion question = await this.context.DocumentQuestions
-                .FirstOrDefaultAsync(q => q.Id == questionId && q.IsDeleted == false);
+                .FirstOrDefaultAsync(q => q.Id == questionId);
 
             if (question == null)
             {
@@ -104,11 +65,25 @@ namespace AlphaMetrixForms.Services.Services
             question.FileSizeLimit = questionDTO.FileSizeLimit;
             question.FileNumberLimit = questionDTO.FileNumberLimit;
             question.Text = questionDTO.Text;
-            question.ModifiedOn = DateTime.UtcNow;
 
             await this.context.SaveChangesAsync();
 
             return questionDTO;
+        }
+
+        public async Task DocumentQuestion_DetectChanges(Guid formId, ICollection<DocumentQuestionDTO> questions)
+        {
+            foreach (var question in questions)
+            {
+                if (context.DocumentQuestions.Any(q => q.Id == question.Id))
+                {
+                    await this.UpdateDocumentQuestionAsync(question.Id, question);
+                }
+                else
+                {
+                    await this.CreateDocumentQuestionAsync(question, formId);
+                }
+            }
         }
     }
 }

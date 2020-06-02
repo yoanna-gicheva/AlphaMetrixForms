@@ -19,7 +19,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
             return new OptionQuestionAnswerDTO
             {
                 OptionQuestionId = entity.OptionQuestionId,
-                OptionQuestion = entity.OptionQuestion.Text,
                 ResponseId = entity.ResponseId,
                 Answer = entity.Answer
             };
@@ -29,24 +28,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
         {
             return entities.Select(GetDto).ToList();
         }
-        //public static OptionQuestionAnswer GetEntity(this OptionQuestionAnswerDTO optionQuestionAnswerDTO)
-        //{
-        //    if (optionQuestionAnswerDTO == null)
-        //    {
-        //        throw new ArgumentException();
-        //    };
-
-        //    return new OptionQuestionAnswer
-        //    {
-        //        OptionQuestionId = optionQuestionAnswerDTO.OptionQuestionId,
-        //        ResponseId = optionQuestionAnswerDTO.ResponseId,
-        //        Answer = optionQuestionAnswerDTO.Answer
-        //    };
-        //}
-        //public static ICollection<OptionQuestionAnswer> GetEntities(this ICollection<OptionQuestionAnswerDTO> dtos)
-        //{
-        //    return dtos.Select(GetEntity).ToList();
-        //}
     }
     
 }

@@ -32,7 +32,9 @@ namespace AlphaMetrixForms.Services.Services
         }
         public async Task<IEnumerable<FormDTO>> MyForms(Guid id, IMapper mapper)
         {
-            ICollection<Form> forms = await context.Forms.Where(f => f.OwnerId == id && f.IsDeleted == false).ToListAsync();
+            ICollection<Form> forms = await context.Forms
+                .Include(f=>f.Responses)
+                .Where(f => f.OwnerId == id && f.IsDeleted == false).ToListAsync();
             return mapper.Map<IEnumerable<FormDTO>>(forms);
         }
     }
