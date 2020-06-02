@@ -1,6 +1,6 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 <br>
-<div class="card" id="documentCard">
+<div class="card" id="documentCard" >
     <div class="card-header">
     </div>
     <div class="card-body" enctype="multipart/form-data">
@@ -9,7 +9,9 @@
                 <label for="Title">@Model.Text</label>
                 <p>Upload one or more files:</p>
                 <input asp-for="DocumentAnswer" type="file" multiple />
-                <span asp-validation-for="DocumentAnswer" class="text-danger"></span>
+                <span asp-validation-for="DocumentAnswer"></span>
+                <p>File size limit: @Model.FileSizeLimit</p>
+                <p>File number limit: @Model.FileNumberLimit</p>
             </div>
             <input type="hidden" asp-for="@Model.Id">
             <input type="hidden" asp-for="@Model.Type">

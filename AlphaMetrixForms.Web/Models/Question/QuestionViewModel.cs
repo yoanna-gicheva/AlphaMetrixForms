@@ -43,7 +43,6 @@ namespace AlphaMetrixForms.Web.Models.Question
 
         //ADDITIONAL
         public bool EditMode { get; set; }
-
         public string TextAnswer{get;set;}
         public IFormFileCollection DocumentAnswer { get; set; }
         public List<bool> OptionQuestionAnswerCheckbox { get; set; }

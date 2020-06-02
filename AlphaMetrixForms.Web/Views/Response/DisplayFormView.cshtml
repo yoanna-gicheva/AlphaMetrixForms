@@ -10,7 +10,7 @@
     </div>
     <div class="card-body">
         <div class="col-md-6">
-            <form id="form" asp-controller="Response" asp-action="SubmitResponse">
+            <form id="form" enctype="multipart/form-data" asp-controller="Response" asp-action="SubmitResponse">
                 <h3>@Model.Title</h3>
                 <input type="hidden" asp-for="@Model.Title" />
                 <h6>@Model.Description</h6>
@@ -19,7 +19,7 @@
                     <input type="hidden" asp-for="@Model.FormId">
                     @Html.EditorFor(model => model.Questions)
                 </div>
-                <input type="submit" class="=btn btn-primary">Submit Response</>
+                <input type="submit" value="Submit Response" class="btn btn-primary"/>
             </form>
         </div>
     </div>
@@ -33,9 +33,10 @@
     <script>
         $('form').submit(function (e) {
             e.preventDefault();
+            var formData = new FormData(this);
             $.ajax({
                 async: true,
-                data: $('#form').serialize(),
+                data: formData,
                 type: "POST",
                 url: '/Response/SubmitResponse',
                 success: function () {
@@ -48,11 +49,13 @@
                 },
                 error: function (xhr) {
                     swal(xhr.responseJSON.responseText);
-                }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
             });
         });
     </script>
-
 }
 
 

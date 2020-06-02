@@ -64,7 +64,7 @@ namespace AlphaMetrixForms.Web.Utils
         {
             foreach(var textQuestion in response.Questions.Where(q=>q.Type == QuestionType.Text))
             {
-                if(textQuestion.Text == null && textQuestion.IsRequired)
+                if(textQuestion.TextAnswer == null && textQuestion.IsRequired)
                 {
                     return $"Please, provide answer for question #{textQuestion.OrderNumber}";
                 }
@@ -102,7 +102,7 @@ namespace AlphaMetrixForms.Web.Utils
                 {
                     foreach(var document in documentQuestion.DocumentAnswer)
                     {
-                        if(document.Length > documentQuestion.FileSizeLimit)
+                        if(document.Length/ (1024 * 1024) > documentQuestion.FileSizeLimit)
                         {
                             return $"There is a file size limit of {documentQuestion.FileSizeLimit} for question #{documentQuestion.OrderNumber}";
                         }
