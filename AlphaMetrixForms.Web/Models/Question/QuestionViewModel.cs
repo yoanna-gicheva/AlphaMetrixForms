@@ -46,9 +46,6 @@ namespace AlphaMetrixForms.Web.Models.Question
         public bool EditMode { get; set; }
 
         public string TextAnswer{get;set;}
-
-        //[MinimumElements(2)]
-        [MinimumElements(ErrorMessage = "At least a person is required")]
         public IFormFileCollection DocumentAnswer { get; set; }
 
         [Required]
