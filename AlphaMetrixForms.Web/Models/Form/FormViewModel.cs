@@ -18,17 +18,13 @@ namespace AlphaMetrixForms.Web.Models.Form
 
         public Guid Id { get; set; }
         public int Current { get; set; }
-
-
-        [Required(ErrorMessage = "Title is required.")]
-        [MaxLength(150, ErrorMessage = "Title length cannot consist of more than 150 symbols.")]
         public string Title { get; set; }
         public string Description { get; set; }
         public string Owner { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public List<QuestionViewModel> Questions { get; set; }
-        public ICollection<ResponseViewModel> Responses { get; set; }
+        public List<ResponseViewModel> Responses { get; set; }
         public bool EditMode { get; set; }
     }
 }

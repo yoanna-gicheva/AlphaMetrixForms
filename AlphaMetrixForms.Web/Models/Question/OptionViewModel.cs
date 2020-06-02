@@ -11,7 +11,6 @@ namespace AlphaMetrixForms.Web.Models.Question
         public OptionViewModel()
         {
         }
-        [Required(ErrorMessage = "Option is required.")]
         public string Text { get; set; }
     }
 }

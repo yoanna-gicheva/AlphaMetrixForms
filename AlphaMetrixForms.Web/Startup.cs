@@ -41,6 +41,7 @@ namespace AlphaMetrixForms.Web
             services.AddScoped<IResponseService, ResponseService>();
             services.AddScoped<IUserService, UserService>();
 
+
             services.AddDbContext<FormsContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));

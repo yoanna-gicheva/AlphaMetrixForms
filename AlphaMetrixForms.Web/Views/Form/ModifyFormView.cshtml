@@ -1,7 +1,7 @@
 ﻿@model AlphaMetrixForms.Web.Models.Form.FormViewModel
 
 @{
-    ViewData["Title"] = "CreateFormView";
+    ViewData["Title"] = "ModifyFormView";
 }
 @{
     string action;
@@ -88,7 +88,7 @@
             counter = questionsNum - 1;
         }
 
-         $("button[name='main-email-send']").on('click', function () {
+        $("button[name='main-email-send']").on('click', function () {
             $(this).attr("name", "unique");
         });
         $("div[name='main']").on("click", function () {
@@ -142,23 +142,6 @@
                 }
             });
         });
-
-        //$("input[name='saveChanges']").on('click', function () {
-        //    $.ajax({
-        //        async: true,
-        //        data: $('#form').serialize(),
-        //        type: "POST",
-        //        url: '/Form/SaveChanges',
-        //        success: function () {
-        //            swal({
-        //                title: "Success!",
-        //                text: "Changes were saved successfully!",
-        //                icon: "success",
-        //                button: "Ok!",
-        //            });
-        //        }
-        //    });
-        //});
         $('form').submit(function (e) {
             e.preventDefault();
             let edit = document.getElementById('EditMode').value;
@@ -176,6 +159,9 @@
                             icon: "success",
                             button: "Ok!",
                         });
+                    },
+                    error: function (xhr) {
+                        swal(xhr.responseJSON.responseText);
                     }
                 });
             }
@@ -194,6 +180,9 @@
                         .then(() => {
                             window.location.replace("https://localhost:44366/User/MyForms")
                         });
+                },
+                error: function (xhr) {
+                    swal(xhr.responseJSON.responseText);
                 }
             });
         });

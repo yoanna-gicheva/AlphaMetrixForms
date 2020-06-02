@@ -27,7 +27,6 @@ namespace AlphaMetrixForms.Web.Controllers
         private readonly IDocumentQuestionService _documentQuestionService;
         private readonly IMapper _mapper;
 
-
         public FormController(IFormService formService, ITextQuestionService textQuestionService, IOptionQuestionService optionQuestionService,
             IDocumentQuestionService documentQuestionService, IMapper mapper)
         {
@@ -36,7 +35,6 @@ namespace AlphaMetrixForms.Web.Controllers
             _optionQuestionService = optionQuestionService ?? throw new ArgumentNullException(nameof(optionQuestionService));
             _documentQuestionService = documentQuestionService ?? throw new ArgumentNullException(nameof(documentQuestionService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-
         }
         [AllowAnonymous]
         public async Task<IActionResult> Index(int? pageNumber)
@@ -65,7 +63,7 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             var model = new FormViewModel();
             //model.Title = "Untitled";
-            return View("CreateFormView", model);
+            return View("ModifyFormView", model);
         }
 
 
@@ -73,10 +71,13 @@ namespace AlphaMetrixForms.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Create(FormViewModel form)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //   return View("CreateFormView", form);
-            //}
+            string _errorMessage = Validator.ModifyModelValidation_Message(form);
+            if (_errorMessage != null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return Json(new { success = false, responseText = _errorMessage });
+            }
+
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -121,16 +122,19 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             return Ok();
         }
+
+        
         [Authorize]
         public async Task<IActionResult> Edit(Guid id)
         {
+            
             FormDTO form = await _formService.GetFormAsync(id);
             FormViewModel result = ViewModel_Generator(form);
             result.EditMode = true;
             Questions_SetEditMode(result.Questions);
             result.Questions = result.Questions.OrderBy(q => q.OrderNumber).ToList();
 
-            return View("CreateFormView", result);
+            return View("ModifyFormView", result);
         }
         private void Questions_SetEditMode(ICollection<QuestionViewModel> questions)
         {
@@ -143,7 +147,13 @@ namespace AlphaMetrixForms.Web.Controllers
         [Authorize]
         public async Task<IActionResult> SaveChanges(FormViewModel form)
         {
-            if(!form.EditMode)
+            string _errorMessage = Validator.ModifyModelValidation_Message(form);
+            if (_errorMessage != null)
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return Json(new { success = false, responseText = _errorMessage });
+            }
+            if (!form.EditMode)
             {
                 throw new ArgumentException("Edit mode mistaken!");
             }
@@ -158,7 +168,7 @@ namespace AlphaMetrixForms.Web.Controllers
                 throw new ArgumentException();
             }
 
-            return View("CreateFormView", result);
+            return View("ModifyFormView", result);
         }
         private FormDTO DataTransferObject_Generator(FormViewModel form)
         {

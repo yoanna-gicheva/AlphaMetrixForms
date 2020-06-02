@@ -3,14 +3,14 @@
 @{
     ViewData["Title"] = "DisplayFormView";
 }
+
 <div class="card">
     <div class="card-header">
-        Form
+        <h3>@Model.Title</h3>
     </div>
     <div class="card-body">
         <div class="col-md-6">
-            <form enctype="multipart/form-data" asp-controller="Response" asp-action="SubmitResponse">
-                <h3>@Model.Title</h3>
+            <form id="form" enctype="multipart/form-data" asp-controller="Response" asp-action="SubmitResponse">
                 <input type="hidden" asp-for="@Model.Title" />
                 <h6>@Model.Description</h6>
                 <input type="hidden" asp-for="@Model.Description" />
@@ -18,7 +18,7 @@
                     <input type="hidden" asp-for="@Model.FormId">
                     @Html.EditorFor(model => model.Questions)
                 </div>
-                <button type="submit" class="=btn btn-primary">Submit Response</button>
+                <input type="submit" value="Submit Response" class="btn btn-primary"/>
             </form>
         </div>
     </div>
@@ -27,9 +27,34 @@
 <br>
 <br>
 
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                async: true,
+                data: formData,
+                type: "POST",
+                url: '/Response/SubmitResponse',
+                success: function () {
+                    swal("Perfect! You just submitted your answer!", {
+                        icon: "success",
+                    })
+                        .then(() => {
+                            window.location.replace("https://localhost:44366/Form")
+                        });
+                },
+                error: function (xhr) {
+                    swal(xhr.responseJSON.responseText);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
 }
 
 

@@ -1,18 +1,23 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
-
-<br></br>
+@{
+    int orderNum = Model.OrderNumber + 1;
+    string text = $"{orderNum}. {Model.Text}";
+}
+<br>
 <div class="card" id="textCard">
     <div class="card-header">
+        <label for="Title">@text</label>
     </div>
     <div class="card-body">
         <div class="col-md-12">
-            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
             <div class="form-group">
                 <div class="form-group">
-                    <label for="Title">@Model.Text</label>
                     <input type="hidden" asp-for="@Model.Text" />
                 </div>
                 <input type="hidden" asp-for="@Model.Id">
+                <input type="hidden" asp-for="@Model.Type">
+                <input type="hidden" asp-for="@Model.IsRequired">
+                <input type="hidden" asp-for="@Model.OrderNumber">
             </div>
             @if (@Model.IsLongAnswer)
             {
@@ -25,6 +30,7 @@
         </div>
     </div>
 </div>
-<br></br>
+<br>
+
 
 
