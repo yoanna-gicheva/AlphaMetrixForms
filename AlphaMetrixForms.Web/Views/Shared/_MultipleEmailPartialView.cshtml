@@ -6,24 +6,22 @@
                 <meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
                 <link rel="stylesheet" href="~/css/email.multiple.css">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Share:</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="card col-12 email-id-row">
-                    <br></br>
+                    <br>
                     <div id="documentCard">
-                        <div class="card-header">
-                        </div>
                         <div class="card-body">
                             <input type="text" id="essai" placeholder="Email">
                             <input type="button" name="shareForm" class="btn btn-primary" value="Share">
                         </div>
                     </div>
                 </div>
-                <br></br>
+                <br>
 
                 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
@@ -33,21 +31,13 @@
                 <script>
                     $(document).ready(function ($) {
                         let data = [
-                            "admin@jqueryscript.net",
-                            "admin@cssscript.com"
                         ]
                         $("#essai").email_multiple({
                             data: data
-                            // reset: true
+                            //reset: true
                         });
                     });
                     $("input[name='shareForm']").on('click', function () {
-
-                        //         e.preventDefault();
-                        //var list = [];
-                        //for (var i = 1; i < 10; i++) {
-                        //    list.push(i);
-                        //}
                         let emailsList = $(".single-email-id")
                             .map(function () {
                                 return this.innerText;
@@ -62,8 +52,8 @@
                             data: postData,
                             type: "POST",
                             url: '/Form/Share',
-                            success: function (partialView) {
-                                $('#detailsContainer').html(partialView);
+                            success: function () {
+                                        window.location.reload();
                             }
                         });
                     });
@@ -84,10 +74,6 @@
 
                 </script>
             </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>*@
         </div>
     </div>
 </div>

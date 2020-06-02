@@ -42,6 +42,7 @@ namespace AlphaMetrixForms.Web.Models.Question
 
 
         //ADDITIONAL
+        public bool PreviewMode { get; set; }
         public bool EditMode { get; set; }
         public string TextAnswer{get;set;}
         public IFormFileCollection DocumentAnswer { get; set; }

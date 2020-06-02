@@ -50,7 +50,9 @@
                     {
                         <br>
                         <input type="submit" name="saveChanges" class="btn btn-primary" value="Save">
-                        <input type="button" name="preview" class="btn btn-primary" value="Preview">
+                        <button type="button" name="preview" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            Preview
+                        </button>
                         <button type="button" id="@Model.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Share
                         </button>
@@ -59,7 +61,9 @@
                     else
                     {
                         <input type="submit" name="createForm" class="btn btn-primary" value="Create">
-                        <input type="button" name="preview" class="btn btn-primary" value="Preview">
+                        <button type="button" name="preview" class="btn btn-primary">
+                            Preview
+                        </button>
                     }
                 </div>
                 <div id="alerts">
@@ -77,6 +81,10 @@
 <br>
 
 <partial name="_MultipleEmailPartialView" />
+<partial name="_PreviewFormPartial" />
+
+
+
 
 
 @section Scripts {
@@ -87,7 +95,18 @@
         if (questionsNum > 0) {
             counter = questionsNum - 1;
         }
-
+        $("button[name='preview']").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Form/FormPreview',
+                success: function (partialView) {
+                    $("#previewBody").html(partialView);
+                    $("#previewForm").modal('show');
+                }
+            });
+        });
         $("button[name='main-email-send']").on('click', function () {
             $(this).attr("name", "unique");
         });
