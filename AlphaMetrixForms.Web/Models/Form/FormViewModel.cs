@@ -24,7 +24,7 @@ namespace AlphaMetrixForms.Web.Models.Form
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public List<QuestionViewModel> Questions { get; set; }
-        public ICollection<ResponseViewModel> Responses { get; set; }
+        public List<ResponseViewModel> Responses { get; set; }
         public bool EditMode { get; set; }
     }
 }

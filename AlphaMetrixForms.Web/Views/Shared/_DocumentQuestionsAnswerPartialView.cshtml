@@ -8,60 +8,15 @@
             <div class="form-group">
                 <label for="Title">@Model.Text</label>
                 <p>Upload one or more files:</p>
-                 <input asp-for="DocumentAnswer" type="file" multiple />
+                <input asp-for="DocumentAnswer" type="file" multiple />
                 <span asp-validation-for="DocumentAnswer" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="@Model.Id">
             <input type="hidden" asp-for="@Model.Type">
+            <input type="hidden" asp-for="@Model.IsRequired">
+            <input type="hidden" asp-for="@Model.OrderNumber">
+            <input type="hidden" asp-for="@Model.FileNumberLimit">
+            <input type="hidden" asp-for="@Model.FileSizeLimit">
         </div>
     </div>
 </div>
-
-
-
-@*@{
-    var asyncSettings = new Syncfusion.EJ2.Inputs.UploaderAsyncSettings { SaveUrl = "https://ej2.syncfusion.com/services/api/uploadbox/Save", RemoveUrl = "https://ej2.syncfusion.com/services/api/uploadbox/Remove" };
-}
-<ejs-uploader id="UploadFiles" asyncSettings="@asyncSettings" selected="onFileSelected" success="onUploadSuccess" autoUpload="false"></ejs-uploader>
-<script>
-    function onFileSelected(args) {
-        // Filter the 5 files only to showcase
-        var uploadObj = document.getElementById("UploadFiles")
-        args.filesData.splice(2);
-        var filesData = uploadObj.ej2_instances[0].getFilesData();
-        var allFiles = filesData.concat(args.filesData);
-        if (allFiles.length > 2) {
-            for (var i = 0; i < allFiles.length; i++) {
-                if (allFiles.length > 2) {
-                    allFiles.shift();
-                }
-            }
-            args.filesData = allFiles;
-            // set the modified custom data
-            args.modifiedFilesData = args.filesData;
-        }
-        args.isModified = true;
-    }
-    function onUploadSuccess(args) {
-        var _this = this;
-        var li = this.uploadWrapper.querySelector('[data-file-name="' + args.file.name + '"]');
-        if (args.operation === 'upload') {
-            li.querySelector('.e-file-delete-btn').onclick = function () {
-                generateSpinner(_this.uploadWrapper);
-            };
-            li.querySelector('.e-file-delete-btn').onkeydown = function (e) {
-                if (e.keyCode === 13) {
-                    generateSpinner(e.target.closest('.e-upload'));
-                }
-            };
-        }
-        else {
-            ej.popups.hideSpinner(this.uploadWrapper);
-            ej.base.detach(this.uploadWrapper.querySelector('.e-spinner-pane'));
-        }
-    }
-    function generateSpinner(targetElement) {
-        ej.popups.createSpinner({ target: targetElement, width: '25px' });
-        ej.popups.showSpinner(targetElement);
-    }*@
-@*</script>*@

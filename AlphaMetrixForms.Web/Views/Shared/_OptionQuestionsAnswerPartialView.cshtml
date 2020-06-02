@@ -1,6 +1,6 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
-<br></br>
+<br>
 <div class="card" id="textCard">
     <div class="card-header">
     </div>
@@ -13,6 +13,9 @@
                 </div>
                 <input type="hidden" asp-for="@Model.Id">
                 <input type="hidden" asp-for="@Model.Type">
+                <input type="hidden" asp-for="@Model.IsRequired">
+                <input type="hidden" asp-for="@Model.IsMultipleAnswerAllowed">
+                <input type="hidden" asp-for="@Model.OrderNumber">
             </div>
             @if (@Model.IsMultipleAnswerAllowed)
             {
@@ -22,7 +25,6 @@
                         <input asp-for="@Model.OptionQuestionAnswerCheckbox[i]" type="checkbox" class="custom-control-input" id="@i+@Model.OrderNumber">
                         <label class="custom-control-label" for="@i+@Model.OrderNumber">@Model.Options[i].Text</label>
                     </div>
-                    <span asp-validation-for="@Model.OptionQuestionAnswerCheckbox[i]" class="text-danger"></span>
                 }
             }
             else
@@ -33,12 +35,11 @@
                         <input type="radio" asp-for="@Model.OptionQuestionAnswerRadio" value="@Model.Options[i].Text" class="custom-control-input" id="@i+@Model.OrderNumber">
                         <label class="custom-control-label" for="@i+@Model.OrderNumber">@Model.Options[i].Text</label>
                     </div>
-                    <span asp-validation-for="@Model.OptionQuestionAnswerRadio" class="text-danger"></span>
-
                 }
             }
         </div>
     </div>
 </div>
-<br></br>
+
+<br>
 

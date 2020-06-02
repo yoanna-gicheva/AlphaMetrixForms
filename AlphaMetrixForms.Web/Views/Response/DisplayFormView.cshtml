@@ -1,18 +1,16 @@
 ﻿@model AlphaMetrixForms.Web.Models.Response.ResponseViewModel
 
 @{
-        ViewData["Title"] = "DisplayFormView";
-        ViewData["ModelIsValid"] = ViewData.ModelState.IsValid;
+    ViewData["Title"] = "DisplayFormView";
 }
 
-@Html.ValidationSummary(true, "", new { @class = "custom-validation-summary" })
 <div class="card">
     <div class="card-header">
         Form
     </div>
     <div class="card-body">
         <div class="col-md-6">
-            <form enctype="multipart/form-data" asp-controller="Response" asp-action="SubmitResponse">
+            <form id="form" asp-controller="Response" asp-action="SubmitResponse">
                 <h3>@Model.Title</h3>
                 <input type="hidden" asp-for="@Model.Title" />
                 <h6>@Model.Description</h6>
@@ -21,7 +19,7 @@
                     <input type="hidden" asp-for="@Model.FormId">
                     @Html.EditorFor(model => model.Questions)
                 </div>
-                <button type="submit" class="=btn btn-primary">Submit Response</button>
+                <input type="submit" class="=btn btn-primary">Submit Response</>
             </form>
         </div>
     </div>
@@ -29,25 +27,32 @@
 <br>
 <br>
 <br>
-<style>
-    .custom-validation-summary ul {
-        list-style-type: none;
-        color: red;
-        padding: 0;
-    }
-</style>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-    $(document).ready(function () {
-        @if(!(bool)ViewData["ModelIsValid"])
-        {
-            //$("#createSiteModal").modal('show');
-               
-        }
-    });
+        $('form').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Response/SubmitResponse',
+                success: function () {
+                    swal("Perfect! You just submitted your answer!", {
+                        icon: "success",
+                    })
+                        .then(() => {
+                            window.location.replace("https://localhost:44366/Form")
+                        });
+                },
+                error: function (xhr) {
+                    swal(xhr.responseJSON.responseText);
+                }
+            });
+        });
     </script>
+
 }
 
 

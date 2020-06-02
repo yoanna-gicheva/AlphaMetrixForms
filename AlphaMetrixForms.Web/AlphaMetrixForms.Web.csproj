@@ -43,7 +43,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="Utils\Validations\" />
     <Folder Include="wwwroot\assets\img\" />
   </ItemGroup>
 

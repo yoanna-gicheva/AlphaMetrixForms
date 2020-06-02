@@ -10,6 +10,7 @@ using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Question;
 using AlphaMetrixForms.Web.Models.Response;
 using AlphaMetrixForms.Web.Models.User;
+using AlphaMetrixForms.Web.Utils;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,16 +39,16 @@ namespace AlphaMetrixForms.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitResponse(ResponseViewModel response)
         {
-
-            foreach(var question in response.Questions)
+            string _errorMessage = Validator.ResponseValidation_Message(response);
+            if (_errorMessage != null)
             {
-                if(question.DocumentAnswer.Count > 1)
-                {
-                    ModelState.AddModelError(string.Empty, "Cannot upload more than 2 files.");
-                    return View("DisplayFormView", response);
-                }
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+                return Json(new { success = false, responseText = _errorMessage });
             }
             var responseGuid = await _responseService.CreateResponseAsync(response.FormId);
+            
+            return Ok();
+
             if (response.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
             {
                 var textQuestions = response.Questions
@@ -92,6 +93,7 @@ namespace AlphaMetrixForms.Web.Controllers
             if (textQuestionsVM != null)
             {    
                 formVM.Questions.AddRange(textQuestionsVM);
+                
             }
             if (optionQuestionsVM != null)
             {

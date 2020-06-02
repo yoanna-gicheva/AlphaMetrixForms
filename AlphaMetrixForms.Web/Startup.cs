@@ -19,6 +19,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using React.AspNet;
 using AlphaMetrixForms.Web.Middlewares;
+using AlphaMetrixForms.Web.Utils.Contracts;
+using System.ComponentModel.DataAnnotations;
 
 namespace AlphaMetrixForms.Web
 {
@@ -40,6 +42,7 @@ namespace AlphaMetrixForms.Web
             services.AddScoped<IDocumentQuestionService, DocumentQuestionService>();
             services.AddScoped<IResponseService, ResponseService>();
             services.AddScoped<IUserService, UserService>();
+
 
             services.AddDbContext<FormsContext>(options =>
                 options.UseSqlServer(
