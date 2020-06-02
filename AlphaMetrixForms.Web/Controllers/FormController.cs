@@ -55,7 +55,7 @@ namespace AlphaMetrixForms.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Share(EmailProvider emailList)
         {
-            return null;
+            return Ok();
         }
 
         [Authorize]
