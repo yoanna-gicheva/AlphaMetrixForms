@@ -1,5 +1,6 @@
 ﻿using AlphaMetrixForms.Services.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,9 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<bool> CreateDocumentQuestionAsync(ICollection<DocumentQuestionDTO> questionDTOs, Guid formId);
 
         Task DocumentQuestion_DetectChanges(Guid formId, ICollection<DocumentQuestionDTO> questions);
-        
+
+        Task CreateDocumentQuestionAnswerAsync(Guid responseId, Guid questionId, IFormFileCollection files);
+
+
     }
 }

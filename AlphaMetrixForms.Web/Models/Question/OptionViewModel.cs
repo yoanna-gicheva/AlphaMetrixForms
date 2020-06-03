@@ -11,6 +11,7 @@ namespace AlphaMetrixForms.Web.Models.Question
         public OptionViewModel()
         {
         }
+        public int OrderNumber { get; set; }
         public string Text { get; set; }
     }
 }

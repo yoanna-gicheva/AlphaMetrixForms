@@ -14,5 +14,8 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<bool> CreateOptionQuestionAsync(ICollection<OptionQuestionDTO> questionDTOs, Guid formId);
         Task OptionQuestion_DetectChanges(Guid formId, ICollection<OptionQuestionDTO> questions);
 
+        Task CreateOptionQuestionAnswerRadioAsync(Guid responseId, Guid questionId, string answer);
+        Task CreateOptionQuestionAnswerCheckboxAsync(Guid responseId, Guid questionId, List<bool> checkboxes);
+
     }
 }

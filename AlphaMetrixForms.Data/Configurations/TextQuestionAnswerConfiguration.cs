@@ -11,7 +11,7 @@ namespace AlphaMetrixForms.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<TextQuestionAnswer> builder)
         {
-            builder.HasKey(a => new { a.TextQuestionId, a.ResponseId });
+            builder.HasKey(a => a.Id);
 
             builder.Property(a => a.Answer)
                 .IsRequired();

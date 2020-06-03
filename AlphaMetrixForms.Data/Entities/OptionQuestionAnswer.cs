@@ -4,6 +4,7 @@ namespace AlphaMetrixForms.Data.Entities
 {
     public class OptionQuestionAnswer
     {
+        public Guid Id { get; set; }
         public Guid OptionQuestionId { get; set; }
 
         public OptionQuestion OptionQuestion { get; set; }

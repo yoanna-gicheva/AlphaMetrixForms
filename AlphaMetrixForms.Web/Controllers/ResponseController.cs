@@ -46,8 +46,6 @@ namespace AlphaMetrixForms.Web.Controllers
                 return Json(new { success = false, responseText = _errorMessage });
             }
             var responseGuid = await _responseService.CreateResponseAsync(response.FormId);
-            
-            return Ok();
 
             if (response.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
             {
@@ -59,24 +57,33 @@ namespace AlphaMetrixForms.Web.Controllers
                     await _textQuestionService.CreateTextQuestionAnswerAsync(responseGuid, textQuestions[i].Id, textQuestions[i].TextAnswer);
                 }
             }
-            //if (form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
-            //{
-            //    var optionQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).ToList();
-            //    var result = await _optionQuestionService.CreateOptionQuestionAsync(_mapper.Map<ICollection<OptionQuestionDTO>>(optionQuestions), formId);
-            //    if (!result)
-            //    {
-            //        throw new ArgumentException();
-            //    }
-            //}
-            //if (form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
-            //{
-            //    var documentQuestions = form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).ToList();
-            //    var result = await _documentQuestionService.CreateDocumentQuestionAsync(_mapper.Map<ICollection<DocumentQuestionDTO>>(documentQuestions), formId);
-            //    if (!result)
-            //    {
-            //        throw new ArgumentException();
-            //    }
-            //}
+            if (response.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
+            {
+                var optionQuestions = response.Questions
+                    .Where(q => q.Type.Equals(QuestionType.Option))
+                    .ToList();
+                foreach (var item in optionQuestions)
+                {
+                    if (item.OptionQuestionAnswerRadio!=null)
+                    {
+                        await _optionQuestionService.CreateOptionQuestionAnswerRadioAsync(responseGuid, item.Id, item.OptionQuestionAnswerRadio);
+                    }
+                    else
+                    {
+                        await _optionQuestionService.CreateOptionQuestionAnswerCheckboxAsync(responseGuid, item.Id, item.OptionQuestionAnswerCheckbox);
+                    }
+                }
+            }
+            if (response.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
+            {
+                var documentQuestions = response.Questions
+                    .Where(q => q.Type.Equals(QuestionType.Document))
+                    .ToList();
+                for (int i = 0; i < documentQuestions.Count; i++)
+                {
+                    await _documentQuestionService.CreateDocumentQuestionAnswerAsync(responseGuid, documentQuestions[i].Id, documentQuestions[i].DocumentAnswer);
+                }
+            }
             return Ok();
         }
 
@@ -132,8 +139,8 @@ namespace AlphaMetrixForms.Web.Controllers
         [Route("Answer/{formId}")]
         public async Task<IActionResult> RetrieveResponse()
         {
-            var Id = Guid.Parse("b41ba95b-e19f-4ed6-b443-6c85cf9b5c3d");
-            var responseId = Guid.Parse("DAA0771A-D27F-4DCC-E7A3-08D8065F6CEA");
+            var Id = Guid.Parse("8A50AB5F-0EB5-4EAA-916E-DC241A19A3ED");
+            var responseId = Guid.Parse("9AB530C5-2EE3-40C9-1E9C-08D807EF3156");
             var VAR = await _responseService.RetrieveResponseAsync(responseId, Id);
             var vm = _mapper.Map<FormViewModel>(VAR);
             var textQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(VAR.TextQuestions);

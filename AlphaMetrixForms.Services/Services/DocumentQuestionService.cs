@@ -4,6 +4,10 @@ using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOmappers;
 using AlphaMetrixForms.Services.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Auth;
+using Microsoft.Azure.Storage.Blob;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -83,6 +87,49 @@ namespace AlphaMetrixForms.Services.Services
                 {
                     await this.CreateDocumentQuestionAsync(question, formId);
                 }
+            }
+        }
+
+        public async Task CreateDocumentQuestionAnswerAsync(Guid responseId, Guid questionId, IFormFileCollection files)
+        {
+            if (files == null)
+            {
+                return;
+            }
+            foreach (var item in files)
+            {
+                await this.UploadFileAsync(item, responseId, questionId);
+                var documentAnswer = new DocumentQuestionAnswer
+                {
+                    ResponseId = responseId,
+                    DocumentQuestionId = questionId,
+                    Answer = item.FileName
+                };
+                await context.DocumentQuestionAnswers.AddAsync(documentAnswer);
+            }
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task UploadFileAsync(IFormFile file, Guid responseId, Guid questionId)
+        {
+            const string accountName = "alphametrix";
+            const string key = "3hCy/2bFCJFXUrqs8JT9v9yWtemzAqPUod2rhHU94Uxn3Zah2LO3MWPb1H0y/E2fZ4GfmXEYci4GNfeRKmcTQQ==";
+            var storageAccount = new CloudStorageAccount(new StorageCredentials(accountName, key), true);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference("alphametrixforms");
+            await container.CreateIfNotExistsAsync();
+            await container.SetPermissionsAsync(new BlobContainerPermissions()
+            {
+                PublicAccess = BlobContainerPublicAccessType.Blob
+            });
+
+            CloudBlobDirectory folder = container.GetDirectoryReference($"Response_{responseId}_{questionId}");
+
+            var blockblob = folder.GetBlockBlobReference(file.FileName);
+
+            using (var stream = file.OpenReadStream())
+            {
+                await blockblob.UploadFromStreamAsync(stream);
             }
         }
     }

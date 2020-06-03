@@ -18,6 +18,7 @@ namespace AlphaMetrixForms.Services.DTOmappers
 
             return new DocumentQuestionAnswerDTO
             {
+                Id = entity.Id,
                 DocumentQuestionId = entity.DocumentQuestionId,
                 ResponseId = entity.ResponseId,
                 Answer = entity.Answer

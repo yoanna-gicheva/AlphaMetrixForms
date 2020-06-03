@@ -11,6 +11,7 @@ namespace AlphaMetrixForms.Data.Entities
         public Guid QuestionId { get; set; }
         public OptionQuestion Question { get; set; }
 
+        public int OrderNumber { get; set; }
         public string Text { get; set; }
     }
 }

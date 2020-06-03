@@ -62,12 +62,14 @@ namespace AlphaMetrixForms.Services.Services
                 .Include(f => f.DocumentQuestions)
                 .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
-            //this.context.Entry(form)
-            //    .Collection(f => f.TextQuestions)
-            //    .Query()
-            //    .Where(t => t. == responseId)
-            //    .Include(t => t.Answers)
-            //    .Load();
+            this.context.Entry(form)
+                .Collection(f => f.Responses)
+                .Query()
+                .Where(r => r.Id == responseId)
+                .Include(r => r.TextQuestionAnswers)
+                .Include(r => r.DocumentQuestionAnswers)
+                .Include(r => r.OptionQuestionAnswers)
+                .Load();
 
             //foreach (var item in form.TextQuestions)
             //{
