@@ -9,10 +9,9 @@ namespace AlphaMetrixForms.Services.Providers.Contracts
         public string To { get; set; }
         public string Subject { get; set; }
 
-        public string Owner { get; set; }
         public string Greeting { get; set; }
 
-        public string Link { get; set; }
+        public string Content { get; set; }
 
         public string Closing { get; set; }
     }

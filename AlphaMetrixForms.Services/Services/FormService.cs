@@ -142,28 +142,29 @@ namespace AlphaMetrixForms.Services.Services
             return formDTO;
         }
 
-        public async Task<bool> ShareFormAsync (Guid formId, string owner, string mails)
+        public async Task<bool> ShareFormAsync(ICollection<string> mails, Guid formId)
         {
             Email email = new Email();
-            //mails should be converted here
-            email.To = mails;
 
             email.Subject = "You were invited to complete a form!";
-            email.Greeting = $"Dear Received,\r\nYou were invited by {owner} to fill the following form:\r\n";
-            email.Link = $"https://localhost:44366/Answer/{formId}";
+            email.Greeting = $"Dear Received,\r\nYou were invited to fill the following form:\r\n";
+            email.Content = $"https://localhost:44366/Response/{formId}";
             email.Closing = "\r\nKind regards,\r\nAlphaMetrix Team";
 
             MailMessage message = new MailMessage();
-            message.To.Add(email.To);
+            foreach (var item in mails)
+            {
+                message.To.Add(item);
+            }
             message.Subject = email.Subject;
-            message.Body = email.Greeting+email.Link+email.Closing;
+            message.Body = email.Greeting+email.Content+email.Closing;
             message.From = new MailAddress("alphametrixforms@gmail.com");
             message.IsBodyHtml = false;
             SmtpClient smtp = new SmtpClient("smtp.gmail.com");
             smtp.Port = 587;
             smtp.UseDefaultCredentials = true;
             smtp.EnableSsl = true;
-            smtp.Credentials = new System.Net.NetworkCredential("alphametrixforms@gmail.com", "passwordShouldBeHere");
+            smtp.Credentials = new System.Net.NetworkCredential("alphametrixforms@gmail.com", "yoanna13");
             smtp.Send(message);
 
             return true;

@@ -1,0 +1,61 @@
+﻿@model AlphaMetrixForms.Web.Models.ContactUsViewModel
+
+<div class="card">
+
+    <div class="card-header">
+        Feedback
+    </div>
+    <div class="card-body">
+        <div class="col-md-6">
+            <form asp-action="ContactUs" id="form">
+                <div class="form-group">
+                    <label asp-for="Sender" class="control-label"></label>
+                    <input asp-for="Sender" class="form-control" placeholder="Your name" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Subject" class="control-label"></label>
+                    <input asp-for="Subject" class="form-control" placeholder="The Topic" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Content" class="control-label"></label>
+                    <textarea asp-for="Content" class="form-control" placeholder="The Topic" rows="6"></textarea>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CallBackInfo" class="control-label">Call me back at</label>
+                    <input asp-for="CallBackInfo" class="form-control" placeholder="Email or phone" />
+                </div>
+
+                <div name="submit">
+                    <button name="submit" type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $("button[name='submit']").on('click', function () {
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/Home/ContactUs',
+                success: function () {
+                    swal("We received your message! Thank you!", {
+                        icon: "success",
+                    })
+                        .then(() => {
+                            window.location.replace("https://localhost:44366/Home/")
+                        });
+                },
+                error: function (xhr) {
+                    swal(xhr.responseJSON.responseText);
+                },
+            });
+        });
+    </script>
+}

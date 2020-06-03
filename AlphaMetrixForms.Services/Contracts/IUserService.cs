@@ -12,5 +12,7 @@ namespace AlphaMetrixForms.Services.Contracts
 
         Task<UserDTO> UserDetails(Guid id, IMapper mapper);
         Task<IEnumerable<FormDTO>> MyForms(Guid id, IMapper mapper);
+
+        Task<bool> ShareFeedbackAsync(string sender, string subject, string content, string callBackInfo);
     }
 }

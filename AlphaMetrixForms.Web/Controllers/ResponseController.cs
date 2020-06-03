@@ -124,7 +124,7 @@ namespace AlphaMetrixForms.Web.Controllers
             response.FormId = formVM.Id;
             response.Title = formVM.Title;
             response.Description = formVM.Description;
-            response.Questions = formVM.Questions;
+            response.Questions = formVM.Questions.OrderBy(q=>q.OrderNumber).ToList();
 
             return View("DisplayFormView", response);
         }
