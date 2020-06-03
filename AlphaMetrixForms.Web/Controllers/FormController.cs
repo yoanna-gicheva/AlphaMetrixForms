@@ -44,7 +44,7 @@ namespace AlphaMetrixForms.Web.Controllers
             var formsVM = _mapper.Map<IEnumerable<FormViewModel>>(forms);
 
             int pageSize = 9;
-            return View("Index", PaginatedList<FormViewModel>.CreateAsync(formsVM.OrderBy(f=>f.CreatedOn), pageNumber ?? 1, pageSize));
+            return View("Index", PaginatedList<FormViewModel>.CreateAsync(formsVM.OrderByDescending(f=>f.CreatedOn), pageNumber ?? 1, pageSize));
         }
         
 
