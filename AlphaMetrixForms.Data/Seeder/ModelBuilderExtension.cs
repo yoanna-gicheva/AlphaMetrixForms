@@ -213,28 +213,32 @@ namespace AlphaMetrixForms.Data.Seeder
             {
                 Id = Guid.Parse("d5ff0344-94c4-48fe-9211-8c34e43c9a7e"),
                 QuestionId = Guid.Parse("02627001-cae2-4189-a774-5f2b1876f37c"),
-                Text = "less than 1 year"
+                Text = "less than 1 year",
+                OrderNumber = 1
             };
 
             var optionQuestion1option2 = new Option
             {
                 Id = Guid.Parse("b3ba569b-123e-4f16-9298-3dbe5720207c"),
                 QuestionId = Guid.Parse("02627001-cae2-4189-a774-5f2b1876f37c"),
-                Text = "1-3 years"
+                Text = "1-3 years",
+                OrderNumber = 2
             };
 
             var optionQuestion1option3 = new Option
             {
                 Id = Guid.Parse("7a36b91e-9454-43cb-8e58-93d493b849ad"),
                 QuestionId = Guid.Parse("02627001-cae2-4189-a774-5f2b1876f37c"),
-                Text = "3-5 years"
+                Text = "3-5 years",
+                OrderNumber = 3
             };
 
             var optionQuestion1option4 = new Option
             {
                 Id = Guid.Parse("d626cd57-2076-4494-9765-be883e0292de"),
                 QuestionId = Guid.Parse("02627001-cae2-4189-a774-5f2b1876f37c"),
-                Text = "more than 5 years"
+                Text = "more than 5 years",
+                OrderNumber = 4
             };
 
             var optionQuestion2 = new OptionQuestion
@@ -252,70 +256,80 @@ namespace AlphaMetrixForms.Data.Seeder
             {
                 Id = Guid.Parse("c542a866-9b62-4629-8e69-84c4394104c4"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Debit Card"
+                Text = "Debit Card",
+                OrderNumber=1
             };
 
             var optionQuestion2option2 = new Option
             {
                 Id = Guid.Parse("1f747c49-83d1-4e12-93a4-d4fb94366d3d"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Credit Card"
+                Text = "Credit Card",
+                OrderNumber=2
             };
 
             var optionQuestion2option3 = new Option
             {
                 Id = Guid.Parse("b73ca574-f326-4bc6-80dc-038ea561ab33"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Current account"
+                Text = "Current account",
+                OrderNumber=3
             };
 
             var optionQuestion2option4 = new Option
             {
                 Id = Guid.Parse("40b0b5ca-f281-4919-b323-26ab2b84d720"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Overdraft"
+                Text = "Overdraft",
+                OrderNumber=4
             };
 
             var optionQuestion2option5 = new Option
             {
                 Id = Guid.Parse("0b8a2599-2e62-4d2c-aca8-cc6c2a43bab1"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Short-term Loan"
+                Text = "Short-term Loan",
+                OrderNumber=5
             };
 
             var optionQuestion2option6 = new Option
             {
                 Id = Guid.Parse("c47a949d-e300-4354-b22e-a1615bc6f1a3"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Long-term Loan"
+                Text = "Long-term Loan",
+                OrderNumber=6
             };
 
             var optionQuestion2option7 = new Option
             {
                 Id = Guid.Parse("85662798-ac15-45c7-96fb-50e77de9d526"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Mortgage"
+                Text = "Mortgage",
+                OrderNumber=7
             };
 
             var optionQuestion2option8 = new Option
             {
                 Id = Guid.Parse("a7a8b2ac-d48a-4e48-98db-2ac2eacb507a"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Savings account"
+                Text = "Savings account",
+                OrderNumber=8
             };
 
             var optionQuestion2option9 = new Option
             {
                 Id = Guid.Parse("bd0ca49f-c7c3-4401-a225-16d025b13f9b"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "E-Banking"
+                Text = "E-Banking",
+                OrderNumber=9
             };
 
             var optionQuestion2option10 = new Option
             {
                 Id = Guid.Parse("99c6498b-e76f-496a-9e2b-beb3e36eb6b6"),
                 QuestionId = Guid.Parse("29413352-774c-4cf4-8093-c0b733a95194"),
-                Text = "Other"
+                Text = "Other",
+                OrderNumber=10
             };
 
             var optionQuestion3 = new OptionQuestion
@@ -332,21 +346,24 @@ namespace AlphaMetrixForms.Data.Seeder
             {
                 Id = Guid.Parse("cc936706-63b9-4830-95ff-c108a71e13f3"),
                 QuestionId = Guid.Parse("69b16a6e-75c5-456a-ac2b-bdf94753b112"),
-                Text = "Yes"
+                Text = "Yes",
+                OrderNumber=1
             };
 
             var optionQuestion3option2 = new Option
             {
                 Id = Guid.Parse("ca610326-8825-465a-bf9e-634ddbdcaaad"),
                 QuestionId = Guid.Parse("69b16a6e-75c5-456a-ac2b-bdf94753b112"),
-                Text = "No"
+                Text = "No",
+                OrderNumber=2
             };
 
             var optionQuestion3option3 = new Option
             {
                 Id = Guid.Parse("80a8e086-9592-4760-bd5b-a1a0ebf6a624"),
                 QuestionId = Guid.Parse("69b16a6e-75c5-456a-ac2b-bdf94753b112"),
-                Text = "TestBank is not my main servicing bank"
+                Text = "TestBank is not my main servicing bank",
+                OrderNumber=3
             };
 
             var optionQuestion4 = new OptionQuestion
@@ -363,21 +380,24 @@ namespace AlphaMetrixForms.Data.Seeder
             {
                 Id = Guid.Parse("1a65e090-bec7-4388-a9dc-521ee062fc25"),
                 QuestionId = Guid.Parse("786cef88-a6ac-42e3-994c-e7eed39201a5"),
-                Text = "A"
+                Text = "A",
+                OrderNumber=1
             };
 
             var testOption2 = new Option
             {
                 Id = Guid.Parse("372d0d01-ca28-4fcd-8395-5ffcfe8c9ce1"),
                 QuestionId = Guid.Parse("786cef88-a6ac-42e3-994c-e7eed39201a5"),
-                Text = "B"
+                Text = "B",
+                OrderNumber=2
             };
 
             var testOption3 = new Option
             {
                 Id = Guid.Parse("56b5054b-565a-4ea5-92b9-a4db8c2e6ba3"),
                 QuestionId = Guid.Parse("786cef88-a6ac-42e3-994c-e7eed39201a5"),
-                Text = "C"
+                Text = "C",
+                OrderNumber=3
             };
 
             var optionQuestion5 = new OptionQuestion
@@ -394,21 +414,24 @@ namespace AlphaMetrixForms.Data.Seeder
             {
                 Id = Guid.Parse("a640a29e-89be-4ad1-9b13-b46035d724ef"),
                 QuestionId = Guid.Parse("f97771a3-f1ad-40ce-b113-2eed16bc4a3d"),
-                Text = "A"
+                Text = "A",
+                OrderNumber=1
             };
 
             var testOption5 = new Option
             {
                 Id = Guid.Parse("97f2f831-2c0d-4717-8337-d24d2710ecdd"),
                 QuestionId = Guid.Parse("f97771a3-f1ad-40ce-b113-2eed16bc4a3d"),
-                Text = "B"
+                Text = "B",
+                OrderNumber=2
             };
 
             var testOption6 = new Option
             {
                 Id = Guid.Parse("48c526ef-0970-4e7c-b0fb-0f0ef7770c67"),
                 QuestionId = Guid.Parse("f97771a3-f1ad-40ce-b113-2eed16bc4a3d"),
-                Text = "C"
+                Text = "C",
+                OrderNumber=3
             };
 
             var optionQuestion6 = new OptionQuestion
@@ -425,21 +448,24 @@ namespace AlphaMetrixForms.Data.Seeder
             {
                 Id = Guid.Parse("fc61593b-297f-48f5-b626-8b8c1496b095"),
                 QuestionId = Guid.Parse("1e82d528-4898-4c9e-87fb-16c0fdb9843e"),
-                Text = "A"
+                Text = "A",
+                OrderNumber=1
             };
 
             var testOption8 = new Option
             {
                 Id = Guid.Parse("c3f46f23-0b18-4fe7-a00c-5084afd4b032"),
                 QuestionId = Guid.Parse("1e82d528-4898-4c9e-87fb-16c0fdb9843e"),
-                Text = "B"
+                Text = "B",
+                OrderNumber=2
             };
 
             var testOption9 = new Option
             {
                 Id = Guid.Parse("a0d5d390-f70e-43ae-8744-a4762a6a8a0e"),
                 QuestionId = Guid.Parse("1e82d528-4898-4c9e-87fb-16c0fdb9843e"),
-                Text = "C"
+                Text = "C",
+                OrderNumber=3
             };
 
             var optionQuestion7 = new OptionQuestion
@@ -456,21 +482,24 @@ namespace AlphaMetrixForms.Data.Seeder
             {
                 Id = Guid.Parse("10c77e0c-b471-47c6-bea7-556d5c88eed7"),
                 QuestionId = Guid.Parse("6902a89e-e11c-4800-99d6-b51f66f8ca54"),
-                Text = "A"
+                Text = "A",
+                OrderNumber=1
             };
 
             var testOption11 = new Option
             {
                 Id = Guid.Parse("0c223fee-5e8e-42b9-85cc-5eae00291d47"),
                 QuestionId = Guid.Parse("6902a89e-e11c-4800-99d6-b51f66f8ca54"),
-                Text = "B"
+                Text = "B",
+                OrderNumber=2
             };
 
             var testOption12 = new Option
             {
                 Id = Guid.Parse("5d1ff7f7-2a7d-420c-955e-4fccf5589668"),
                 QuestionId = Guid.Parse("6902a89e-e11c-4800-99d6-b51f66f8ca54"),
-                Text = "C"
+                Text = "C",
+                OrderNumber=3
             };
 
             builder.Entity<OptionQuestion>().HasData(optionQuestion1, optionQuestion2, optionQuestion3, 

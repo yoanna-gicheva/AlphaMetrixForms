@@ -5,6 +5,7 @@ namespace AlphaMetrixForms.Data.Entities
 {
     public class TextQuestionAnswer
     {
+        public Guid Id { get; set; }
         public Guid TextQuestionId { get; set; }
         public TextQuestion TextQuestion { get; set; }
         public Guid ResponseId { get; set; }

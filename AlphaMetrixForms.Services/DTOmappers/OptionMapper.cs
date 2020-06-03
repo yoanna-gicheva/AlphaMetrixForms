@@ -20,6 +20,7 @@ namespace AlphaMetrixForms.Services.DTOmappers
             {
                 Id = entity.Id,
                 QuestionId = entity.QuestionId,
+                OrderNumber=entity.OrderNumber,
                 Text = entity.Text
             };
         }

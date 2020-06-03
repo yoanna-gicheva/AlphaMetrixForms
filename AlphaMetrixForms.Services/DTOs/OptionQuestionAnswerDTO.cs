@@ -6,6 +6,7 @@ namespace AlphaMetrixForms.Services.DTOs
 {
     public class OptionQuestionAnswerDTO
     {
+        public Guid Id { get; set; }
         public Guid OptionQuestionId { get; set; }
 
         public Guid ResponseId { get; set; }

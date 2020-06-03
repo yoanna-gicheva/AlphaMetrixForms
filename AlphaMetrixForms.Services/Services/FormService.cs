@@ -111,6 +111,11 @@ namespace AlphaMetrixForms.Services.Services
                 .ThenInclude(q => q.Options)
                 .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
+            foreach (var optionQuestion in form.OptionQuestions)
+            {
+                optionQuestion.Options = optionQuestion.Options.OrderBy(o => o.OrderNumber).ToList();
+            }
+
             if (form == null)
             {
                 return null;
@@ -147,7 +152,7 @@ namespace AlphaMetrixForms.Services.Services
             Email email = new Email();
 
             email.Subject = "You were invited to complete a form!";
-            email.Greeting = $"Dear Received,\r\nYou were invited to fill the following form:\r\n";
+            email.Greeting = $"Dear Sir/Madam,\r\nYou were invited to fill the following form:\r\n";
             email.Content = $"https://localhost:44366/Response/{formId}";
             email.Closing = "\r\nKind regards,\r\nAlphaMetrix Team";
 

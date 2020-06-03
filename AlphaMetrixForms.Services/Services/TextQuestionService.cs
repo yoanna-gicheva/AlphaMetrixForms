@@ -86,6 +86,10 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task CreateTextQuestionAnswerAsync(Guid responseId, Guid questionId, string answer)
         {
+            if (answer==null)
+            {
+                return;
+            }
             var textAnswer = new TextQuestionAnswer
             {
                 ResponseId = responseId,

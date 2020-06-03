@@ -43,12 +43,14 @@ namespace AlphaMetrixForms.Services.Services
             };
             await context.OptionQuestions.AddAsync(question);
             await context.SaveChangesAsync();
-
+            int orderOfOptions = 1;
             foreach (var option in questionDTO.Options)
             {
                 Option toAdd = new Option();
                 toAdd.Text = option.Text;
                 toAdd.QuestionId = question.Id;
+                toAdd.OrderNumber = orderOfOptions;
+                orderOfOptions++;
                 await context.Options.AddAsync(toAdd);
             }
             await context.SaveChangesAsync();
@@ -89,5 +91,55 @@ namespace AlphaMetrixForms.Services.Services
                 }
             }
         }
+
+        public async Task CreateOptionQuestionAnswerRadioAsync(Guid responseId, Guid questionId, string answer)
+        {
+            if (answer == null)
+            {
+                return;
+            }
+            var optionAnswer = new OptionQuestionAnswer
+            {
+                ResponseId = responseId,
+                OptionQuestionId = questionId,
+                Answer = answer
+            };
+
+            await this.context.OptionQuestionAnswers.AddAsync(optionAnswer);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task CreateOptionQuestionAnswerCheckboxAsync(Guid responseId, Guid questionId, List<bool> checkboxes)
+        {
+            if (checkboxes.Contains(true)==false)
+            {
+                return;
+            }
+            var options = await this.context.Options
+                .Where(o => o.QuestionId == questionId)
+                .OrderBy(o => o.OrderNumber)
+                .ToListAsync();
+
+            if (options.Count != checkboxes.Count)
+            {
+                throw new ArgumentException("Invalid number of options received.");
+            }
+
+            for (int i = 0; i < checkboxes.Count; i++)
+            {
+                if (checkboxes[i] == true)
+                {
+                    var optionAnswer = new OptionQuestionAnswer
+                    {
+                        ResponseId = responseId,
+                        OptionQuestionId = questionId,
+                        Answer = options[i].Text
+                    };
+                    await context.OptionQuestionAnswers.AddAsync(optionAnswer);
+                }
+            }
+            await this.context.SaveChangesAsync();
+        }
+
     }
 }

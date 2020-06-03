@@ -4,14 +4,16 @@ using AlphaMetrixForms.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlphaMetrixForms.Data.Migrations
 {
     [DbContext(typeof(FormsContext))]
-    partial class FormsContextModelSnapshot : ModelSnapshot
+    [Migration("20200603143600_AddedOrderNumberToOption")]
+    partial class AddedOrderNumberToOption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,23 +107,17 @@ namespace AlphaMetrixForms.Data.Migrations
 
             modelBuilder.Entity("AlphaMetrixForms.Data.Entities.DocumentQuestionAnswer", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("DocumentQuestionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ResponseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("DocumentQuestionId");
+                    b.HasKey("DocumentQuestionId", "ResponseId");
 
                     b.HasIndex("ResponseId");
 
@@ -169,7 +165,7 @@ namespace AlphaMetrixForms.Data.Migrations
                         new
                         {
                             Id = new Guid("8a50ab5f-0eb5-4eaa-916e-dc241a19a3ed"),
-                            CreatedOn = new DateTime(2020, 6, 3, 18, 30, 50, 432, DateTimeKind.Utc).AddTicks(4659),
+                            CreatedOn = new DateTime(2020, 6, 3, 14, 35, 59, 412, DateTimeKind.Utc).AddTicks(134),
                             Description = "Questionnaire initiated by TestBank in order to improve their services.",
                             IsClosed = false,
                             IsDeleted = false,
@@ -179,7 +175,7 @@ namespace AlphaMetrixForms.Data.Migrations
                         new
                         {
                             Id = new Guid("b41ba95b-e19f-4ed6-b443-6c85cf9b5c3d"),
-                            CreatedOn = new DateTime(2020, 6, 3, 18, 30, 50, 432, DateTimeKind.Utc).AddTicks(5003),
+                            CreatedOn = new DateTime(2020, 6, 3, 14, 35, 59, 412, DateTimeKind.Utc).AddTicks(622),
                             IsClosed = false,
                             IsDeleted = false,
                             OwnerId = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
@@ -188,7 +184,7 @@ namespace AlphaMetrixForms.Data.Migrations
                         new
                         {
                             Id = new Guid("aa5a5180-9201-41bf-9241-7a3918f4bf5c"),
-                            CreatedOn = new DateTime(2020, 6, 3, 18, 30, 50, 432, DateTimeKind.Utc).AddTicks(5018),
+                            CreatedOn = new DateTime(2020, 6, 3, 14, 35, 59, 412, DateTimeKind.Utc).AddTicks(644),
                             IsClosed = false,
                             IsDeleted = false,
                             OwnerId = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
@@ -197,7 +193,7 @@ namespace AlphaMetrixForms.Data.Migrations
                         new
                         {
                             Id = new Guid("eff4ce9b-6a32-47a4-8e5e-d7d89ca18446"),
-                            CreatedOn = new DateTime(2020, 6, 3, 18, 30, 50, 432, DateTimeKind.Utc).AddTicks(5023),
+                            CreatedOn = new DateTime(2020, 6, 3, 14, 35, 59, 412, DateTimeKind.Utc).AddTicks(651),
                             IsClosed = false,
                             IsDeleted = false,
                             OwnerId = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
@@ -529,23 +525,17 @@ namespace AlphaMetrixForms.Data.Migrations
 
             modelBuilder.Entity("AlphaMetrixForms.Data.Entities.OptionQuestionAnswer", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("OptionQuestionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ResponseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("OptionQuestionId");
+                    b.HasKey("OptionQuestionId", "ResponseId");
 
                     b.HasIndex("ResponseId");
 
@@ -695,25 +685,19 @@ namespace AlphaMetrixForms.Data.Migrations
 
             modelBuilder.Entity("AlphaMetrixForms.Data.Entities.TextQuestionAnswer", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("TextQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResponseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Answer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ResponseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TextQuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("TextQuestionId", "ResponseId");
 
                     b.HasIndex("ResponseId");
-
-                    b.HasIndex("TextQuestionId");
 
                     b.ToTable("TextQuestionAnswers");
                 });
@@ -800,15 +784,15 @@ namespace AlphaMetrixForms.Data.Migrations
                         {
                             Id = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5d7fb9b2-d177-462e-96d9-1464e975d64d",
-                            CreatedOn = new DateTime(2020, 6, 3, 18, 30, 50, 414, DateTimeKind.Utc).AddTicks(6916),
+                            ConcurrencyStamp = "e834635a-69c4-4137-a6cf-f9f62a5e5223",
+                            CreatedOn = new DateTime(2020, 6, 3, 14, 35, 59, 394, DateTimeKind.Utc).AddTicks(638),
                             Email = "user1@user.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@USER.COM",
                             NormalizedUserName = "TESTUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPo7m6MDc3qkoZSFot7ps5/PvYihdMeHEtavkFINe8NLt++5FTYgODvYADM8QDy5kQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDmE4LwX41nVN0gqS02Cf4bWVxHr23jeRf/ChR/D5albeXIfvb3IkY16ivoZL+9zgA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "DC6E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,
