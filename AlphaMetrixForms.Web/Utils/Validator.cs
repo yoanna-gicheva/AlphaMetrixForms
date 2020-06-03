@@ -1,4 +1,5 @@
-﻿using AlphaMetrixForms.Web.Models.Enums;
+﻿using AlphaMetrixForms.Web.Models;
+using AlphaMetrixForms.Web.Models.Enums;
 using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Response;
 using System;
@@ -112,5 +113,25 @@ namespace AlphaMetrixForms.Web.Utils
             return null;
         }
 
+        public static string ContactModelValidation_Message(ContactUsViewModel vm)
+        {
+            if (vm.Sender == null)
+            {
+                return "Please share your name!";
+            }
+            else if (vm.Subject == null)
+            {
+                return "Please add a subject!";
+            }
+            else if (vm.Content == null)
+            {
+                return "Please add body of your message!";
+            }
+            else if (vm.CallBackInfo == null)
+            {
+                return "Please add contact back details!";
+            }
+            return null;
+        }
     }
 }

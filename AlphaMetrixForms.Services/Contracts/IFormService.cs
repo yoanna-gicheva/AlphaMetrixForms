@@ -17,7 +17,7 @@ namespace AlphaMetrixForms.Services.Contracts
 
         Task<FormDTO> GetFormAsync(Guid formId);
 
-        Task<bool> ShareFormAsync(Guid formId, string owner, string mails);
+        Task<bool> ShareFormAsync(ICollection<string> mails, Guid formId);
 
         Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO);
         

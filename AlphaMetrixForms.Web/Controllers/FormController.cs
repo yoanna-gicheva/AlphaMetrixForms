@@ -47,15 +47,11 @@ namespace AlphaMetrixForms.Web.Controllers
             return View("Index", PaginatedList<FormViewModel>.CreateAsync(formsVM.OrderBy(f=>f.CreatedOn), pageNumber ?? 1, pageSize));
         }
         
-        [AllowAnonymous]
-        public async Task<IActionResult> ShareForm(Guid formId, string owner, string mails)
-        {
-            var result = await this._formService.ShareFormAsync(formId, owner, mails);
-            return Ok();
-        }
+
         [HttpPost]
         public async Task<IActionResult> Share(EmailProvider emailList)
         {
+            var result = await this._formService.ShareFormAsync(emailList.Emails, emailList.FormId);
             return Ok();
         }
 
