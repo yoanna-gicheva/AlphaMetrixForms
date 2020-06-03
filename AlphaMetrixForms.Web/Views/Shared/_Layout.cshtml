@@ -1,6 +1,10 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    
+    <link rel="stylesheet" href="~/css/particles-background.css">
+
+
     <!-- Syncfusion Essential JS 2 Styles -->
     <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
 
@@ -84,12 +88,23 @@
            <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.mi
         n.js"></script>*@
 
+
+
+    <!-- // three.js - https://github.com/mrdoob/three.js
+    var THREE=THREE||{REVISION:"56"} -->
+
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AlphaMetrixForms.Web</a>
+                @*<a href="@Url.Action("Index", "Home")" class="navbar-brand">
+            <img src="~/assets/img/AlphaMetrixLogoWhite.png" title="title" alt="additional title">
+        </a>*@
+                @*@Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })*@
+                <a href="/Home/Index" class="navbar-brand"> <img src="~/assets/img/AlphaMetrixLogoWhite.png" alt="Company logo" width="130" height="40" /></a>
+
+                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>*@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -97,26 +112,27 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
                     <partial name="_LoginPartial" />
-                    <partial name="_SearchPartial" />
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="nav-link text-dark" asp-controller="Form" asp-action="Create" >Create</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyForms">My Forms</a>
+                    }
                     <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Form" asp-action="Index">Forms</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <partial name="_SearchPartial" />
                         </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyForms">My Forms</a>
-                            </li>
-                        }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact</a>
-                        </li>
+
                     </ul>
 
                 </div>
+
 
             </div>
         </nav>
@@ -141,3 +157,8 @@
     <ejs-scripts></ejs-scripts>
 </body>
 </html>
+@*<style>
+    .navbar-brand {
+    background-image: url(~/assets/img/AlphaMetrixLogoWhite.png);
+}
+    </style>*@
