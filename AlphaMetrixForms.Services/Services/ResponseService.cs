@@ -52,13 +52,24 @@ namespace AlphaMetrixForms.Services.Services
             return response.Id;
         }
 
+        public async Task<FormDTO> RetrieveResponseForFormAsync(Guid formId)
+        {
+            Form form = await this.context.Forms
+                .Include(f => f.Owner)
+                .Include(f => f.Responses).ThenInclude(r=>r.TextQuestionAnswers)
+                .Include(f => f.Responses).ThenInclude(r=>r.OptionQuestionAnswers)
+                .Include(f => f.Responses).ThenInclude(r=>r.DocumentQuestionAnswers)
+                .FirstOrDefaultAsync(f => f.Id == formId);
+
+            return form.GetDto();
+        }
+
         public async Task<FormDTO> RetrieveResponseAsync(Guid responseId, Guid formId)
         {
             Form form = await this.context.Forms
                 .Include(f => f.Owner)
                 .Include(f => f.TextQuestions)
-                .Include(f => f.OptionQuestions)
-                .Include(f => f.OptionQuestions)
+                .Include(f => f.OptionQuestions).ThenInclude(o=>o.Options)
                 .Include(f => f.DocumentQuestions)
                 .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
@@ -70,24 +81,6 @@ namespace AlphaMetrixForms.Services.Services
                 .Include(r => r.DocumentQuestionAnswers)
                 .Include(r => r.OptionQuestionAnswers)
                 .Load();
-
-            //foreach (var item in form.TextQuestions)
-            //{
-            //    item.Answers = item.Answers.Where(a => a.ResponseId == responseId).ToList();
-            //}
-            //foreach (var item in form.OptionQuestions)
-            //{
-            //    item.Answers = item.Answers.Where(a => a.ResponseId == responseId).ToList();
-            //}
-            //foreach (var item in form.DocumentQuestions)
-            //{
-            //    item.Answers = item.Answers.Where(a => a.ResponseId == responseId).ToList();
-            //}
-
-            //if (form == null)
-            //{
-            //    throw new ArgumentException($"Response with id {responseId} does not exist.");
-            //}
 
             return form.GetDto();
         }

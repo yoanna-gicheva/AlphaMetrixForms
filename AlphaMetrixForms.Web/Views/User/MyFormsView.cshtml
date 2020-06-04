@@ -18,7 +18,8 @@
                         <p class="card-text">Created on: @form.CreatedOn</p>
                         <p class="card-text">Modified on: @form.ModifiedOn</p>
                         <p class="card-text">Answers: @form.Responses.Count</p>
-                        <button type="button" asp-controller="Response" asp-action="ViewAnswers" asp-route-id="@form.Id" class="btn btn-primary">View answers</button>
+                        <a asp-controller="Response" asp-action="ViewAnswers" asp-route-formId="@form.Id"><button class="btn btn-primary">View answers</button></a>
+                        @*<button type="button" asp-controller="Response" asp-action="ViewAnswers" asp-route-formId="@form.Id" class="btn btn-primary">View answers</button>*@
                         <button type="button" id="@form.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Share
                         </button>
