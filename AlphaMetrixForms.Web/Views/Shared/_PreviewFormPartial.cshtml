@@ -1,8 +1,8 @@
 ﻿@model AlphaMetrixForms.Web.Models.Form.FormViewModel
 
-<!-- Modal -->
-<div class="modal fade" id="previewForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<!-- Large modal -->
+<div class="modal fade bd-example-modal-lg" id="previewForm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Form Preview:</h5>
@@ -11,27 +11,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card col-12 email-id-row">
-                    <br>
-                    <div id="documentCard">
-                        <div class="card-body" id="previewBody">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>@Model.Title</h3>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>@Model.Title</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12">
+                            <form id="form" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="@Model.Title" />
+                                <h6>@Model.Description</h6>
+                                <input type="hidden" asp-for="@Model.Description" />
+                                <div id="questions">
+                                    @Html.EditorFor(model => model.Questions)
                                 </div>
-                                <div class="card-body">
-                                    <div class="col-md-6">
-                                        <form id="form" enctype="multipart/form-data" asp-controller="Response" asp-action="SubmitResponse">
-                                            <input type="hidden" asp-for="@Model.Title" />
-                                            <h6>@Model.Description</h6>
-                                            <input type="hidden" asp-for="@Model.Description" />
-                                            <div id="questions">
-                                                @Html.EditorFor(model => model.Questions)
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

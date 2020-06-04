@@ -47,7 +47,6 @@ namespace AlphaMetrixForms.Web.Controllers
             return View("Index", PaginatedList<FormViewModel>.CreateAsync(formsVM.OrderByDescending(f=>f.CreatedOn), pageNumber ?? 1, pageSize));
         }
         
-
         [HttpPost]
         public async Task<IActionResult> Share(EmailProvider emailList)
         {
@@ -229,7 +228,7 @@ namespace AlphaMetrixForms.Web.Controllers
                 question.PreviewMode = true;
             }
             
-            return PartialView("_QuestionPartial", form);
+            return PartialView("_PreviewFormPartial", form);
         }
     }
 }

@@ -50,7 +50,7 @@
                     {
                         <br>
                         <input type="submit" name="saveChanges" class="btn btn-primary" value="Save">
-                        <button type="button" name="preview" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        <button type="button" name="preview" class="btn btn-primary">
                             Preview
                         </button>
                         <button type="button" id="@Model.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -81,8 +81,10 @@
 <br>
 
 <partial name="_MultipleEmailPartialView" />
-<partial name="_PreviewFormPartial" />
 
+@*<partial name="_PreviewFormPartial" />*@
+
+<div id="previewContainer"></div>
 
 
 
@@ -101,8 +103,8 @@
                 data: $('#form').serialize(),
                 type: "POST",
                 url: '/Form/FormPreview',
-                success: function (partialView) {
-                    $("#previewBody").html(partialView);
+                success: function (data) {
+                    $("#previewContainer").html(data); // #temp is the empty div
                     $("#previewForm").modal('show');
                 }
             });
