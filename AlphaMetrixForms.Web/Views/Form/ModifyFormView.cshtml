@@ -50,6 +50,8 @@
                     {
                         <br>
                         <input type="submit" name="saveChanges" class="btn btn-primary" value="Save">
+                        <input type="submit" asp-controller="Form" asp-action="FormPreview" class="btn btn-primary" value="Preview">
+
                         <button type="button" name="preview" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Preview
                         </button>
@@ -61,6 +63,8 @@
                     else
                     {
                         <input type="submit" name="createForm" class="btn btn-primary" value="Create">
+                        @*<button asp-controller="Form" asp-action="FormPreview" asp-route-form="@Model" class="btn btn-primary" value="Preview">Preview</button>*@
+
                         <button type="button" name="preview" class="btn btn-primary">
                             Preview
                         </button>
@@ -81,8 +85,10 @@
 <br>
 
 <partial name="_MultipleEmailPartialView" />
-<partial name="_PreviewFormPartial" />
 
+@*<partial name="_PreviewFormPartial" />*@
+
+<div id="temp"></div>
 
 
 
@@ -101,8 +107,8 @@
                 data: $('#form').serialize(),
                 type: "POST",
                 url: '/Form/FormPreview',
-                success: function (partialView) {
-                    $("#previewBody").html(partialView);
+                success: function (data) {
+                    $("#temp").html(data); // #temp is the empty div
                     $("#previewForm").modal('show');
                 }
             });
