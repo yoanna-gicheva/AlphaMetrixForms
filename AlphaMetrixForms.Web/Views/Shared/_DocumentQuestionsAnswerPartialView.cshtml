@@ -13,7 +13,14 @@
         <div class="col-md-12">
             <div class="form-group">
                 <p>Upload one or more files:</p>
-                <input asp-for="DocumentAnswer" type="file" multiple />
+                @if (Model.PreviewMode)
+                {
+                    <input asp-for="DocumentAnswer" type="file" multiple disabled />
+                }
+                else
+                {
+                    <input asp-for="DocumentAnswer" type="file" multiple />
+                }
                 <span asp-validation-for="DocumentAnswer"></span>
                 <p>File size limit: @Model.FileSizeLimit</p>
                 <p>File number limit: @Model.FileNumberLimit</p>

@@ -86,6 +86,11 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             return Ok();
         }
+        [HttpPost]
+        public async Task<IActionResult> GetAnswers(Guid id)
+        {
+            return null;
+        }
 
         [Route("Response/{formId}")]
         public async Task<IActionResult> DisplayForm(Guid formId)
