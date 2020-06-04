@@ -11,5 +11,7 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<Guid> CreateResponseAsync(Guid formId);
 
         Task<FormDTO> RetrieveResponseAsync(Guid responseId, Guid formId);
+
+        Task<FormDTO> RetrieveResponseForFormAsync(Guid formId);
     }
 }

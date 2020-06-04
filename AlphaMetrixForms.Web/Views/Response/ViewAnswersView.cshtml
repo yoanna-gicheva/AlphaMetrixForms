@@ -1,0 +1,45 @@
+﻿@model AlphaMetrixForms.Web.Models.Form.FormViewModel
+
+@{
+    ViewData["Title"] = "View Answers";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>@Model.Title</h3>
+    </div>
+    <div class="card-body">
+        @if (@Model.Responses.Count == 0)
+        {
+            <p class="text-center">No responses are submitted for this form yet.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Number</th>
+                        <th scope="col">Created On</th>
+                        <th scope="col">View Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 1; i <= @Model.Responses.Count; i++)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@Model.Responses[i - 1].CreatedOn</td>
+                            <td><a class="btn btn-primary" role="button" asp-action="RetrieveResponse" asp-route-responseId="@Model.Responses[i-1].Id" asp-route-formId="@Model.Id">View</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<br>
+<br>
+<br>
+
+
+
