@@ -15,7 +15,7 @@
                 <h6>@Model.Description</h6>
                 <input type="hidden" asp-for="@Model.Description" />
                 <div id="answers">
-                    @foreach (var answer in Model.Answers)
+                    @foreach (var answer in Model.Answers.OrderBy(a=>a.OrderNumber))
                     {
                         if (answer.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text)
                         {
