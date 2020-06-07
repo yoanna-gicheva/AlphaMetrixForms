@@ -99,10 +99,6 @@ namespace AlphaMetrixForms.Web.Controllers
         public async Task<IActionResult> DisplayForm(Guid formId)
         {
             var form = await this._formService.GetFormAsync(formId);
-            if(form == null)
-            {
-                return NotFound();
-            }
             var formVM = _mapper.Map<FormViewModel>(form);
 
             var textQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.TextQuestions);
