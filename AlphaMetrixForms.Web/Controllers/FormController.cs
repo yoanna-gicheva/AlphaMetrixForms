@@ -16,6 +16,7 @@ using System.Net.Mail;
 using Microsoft.AspNetCore.Authorization;
 using AlphaMetrixForms.Web.Utils;
 using AlphaMetrixForms.Web.Models.Response;
+using System.Text;
 
 namespace AlphaMetrixForms.Web.Controllers
 {
@@ -210,14 +211,26 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
             form.Questions.Remove(question);
-            FormViewModel newForm = new FormViewModel();
-            newForm.Title = form.Title;
-            newForm.Description = form.Description;
-            newForm.EditMode = form.EditMode;
-            newForm.Questions = form.Questions;
-
+            //FormViewModel newForm = new FormViewModel();
+            //newForm.Title = form.Title;
+            //newForm.Description = form.Description;
+            //newForm.EditMode = form.EditMode;
+            //newForm.Questions = form.Questions;
             
-            return PartialView("_QuestionPartial", newForm);
+            return PartialView("_QuestionPartial", form);
+        }
+
+        public async Task<IActionResult> SearchForms (string title, int? pageNumber)
+        {
+            if(title != null)
+            {
+                var forms = await _formService.SearchForms(title);
+                var formsVM = _mapper.Map<IEnumerable<FormViewModel>>(forms);
+
+                int pageSize = 9;
+                return View("Index", PaginatedList<FormViewModel>.CreateAsync(formsVM.OrderByDescending(f => f.CreatedOn), pageNumber ?? 1, pageSize));
+            }
+            return BadRequest();
         }
 
         [HttpPost]

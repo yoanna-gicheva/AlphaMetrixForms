@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    
+
     <link rel="stylesheet" href="~/css/particles-background.css">
 
 
@@ -88,19 +88,15 @@
            <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.mi
         n.js"></script>*@
 
-
-
-    <!-- // three.js - https://github.com/mrdoob/three.js
-    var THREE=THREE||{REVISION:"56"} -->
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 @*<a href="@Url.Action("Index", "Home")" class="navbar-brand">
-            <img src="~/assets/img/AlphaMetrixLogoWhite.png" title="title" alt="additional title">
-        </a>*@
+                        <img src="~/assets/img/AlphaMetrixLogoWhite.png" title="title" alt="additional title">
+                    </a>*@
                 @*@Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })*@
                 <a href="/Home/Index" class="navbar-brand"> <img src="~/assets/img/AlphaMetrixLogoWhite.png" alt="Company logo" width="130" height="40" /></a>
 
@@ -115,7 +111,7 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a class="nav-link text-dark" asp-controller="Form" asp-action="Create" >Create</a>
+                        <a class="nav-link text-dark" asp-controller="Form" asp-action="Create">Create</a>
                         <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyForms">My Forms</a>
                     }
                     <ul class="navbar-nav flex-grow-1">
@@ -144,11 +140,11 @@
     </div>
 
 
-    <footer class="border-top footer text-muted">
+    @*<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - AlphaMetrixForms.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

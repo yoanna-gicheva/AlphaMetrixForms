@@ -21,7 +21,6 @@ namespace AlphaMetrixForms.Services.DTOmappers
                 Id = entity.Id,
                 OptionQuestionId = entity.OptionQuestionId,
                 ResponseId = entity.ResponseId,
-                Answer = entity.Answer
             };
         }
 

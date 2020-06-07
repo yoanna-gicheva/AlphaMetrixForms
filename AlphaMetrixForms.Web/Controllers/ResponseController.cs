@@ -146,10 +146,28 @@ namespace AlphaMetrixForms.Web.Controllers
         [Route("RetrieveResponse/{responseId}")]
         public async Task<IActionResult> RetrieveResponse(Guid responseId, Guid formId)
         {
-            var formDTO = await _responseService.RetrieveResponseAsync(responseId, formId);
-            var vm = _mapper.Map<FormViewModel>(formDTO);
+            var responseDTO = await _responseService.RetrieveResponseAsync(responseId, formId);
+            var vm = _mapper.Map<ResponseDisplayModel>(responseDTO);
 
-            return View();
+            foreach(var answer in responseDTO.TextQuestionAnswers)
+            {
+                var answerVM = _mapper.Map<AnswerViewModel>(answer);
+                vm.Answers.Add(answerVM);
+            }
+            foreach (var answer in responseDTO.OptionQuestionAnswers)
+            {
+                var answerVM = _mapper.Map<AnswerViewModel>(answer);
+                answerVM.Type = QuestionType.Option;
+                vm.Answers.Add(answerVM);
+            }
+            foreach (var answer in responseDTO.DocumentQuestionAnswers)
+            {
+                var answerVM = _mapper.Map<AnswerViewModel>(answer);
+                answerVM.Type = QuestionType.Document;
+                vm.Answers.Add(answerVM);
+            }
+
+            return View("DisplayResponseView", vm);
         }
     }
 }
