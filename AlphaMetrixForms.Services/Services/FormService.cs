@@ -77,6 +77,17 @@ namespace AlphaMetrixForms.Services.Services
             return true;
         }
 
+        //Not used anywhere yet
+        //
+        //public async Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId)
+        //{
+        //    List<Form> forms = await this.context.Forms
+        //        .Where(f => f.OwnerId == ownerId && f.IsDeleted == false)
+        //        .ToListAsync();
+
+        //    return forms.GetDtos();
+        //}
+
         public async Task<ICollection<FormDTO>> GetAllFormsAsync()
         {
             List<Form> forms = await this.context.Forms
@@ -166,7 +177,7 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task<ICollection<FormDTO>> SearchForms(string title)
         {
-            List<Form> forms = await context.Forms.Where(f=>f.Title.Contains(title))
+            List<Form> forms = await context.Forms.Where(f=>f.Title.StartsWith(title))
                .Include(f => f.Owner)
                .Include(f => f.Responses).ThenInclude(r => r.TextQuestionAnswers)
                .Include(f => f.Responses).ThenInclude(r => r.DocumentQuestionAnswers)

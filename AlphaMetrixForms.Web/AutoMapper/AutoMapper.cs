@@ -38,6 +38,13 @@ namespace AlphaMetrixForms.Web.AutoMapper
             CreateMap<UserDTO, UserViewModel>();
             CreateMap<Response, ResponseDTO>();
             CreateMap<FormViewModel, ResponseViewModel>();
+
+            CreateMap<ResponseDTO, ResponseDisplayModel>();
+            CreateMap<TextQuestionAnswerDTO, AnswerViewModel>();
+            CreateMap<OptionQuestionAnswerDTO, AnswerViewModel>();
+            CreateMap<DocumentQuestionAnswerDTO, AnswerViewModel>();
+
+
         }
     }
 }

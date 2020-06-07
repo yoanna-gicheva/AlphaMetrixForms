@@ -3,11 +3,13 @@
 @{
     ViewData["Title"] = "View Answers";
 }
-
 <div class="card">
     <div class="card-header">
         <h3>@Model.Title</h3>
+        <h5>@Model.Description</h5>
     </div>
+
+
     <div class="card-body">
         @if (@Model.Responses.Count == 0)
         {
@@ -19,7 +21,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Number</th>
-                        <th scope="col">Created On</th>
+                        <th scope="col">Submitted on</th>
                         <th scope="col">View Response</th>
                     </tr>
                 </thead>
@@ -40,6 +42,4 @@
 <br>
 <br>
 <br>
-
-
 
