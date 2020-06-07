@@ -86,9 +86,13 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             return Ok();
         }
-        public async Task<IActionResult> ViewAnswers(Guid id)
+
+        [Route("ViewAnswers/{formId}")]
+        public async Task<IActionResult> ViewAnswers(Guid formId)
         {
-            return null;
+            var result = await this._responseService.RetrieveResponseForFormAsync(formId);
+            var vm = _mapper.Map<FormViewModel>(result);
+            return View("ViewAnswersView",vm);
         }
 
         [Route("Response/{formId}")]
@@ -139,25 +143,13 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View("DisplayFormView", response);
         }
-
-        [Route("Answer/{formId}")]
-        public async Task<IActionResult> RetrieveResponse()
+        [Route("RetrieveResponse/{responseId}")]
+        public async Task<IActionResult> RetrieveResponse(Guid responseId, Guid formId)
         {
-            var Id = Guid.Parse("8A50AB5F-0EB5-4EAA-916E-DC241A19A3ED");
-            var responseId = Guid.Parse("9AB530C5-2EE3-40C9-1E9C-08D807EF3156");
-            var VAR = await _responseService.RetrieveResponseAsync(responseId, Id);
-            var vm = _mapper.Map<FormViewModel>(VAR);
-            var textQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(VAR.TextQuestions);
+            var formDTO = await _responseService.RetrieveResponseAsync(responseId, formId);
+            var vm = _mapper.Map<FormViewModel>(formDTO);
 
-            var optionQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(VAR.OptionQuestions);
-            var documentQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(VAR.DocumentQuestions);
-
-            if (textQuestionsVM != null)
-            {
-                vm.Questions.AddRange(textQuestionsVM);
-            }
-
-            return View("DisplayFormView", VAR);
+            return View();
         }
     }
 }
