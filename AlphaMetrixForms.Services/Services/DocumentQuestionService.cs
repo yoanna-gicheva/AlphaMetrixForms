@@ -27,17 +27,28 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task<bool> CreateDocumentQuestionAsync(ICollection<DocumentQuestionDTO> questionDTOs, Guid formId)
         {
+            if (questionDTOs.Count == 0)
+            {
+                return false;
+            }
             DocumentQuestionDTO current;
             foreach (var question in questionDTOs)
             {
                 current = await CreateDocumentQuestionAsync(question, formId);
-                if (current == null)
-                    return false;
             }
             return true;
         }
         public async Task<DocumentQuestionDTO> CreateDocumentQuestionAsync(DocumentQuestionDTO questionDTO, Guid formId)
         {
+
+            Form form = await this.context.Forms
+               .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
+
+            if (form == null)
+            {
+                throw new ArgumentException($"Form with id {formId} does not exist.");
+            }
+
             var question = new DocumentQuestion()
             {
                 FormId = formId,
@@ -62,7 +73,7 @@ namespace AlphaMetrixForms.Services.Services
 
             if (question == null)
             {
-                throw new ArgumentNullException($"There is no such DocumentQuestion with ID: {questionId}");
+                throw new ArgumentException($"There is no such DocumentQuestion with ID: {questionId}");
             }
 
             question.IsRequired = questionDTO.IsRequired;
@@ -92,10 +103,27 @@ namespace AlphaMetrixForms.Services.Services
 
         public async Task CreateDocumentQuestionAnswerAsync(Guid responseId, Guid questionId, IFormFileCollection files)
         {
-            if (files == null)
+            if (files.Count==0)
             {
                 return;
             }
+
+            DocumentQuestion question = await this.context.DocumentQuestions
+                .FirstOrDefaultAsync(q => q.Id == questionId);
+
+            if (question == null)
+            {
+                throw new ArgumentException($"There is no such DocumentQuestion with ID: {questionId}");
+            }
+
+            Response response = await this.context.Responses
+                .FirstOrDefaultAsync(q => q.Id == responseId);
+
+            if (response == null)
+            {
+                throw new ArgumentException($"There is no such Response with ID: {responseId}");
+            }
+
             foreach (var item in files)
             {
                 await this.UploadFileAsync(item, responseId, questionId);

@@ -3,15 +3,21 @@
 }
 
     <div class="text-center">
-        @*<h1 class="display-4">Welcome</h1>*@
         <br>
         <br>
-        <h3>
-            “The ability to ask the right question<br> is the first step in finding<br>
-            the right answer.”
-        </h3>
-        <br>
-        <h5><pre>                   -AlphaMetrix</pre></h5>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <h1 class="display-4">Welcome, @User.Identity.Name!</h1>
+        }
+        else
+        {
+            <h3>
+                “The ability to ask the right question<br> is the first step in finding<br>
+                the right answer.”
+            </h3>
+            <br>
+            <h5><pre>                   -AlphaMetrix</pre></h5>
+        }
     </div>
 
 <script src="~/js/particles-background.js"></script>
@@ -21,6 +27,9 @@
     }
 
     h3 {
+        color: ghostwhite;
+    }
+    h1 {
         color: ghostwhite;
     }
 </style>

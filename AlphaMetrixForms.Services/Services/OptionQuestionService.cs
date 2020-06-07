@@ -22,17 +22,27 @@ namespace AlphaMetrixForms.Services.Services
         }
         public async Task<bool> CreateOptionQuestionAsync(ICollection<OptionQuestionDTO> questionDTOs, Guid formId)
         {
+            if (questionDTOs.Count == 0)
+            {
+                return false;
+            }
             OptionQuestionDTO current;
             foreach (var question in questionDTOs)
             {
                 current = await CreateOptionQuestionAsync(question, formId);
-                if (current == null)
-                    return false;
             }
             return true;
         }
         public async Task<OptionQuestionDTO> CreateOptionQuestionAsync(OptionQuestionDTO questionDTO, Guid formId)
         {
+            Form form = await this.context.Forms
+               .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
+
+            if (form == null)
+            {
+                throw new ArgumentException($"Form with id {formId} does not exist.");
+            }
+
             var question = new OptionQuestion()
             {
                 FormId = formId,
@@ -65,12 +75,44 @@ namespace AlphaMetrixForms.Services.Services
 
             if (question == null)
             {
-                throw new ArgumentNullException($"There is no such OptionQuestion with ID: {questionId}");
+                throw new ArgumentException($"There is no such OptionQuestion with ID: {questionId}");
             }
 
             question.Text = questionDTO.Text;
             question.IsRequired = questionDTO.IsRequired;
             question.IsMultipleAnswerAllowed = questionDTO.IsMultipleAnswerAllowed;
+
+            var options = await this.context.Options
+                .Where(o=>o.QuestionId == questionId)
+                .OrderBy(o=>o.OrderNumber)
+                .ToListAsync();
+
+            if (options.Count>questionDTO.Options.Count)
+            {
+                int differnce = options.Count - questionDTO.Options.Count;
+                for (int i = 0; i < differnce; i++)
+                {
+                    context.Options.Remove(options[options.Count-1-i]);
+                }
+            }
+            int index = 0;
+            foreach (var newOption in questionDTO.Options)
+            {
+                if (index<options.Count)
+                {
+                    options[index].Text = newOption.Text;
+                    index++;
+                }
+                else
+                {
+                    Option toAdd = new Option();
+                    toAdd.Text = newOption.Text;
+                    toAdd.QuestionId = question.Id;
+                    toAdd.OrderNumber = index+1;
+                    index++;
+                    await context.Options.AddAsync(toAdd);
+                }
+            }
 
             await this.context.SaveChangesAsync();
 
@@ -98,6 +140,23 @@ namespace AlphaMetrixForms.Services.Services
             {
                 return;
             }
+
+            OptionQuestion question = await this.context.OptionQuestions
+                .FirstOrDefaultAsync(q => q.Id == questionId);
+
+            if (question == null)
+            {
+                throw new ArgumentException($"There is no such OptionQuestion with ID: {questionId}");
+            }
+
+            Response response = await this.context.Responses
+                .FirstOrDefaultAsync(q => q.Id == responseId);
+
+            if (response == null)
+            {
+                throw new ArgumentException($"There is no such Response with ID: {responseId}");
+            }
+
             var optionAnswer = new OptionQuestionAnswer
             {
                 ResponseId = responseId,
@@ -115,6 +174,23 @@ namespace AlphaMetrixForms.Services.Services
             {
                 return;
             }
+
+            OptionQuestion question = await this.context.OptionQuestions
+               .FirstOrDefaultAsync(q => q.Id == questionId);
+
+            if (question == null)
+            {
+                throw new ArgumentException($"There is no such OptionQuestion with ID: {questionId}");
+            }
+
+            Response response = await this.context.Responses
+                .FirstOrDefaultAsync(q => q.Id == responseId);
+
+            if (response == null)
+            {
+                throw new ArgumentException($"There is no such Response with ID: {responseId}");
+            }
+
             var options = await this.context.Options
                 .Where(o => o.QuestionId == questionId)
                 .OrderBy(o => o.OrderNumber)

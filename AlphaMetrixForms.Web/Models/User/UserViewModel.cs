@@ -12,7 +12,8 @@ namespace AlphaMetrixForms.Web.Models.User
         {
             this.Forms = new List<FormViewModel>();
         }
-
+        public string UserName { get; set; }
+        public string Email { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
