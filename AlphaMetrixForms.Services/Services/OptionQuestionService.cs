@@ -75,7 +75,7 @@ namespace AlphaMetrixForms.Services.Services
 
             if (question == null)
             {
-                throw new ArgumentNullException($"There is no such OptionQuestion with ID: {questionId}");
+                throw new ArgumentException($"There is no such OptionQuestion with ID: {questionId}");
             }
 
             question.Text = questionDTO.Text;
@@ -140,6 +140,23 @@ namespace AlphaMetrixForms.Services.Services
             {
                 return;
             }
+
+            OptionQuestion question = await this.context.OptionQuestions
+                .FirstOrDefaultAsync(q => q.Id == questionId);
+
+            if (question == null)
+            {
+                throw new ArgumentException($"There is no such OptionQuestion with ID: {questionId}");
+            }
+
+            Response response = await this.context.Responses
+                .FirstOrDefaultAsync(q => q.Id == responseId);
+
+            if (response == null)
+            {
+                throw new ArgumentException($"There is no such Response with ID: {responseId}");
+            }
+
             var optionAnswer = new OptionQuestionAnswer
             {
                 ResponseId = responseId,
@@ -157,6 +174,23 @@ namespace AlphaMetrixForms.Services.Services
             {
                 return;
             }
+
+            OptionQuestion question = await this.context.OptionQuestions
+               .FirstOrDefaultAsync(q => q.Id == questionId);
+
+            if (question == null)
+            {
+                throw new ArgumentException($"There is no such OptionQuestion with ID: {questionId}");
+            }
+
+            Response response = await this.context.Responses
+                .FirstOrDefaultAsync(q => q.Id == responseId);
+
+            if (response == null)
+            {
+                throw new ArgumentException($"There is no such Response with ID: {responseId}");
+            }
+
             var options = await this.context.Options
                 .Where(o => o.QuestionId == questionId)
                 .OrderBy(o => o.OrderNumber)
