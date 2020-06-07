@@ -63,7 +63,6 @@ namespace AlphaMetrixForms.Services.Services
 
             return form.GetDto();
         }
-
         public async Task<ResponseDTO> RetrieveResponseAsync(Guid responseId, Guid formId)
         {
 
@@ -95,7 +94,7 @@ namespace AlphaMetrixForms.Services.Services
                 var result = context.OptionQuestions.Include(o=>o.Answers).FirstOrDefaultAsync(t => t.Id == answer.OptionQuestionId).Result;
                 answer.Text = result.Text;
                 answer.OrderNumber = result.OrderNumber;
-                foreach(var text in result.Answers)
+                foreach(var text in result.Answers.Where(a=>a.ResponseId == response.Id))
                 {
                     answer.Answers.Add(text.Answer);
                 }
