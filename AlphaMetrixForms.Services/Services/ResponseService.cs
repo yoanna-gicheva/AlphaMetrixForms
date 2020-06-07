@@ -63,14 +63,8 @@ namespace AlphaMetrixForms.Services.Services
 
             return form.GetDto();
         }
-        public async Task<ResponseDTO> RetrieveResponseAsync(Guid responseId, Guid formId)
+        public async Task<FormDTO> RetrieveResponseAsync(Guid responseId, Guid formId)
         {
-
-            Response response = await context.Responses
-                .Include(f => f.TextQuestionAnswers)
-                .Include(f => f.OptionQuestionAnswers).ThenInclude(o => o.OptionQuestion)
-                .Include(f => f.DocumentQuestionAnswers)
-                .FirstOrDefaultAsync(f => f.Id == responseId);
             Form form = await this.context.Forms
                 .Include(f => f.Owner)
                 .Include(f => f.TextQuestions)
@@ -78,45 +72,16 @@ namespace AlphaMetrixForms.Services.Services
                 .Include(f => f.DocumentQuestions)
                 .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
-            ResponseDTO dto = response.GetDto();
-            dto.Title = form.Title;
-            dto.Description = form.Description;
+            this.context.Entry(form)
+                .Collection(f => f.Responses)
+                .Query()
+                .Where(r => r.Id == responseId)
+                .Include(r => r.TextQuestionAnswers)
+                .Include(r => r.DocumentQuestionAnswers)
+                .Include(r => r.OptionQuestionAnswers)
+                .Load();
 
-           
-            foreach (var answer in dto.TextQuestionAnswers)
-            {
-                var result = context.TextQuestions.FirstOrDefaultAsync(t => t.Id == answer.TextQuestionId).Result;
-                answer.Text = result.Text;
-                answer.OrderNumber = result.OrderNumber;
-            }
-            foreach (var answer in dto.OptionQuestionAnswers)
-            {
-                var result = context.OptionQuestions.Include(o=>o.Answers).FirstOrDefaultAsync(t => t.Id == answer.OptionQuestionId).Result;
-                answer.Text = result.Text;
-                answer.OrderNumber = result.OrderNumber;
-                foreach(var text in result.Answers.Where(a=>a.ResponseId == response.Id))
-                {
-                    answer.Answers.Add(text.Answer);
-                }
-            }
-            foreach (var answer in dto.DocumentQuestionAnswers)
-            {
-                var result = context.DocumentQuestions.FirstOrDefaultAsync(t => t.Id == answer.DocumentQuestionId).Result;
-                answer.Text = result.Text;
-                answer.OrderNumber = result.OrderNumber;
-            }
-
-
-            //this.context.Entry(form)
-            //    .Collection(f => f.Responses)
-            //    .Query()
-            //    .Where(r => r.Id == responseId)
-            //    .Include(r => r.TextQuestionAnswers)
-            //    .Include(r => r.DocumentQuestionAnswers)
-            //    .Include(r => r.OptionQuestionAnswers)
-            //    .Load();
-
-            return dto;
+            return form.GetDto();
         }
 
     }
