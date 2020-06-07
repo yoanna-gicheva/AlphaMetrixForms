@@ -174,5 +174,18 @@ namespace AlphaMetrixForms.Services.Services
 
             return true;
         }
+
+        public async Task<ICollection<FormDTO>> SearchForms(string title)
+        {
+            List<Form> forms = await context.Forms.Where(f=>f.Title.Contains(title))
+               .Include(f => f.Owner)
+               .Include(f => f.Responses).ThenInclude(r => r.TextQuestionAnswers)
+               .Include(f => f.Responses).ThenInclude(r => r.DocumentQuestionAnswers)
+               .Include(f => f.Responses).ThenInclude(r => r.OptionQuestionAnswers)
+               .Where(f => f.IsDeleted == false && f.IsClosed == false)
+               .ToListAsync();
+
+            return forms.GetDtos();
+        }
     }
 }

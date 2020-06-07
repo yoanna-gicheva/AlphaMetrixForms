@@ -20,9 +20,9 @@ namespace AlphaMetrixForms.Services.Contracts
         Task<bool> ShareFormAsync(ICollection<string> mails, Guid formId);
 
         Task<FormDTO> UpdateFormAsync(Guid formId, FormDTO formDTO);
-        
 
+        Task<ICollection<FormDTO>> SearchForms(string title);
         //Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId);
-        
+
     }
 }

@@ -86,8 +86,7 @@ namespace AlphaMetrixForms.Web.Controllers
             }
             return Ok();
         }
-        [HttpPost]
-        public async Task<IActionResult> GetAnswers(Guid id)
+        public async Task<IActionResult> ViewAnswers(Guid id)
         {
             return null;
         }
