@@ -8,6 +8,11 @@ namespace AlphaMetrixForms.Web.Models.Response
 {
     public class AnswerViewModel
     {
+        public AnswerViewModel()
+        {
+            this.Answers = new List<string>();
+        }
+        public Guid Id { get; set; }
         public string Text { get; set; }
         public QuestionType Type { get; set; } 
         public string Answer { get; set; }
