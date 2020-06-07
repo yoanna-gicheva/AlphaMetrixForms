@@ -14,5 +14,6 @@ namespace AlphaMetrixForms.Web.Models.Response
 
         // Options
         public ICollection<string> Answers { get; set; }
+        public int OrderNumber { get; set; }
     }
 }
