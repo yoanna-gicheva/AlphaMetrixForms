@@ -3,29 +3,35 @@
     ViewData["Title"] = "Forms";
 }
 
-    <div class="container">
-        <div class="row">
-            @foreach (var form in Model.ToList())
-            {
-                <div class="col-sm-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">@form.Title</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
-                            <p class="card-text">Created on: @form.CreatedOn</p>
-                            <p class="card-text">Answers: @form.Responses.Count</p>
-                            <a asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id"><button class="btn btn-primary">Answer</button></a>
-                            <button type="button" id="@form.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                                Share
-                            </button>
-                        </div>
+@if (Model == null || Model.ToList().Count == 0)
+{
+    <h1 class="text-center">
+        There are no such forms.
+    </h1>
+}
+<div class="container">
+    <div class="row">
+        @foreach (var form in Model.ToList())
+        {
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@form.Title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
+                        <p class="card-text">Created on: @form.CreatedOn</p>
+                        <p class="card-text">Answers: @form.Responses.Count</p>
+                        <a asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id"><button class="btn btn-primary">Answer</button></a>
+                        <button type="button" id="@form.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            Share
+                        </button>
                     </div>
                 </div>
-            }
-        </div>
-        <partial name="_MultipleEmailPartialView" />
-        <br>
+            </div>
+        }
     </div>
+    <partial name="_MultipleEmailPartialView" />
+    <br>
+</div>
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -33,24 +39,37 @@
 <br>
 <br>
 
-<div align="center">
-    <a asp-action="Index"
-       asp-route-pageNumber="@(Model.PageIndex - 1)"
-       class="btn btn-default @prevDisabled">
-        Previous
-    </a>
-    <a asp-action="Index"
-       asp-route-pageNumber="@(Model.PageIndex + 1)"
-       class="btn btn-default @nextDisabled">
-        Next
-    </a>
-</div>
+@if (Model != null && Model.ToList().Count != 0)
+{ 
+    <div align="center">
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           class="btn btn-default @prevDisabled">
+            <h5 id="controls">Previous</h5>
+        </a>
+        <a asp-action="Index"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">
+            <h5 id="controls">Next</h5>
+        </a>
+    </div>
+}
 <br>
 <br>
 <br>
 <br>
 <script>
-     $("button[name='main-email-send']").on('click', function () {
-            $(this).attr("name", "unique");
-        });
+    $("button[name='main-email-send']").on('click', function () {
+        $(this).attr("name", "unique");
+    });
 </script>
+
+<style>
+    h1 {
+        color: ghostwhite;
+    }
+
+    #controls {
+        color: ghostwhite;
+    }
+</style>
