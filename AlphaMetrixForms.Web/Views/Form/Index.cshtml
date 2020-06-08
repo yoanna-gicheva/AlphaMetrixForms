@@ -20,7 +20,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">@form.Description</h6>
                         <p class="card-text">Created on: @form.CreatedOn</p>
                         <p class="card-text">Answers: @form.Responses.Count</p>
-                        <a asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id"><button class="btn btn-primary">Answer</button></a>
+                        <a class="btn btn-primary" role="button" asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id">Answer</a>
                         <button type="button" id="@form.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Share
                         </button>

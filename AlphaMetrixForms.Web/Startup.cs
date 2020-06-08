@@ -17,7 +17,6 @@ using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using React.AspNet;
 using AlphaMetrixForms.Web.Middlewares;
 
 namespace AlphaMetrixForms.Web
