@@ -11,8 +11,6 @@ namespace AlphaMetrixForms.Services.DTOs
         public Guid FormId { get; set; }
 
         public DateTime CreatedOn { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
 
         public ICollection<TextQuestionAnswerDTO> TextQuestionAnswers { get; set; }
         public ICollection<OptionQuestionAnswerDTO> OptionQuestionAnswers { get; set; }

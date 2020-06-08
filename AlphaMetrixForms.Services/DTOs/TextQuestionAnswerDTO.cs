@@ -8,8 +8,6 @@ namespace AlphaMetrixForms.Services.DTOs
     {
         public Guid Id { get; set; }
         public Guid TextQuestionId { get; set; }
-        public string Text { get; set; }
-        public int OrderNumber { get; set; }
         public Guid ResponseId { get; set; }
         public string Answer { get; set; }
     }

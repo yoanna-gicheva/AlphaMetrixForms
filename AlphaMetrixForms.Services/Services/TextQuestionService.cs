@@ -22,17 +22,27 @@ namespace AlphaMetrixForms.Services.Services
         }
         public async Task<bool> CreateTextQuestionAsync(ICollection<TextQuestionDTO> questionDTOs, Guid formId)
         {
+            if (questionDTOs.Count==0)
+            {
+                return false;
+            }
             TextQuestionDTO current;
             foreach(var question in questionDTOs)
             {
                 current = await CreateTextQuestionAsync(question, formId);
-                if (current == null)
-                    return false;
             }
             return true;
         }
         public async Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO questionDTO, Guid formId)
         {
+            Form form = await this.context.Forms
+               .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted==false);
+
+            if (form == null)
+            {
+                throw new ArgumentException($"Form with id {formId} does not exist.");
+            }
+
             var question = new TextQuestion()
             {
                 FormId = formId,
@@ -40,7 +50,7 @@ namespace AlphaMetrixForms.Services.Services
                 OrderNumber = questionDTO.OrderNumber,
                 IsRequired = questionDTO.IsRequired,
                 IsLongAnswer = questionDTO.IsLongAnswer
-        };
+            };
 
             await this.context.TextQuestions.AddAsync(question);
             await this.context.SaveChangesAsync();
@@ -56,7 +66,7 @@ namespace AlphaMetrixForms.Services.Services
 
             if (question == null)
             {
-                throw new ArgumentNullException($"There is no such TextQuestion with ID: {questionId}");
+                throw new ArgumentException($"There is no such TextQuestion with ID: {questionId}");
             }
 
             question.IsRequired = textQuestionDTO.IsRequired;
@@ -90,6 +100,23 @@ namespace AlphaMetrixForms.Services.Services
             {
                 return;
             }
+
+            TextQuestion question = await this.context.TextQuestions
+                .FirstOrDefaultAsync(q => q.Id == questionId);
+
+            if (question == null)
+            {
+                throw new ArgumentException($"There is no such TextQuestion with ID: {questionId}");
+            }
+
+            Response response = await this.context.Responses
+                .FirstOrDefaultAsync(q => q.Id == responseId);
+
+            if (response == null)
+            {
+                throw new ArgumentException($"There is no such Response with ID: {responseId}");
+            }
+
             var textAnswer = new TextQuestionAnswer
             {
                 ResponseId = responseId,

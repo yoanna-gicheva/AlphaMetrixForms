@@ -7,13 +7,12 @@
 <br>
 
 <div class="card">
-
     <div class="card-header">
         Feedback
     </div>
     <div class="card-body">
-        <div class="col-md-6">
-            <form asp-action="ContactUs" id="form">
+        <div class="row justify-content-center">
+            <form asp-action="ContactUs" id="form" class="col-8">
                 <div class="form-group">
                     <label asp-for="Sender" class="control-label"></label>
                     <input asp-for="Sender" class="form-control" placeholder="Your name..." />
@@ -30,7 +29,8 @@
                     <label asp-for="CallBackInfo" class="control-label">Call me back at</label>
                     <input asp-for="CallBackInfo" class="form-control" placeholder="Email or phone" />
                 </div>
-
+                <br>
+                <br>
                 <div name="submit">
                     <button name="submit" type="button" class="btn btn-primary">Submit</button>
                 </div>
@@ -38,11 +38,7 @@
         </div>
     </div>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

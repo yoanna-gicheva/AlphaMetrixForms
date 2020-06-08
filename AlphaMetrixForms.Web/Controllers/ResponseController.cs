@@ -99,10 +99,6 @@ namespace AlphaMetrixForms.Web.Controllers
         public async Task<IActionResult> DisplayForm(Guid formId)
         {
             var form = await this._formService.GetFormAsync(formId);
-            if(form == null)
-            {
-                return NotFound();
-            }
             var formVM = _mapper.Map<FormViewModel>(form);
 
             var textQuestionsVM = _mapper.Map<ICollection<QuestionViewModel>>(form.TextQuestions);
@@ -146,25 +142,66 @@ namespace AlphaMetrixForms.Web.Controllers
         [Route("RetrieveResponse/{responseId}")]
         public async Task<IActionResult> RetrieveResponse(Guid responseId, Guid formId)
         {
-            var responseDTO = await _responseService.RetrieveResponseAsync(responseId, formId);
-            var vm = _mapper.Map<ResponseDisplayModel>(responseDTO);
-
-            foreach(var answer in responseDTO.TextQuestionAnswers)
+            var formDTO = await _responseService.RetrieveResponseAsync(responseId, formId);
+            var vm = new ResponseDisplayModel();
+            vm.Title = formDTO.Title;
+            vm.Description = formDTO.Description;
+            foreach (var textQuestion in formDTO.TextQuestions)
             {
-                var answerVM = _mapper.Map<AnswerViewModel>(answer);
-                vm.Answers.Add(answerVM);
+                var vm2 = new AnswerViewModel();
+                vm2.Text = textQuestion.Text;
+                vm2.OrderNumber = textQuestion.OrderNumber;
+                vm2.Id = textQuestion.Id;
+                vm2.Type = QuestionType.Text;
+                foreach (var response in formDTO.Responses)
+                {
+                    foreach (var textQuestionAnswer in response.TextQuestionAnswers)
+                    {
+                        if (vm2.Id==textQuestionAnswer.TextQuestionId)
+                        {
+                            vm2.Answer=textQuestionAnswer.Answer;
+                        }
+                    }
+                }
+                vm.Answers.Add(vm2);
             }
-            foreach (var answer in responseDTO.OptionQuestionAnswers)
+            foreach (var documentQuestion in formDTO.DocumentQuestions)
             {
-                var answerVM = _mapper.Map<AnswerViewModel>(answer);
-                answerVM.Type = QuestionType.Option;
-                vm.Answers.Add(answerVM);
+                var vm2 = new AnswerViewModel();
+                vm2.Text = documentQuestion.Text;
+                vm2.OrderNumber = documentQuestion.OrderNumber;
+                vm2.Id = documentQuestion.Id;
+                vm2.Type = QuestionType.Document;
+                vm.Answers.Add(vm2);
+                foreach (var response in formDTO.Responses)
+                {
+                    foreach (var documentQuestionAnswer in response.DocumentQuestionAnswers)
+                    {
+                        if (vm2.Id == documentQuestionAnswer.DocumentQuestionId)
+                        {
+                            vm2.Answers.Add(documentQuestionAnswer.Answer);
+                        }
+                    }
+                }
             }
-            foreach (var answer in responseDTO.DocumentQuestionAnswers)
+            foreach (var optionQuestion in formDTO.OptionQuestions)
             {
-                var answerVM = _mapper.Map<AnswerViewModel>(answer);
-                answerVM.Type = QuestionType.Document;
-                vm.Answers.Add(answerVM);
+                var vm2 = new AnswerViewModel();
+                vm2.Text = optionQuestion.Text;
+                vm2.OrderNumber = optionQuestion.OrderNumber;
+                vm2.Id = optionQuestion.Id;
+                vm2.Type = QuestionType.Option;
+                vm.Answers.Add(vm2);
+                foreach (var response in formDTO.Responses)
+                {
+                    foreach (var optionQuestionAnswer in response.OptionQuestionAnswers)
+                    {
+                        if (vm2.Id == optionQuestionAnswer.OptionQuestionId)
+                        {
+                            vm2.Answers.Add(optionQuestionAnswer.Answer);
+                        }
+                    }
+                }
             }
 
             return View("DisplayResponseView", vm);

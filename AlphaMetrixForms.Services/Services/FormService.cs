@@ -77,17 +77,6 @@ namespace AlphaMetrixForms.Services.Services
             return true;
         }
 
-        //Not used anywhere yet
-        //
-        //public async Task<ICollection<FormDTO>> GetAllFormsForUserAsync(Guid ownerId)
-        //{
-        //    List<Form> forms = await this.context.Forms
-        //        .Where(f => f.OwnerId == ownerId && f.IsDeleted == false)
-        //        .ToListAsync();
-
-        //    return forms.GetDtos();
-        //}
-
         public async Task<ICollection<FormDTO>> GetAllFormsAsync()
         {
             List<Form> forms = await this.context.Forms
@@ -111,14 +100,15 @@ namespace AlphaMetrixForms.Services.Services
                 .ThenInclude(q => q.Options)
                 .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
-            foreach (var optionQuestion in form.OptionQuestions)
-            {
-                optionQuestion.Options = optionQuestion.Options.OrderBy(o => o.OrderNumber).ToList();
-            }
 
             if (form == null)
             {
-                return null;
+                throw new ArgumentException($"Form with id {formId} does not exist.");
+            }
+
+            foreach (var optionQuestion in form.OptionQuestions)
+            {
+                optionQuestion.Options = optionQuestion.Options.OrderBy(o => o.OrderNumber).ToList();
             }
 
             return form.GetDto();
