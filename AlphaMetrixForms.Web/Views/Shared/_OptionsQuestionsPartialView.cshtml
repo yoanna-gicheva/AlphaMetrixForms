@@ -24,8 +24,11 @@
                     </button>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="@Model.Options[i].Text" class="control-label">Option @i:</label>
-                        <input asp-for="@Model.Options[i].Text" class="form-control" placeholder="Option @i"/>
+                        @{
+                            int b = i + 1;
+                        }
+                        <label asp-for="@Model.Options[i].Text" class="control-label">Option @b:</label>
+                        <input asp-for="@Model.Options[i].Text" class="form-control" placeholder="Option @b" />
                         <span asp-validation-for="@Model.Options[i].Text" class="text-danger"></span>
                     </div>
                 }

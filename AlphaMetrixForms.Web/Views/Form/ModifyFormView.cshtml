@@ -15,14 +15,13 @@
     }
 }
 <div class="card">
-
     <div class="card-header">
         Form
     </div>
     <div class="card-body">
-        <div class="col-md-6">
-            <form asp-action="@action" id="form">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row justify-content-center"> 
+            <form asp-action="@action" id="form" class="col-8">
+                <div asp-validation-summary="ModelOnly" class="text-danger row justify-content-center"></div>
                 <div class="form-group">
                     <label asp-for="Title" class="control-label"></label>
                     <input asp-for="Title" class="form-control" placeholder="Type form description here..." />
@@ -36,6 +35,7 @@
                 <div id="detailsContainer">
                     @Html.EditorFor(model => model.Questions)
                 </div>
+                <br>
                 <div name="main" class="visible">
                     <button name="main" type="button" class="btn btn-primary">Add Question</button>
                 </div>
@@ -45,6 +45,7 @@
                     <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
                     <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
                 </div>
+                <br>
                 <div name="sumbit" class="visible">
                     @if (Model.EditMode)
                     {
@@ -61,7 +62,7 @@
                     else
                     {
                         <input type="submit" name="createForm" class="btn btn-primary" value="Create">
-                        <button type="button" name="preview" class="btn btn-primary">
+                       <button type="button" name="preview" class="btn btn-primary">
                             Preview
                         </button>
                     }
@@ -82,7 +83,6 @@
 
 <partial name="_MultipleEmailPartialView" />
 
-@*<partial name="_PreviewFormPartial" />*@
 
 <div id="previewContainer"></div>
 
