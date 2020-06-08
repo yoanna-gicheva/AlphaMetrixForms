@@ -18,8 +18,6 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="bootstrap-fileinput" Version="5.0.8" />
     <PackageReference Include="bootstrap.sass" Version="4.5.0" />
-    <PackageReference Include="Kendo.for.AspNet.Core" Version="2019.1.115" />
-    <PackageReference Include="KendoUIWeb" Version="2014.1.318" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
@@ -29,8 +27,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
-    <PackageReference Include="React.AspNet" Version="5.2.4" />
-    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.1.0.54" />
     <PackageReference Include="Twitter.Bootstrap.Sass" Version="3.3.7" />
   </ItemGroup>
 

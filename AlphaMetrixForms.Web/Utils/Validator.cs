@@ -13,6 +13,10 @@ namespace AlphaMetrixForms.Web.Utils
     {
         public static string ModifyModelValidation_Message(FormViewModel form)
         {
+            if(form.Questions.Count == 0)
+            {
+                return "Please, add at least one question!";
+            }
             if (form.Title == null)
             {
                 return "Please, insert a title!";

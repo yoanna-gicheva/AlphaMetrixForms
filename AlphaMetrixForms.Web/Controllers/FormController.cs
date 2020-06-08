@@ -126,7 +126,7 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             
             FormDTO form = await _formService.GetFormAsync(id);
-            FormViewModel result = ViewModel_Generator(form);
+            FormViewModel result = ModelGenerator.ViewModel_Generator(form, _mapper);
             result.EditMode = true;
             Questions_SetEditMode(result.Questions);
             result.Questions = result.Questions.OrderBy(q => q.OrderNumber).ToList();
@@ -154,9 +154,9 @@ namespace AlphaMetrixForms.Web.Controllers
             {
                 throw new ArgumentException("Edit mode mistaken!");
             }
-            FormDTO formDTO = DataTransferObject_Generator(form);
+            FormDTO formDTO = ModelGenerator.DataTransferObject_Generator(form, _mapper);
             FormDTO updated = await _formService.UpdateFormAsync(form.Id, formDTO);
-            FormViewModel result = ViewModel_Generator(updated);
+            FormViewModel result = ModelGenerator.ViewModel_Generator(updated, _mapper);
             Questions_SetEditMode(result.Questions);
             result.EditMode = true;
 
@@ -167,36 +167,9 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View("ModifyFormView", result);
         }
-        private FormDTO DataTransferObject_Generator(FormViewModel form)
-        {
-            FormDTO formDTO = _mapper.Map<FormDTO>(form);
-            formDTO.TextQuestions = _mapper.Map<ICollection<TextQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Text));
-            formDTO.OptionQuestions = _mapper.Map<ICollection<OptionQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Option));
-            formDTO.DocumentQuestions = _mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Document));
+ 
 
-            return formDTO;
-        }
-        private FormViewModel ViewModel_Generator(FormDTO formDTO)
-        {
-            FormViewModel result = _mapper.Map<FormViewModel>(formDTO);
-            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.OptionQuestions));
-            QuestionType_Set(result.Questions, QuestionType.Option);
-            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.DocumentQuestions));
-            QuestionType_Set(result.Questions, QuestionType.Document);
-            result.Questions.AddRange(_mapper.Map<ICollection<QuestionViewModel>>(formDTO.TextQuestions));
-
-            return result;
-        }
-        private void QuestionType_Set(ICollection<QuestionViewModel> questions, QuestionType type)
-        {
-            foreach(var question in questions)
-            {
-                if(question.Type == QuestionType.Text)
-                {
-                    question.Type = type;
-                }
-            }
-        }
+       
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Delete(Guid id)
@@ -211,12 +184,7 @@ namespace AlphaMetrixForms.Web.Controllers
         {
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
             form.Questions.Remove(question);
-            //FormViewModel newForm = new FormViewModel();
-            //newForm.Title = form.Title;
-            //newForm.Description = form.Description;
-            //newForm.EditMode = form.EditMode;
-            //newForm.Questions = form.Questions;
-            
+
             return PartialView("_QuestionPartial", form);
         }
 
@@ -239,8 +207,9 @@ namespace AlphaMetrixForms.Web.Controllers
             foreach(var question in form.Questions)
             {
                 question.PreviewMode = true;
+                question.EditMode = false;
             }
-            
+
             return PartialView("_PreviewFormPartial", form);
         }
 

@@ -13,11 +13,8 @@ namespace AlphaMetrixForms.Web.Models.Response
             Questions = new List<QuestionViewModel>();
         }
         public Guid Id { get; set; }
-
         public Guid FormId { get; set; }
-
         public DateTime CreatedOn { get; set; }
-
         public string Title { get; set; }
         public string Description { get; set; }
         public List<QuestionViewModel> Questions { get; set; }

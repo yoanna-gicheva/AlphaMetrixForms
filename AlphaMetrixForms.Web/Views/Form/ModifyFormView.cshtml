@@ -15,14 +15,13 @@
     }
 }
 <div class="card">
-
     <div class="card-header">
         Form
     </div>
     <div class="card-body">
-        <div class="col-md-6">
-            <form asp-action="@action" id="form">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row justify-content-center">
+            <form asp-action="@action" id="form" class="col-8">
+                <div asp-validation-summary="ModelOnly" class="text-danger row justify-content-center"></div>
                 <div class="form-group">
                     <label asp-for="Title" class="control-label"></label>
                     <input asp-for="Title" class="form-control" placeholder="Type form description here..." />
@@ -36,6 +35,7 @@
                 <div id="detailsContainer">
                     @Html.EditorFor(model => model.Questions)
                 </div>
+                <br>
                 <div name="main" class="visible">
                     <button name="main" type="button" class="btn btn-primary">Add Question</button>
                 </div>
@@ -45,6 +45,7 @@
                     <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
                     <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
                 </div>
+                <br>
                 <div name="sumbit" class="visible">
                     @if (Model.EditMode)
                     {
@@ -79,165 +80,13 @@
 </div>
 <br>
 <br>
-
 <partial name="_MultipleEmailPartialView" />
-
-@*<partial name="_PreviewFormPartial" />*@
-
 <div id="previewContainer"></div>
-
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-        let counter = -1;
-        let questionsNum = $("div[name='main']").attr('id')
-        if (questionsNum > 0) {
-            counter = questionsNum - 1;
-        }
-        $("button[name='preview']").on('click', function () {
-            $.ajax({
-                async: true,
-                data: $('#form').serialize(),
-                type: "POST",
-                url: '/Form/FormPreview',
-                success: function (data) {
-                    $("#previewContainer").html(data); // #temp is the empty div
-                    $("#previewForm").modal('show');
-                }
-            });
-        });
-        $("button[name='main-email-send']").on('click', function () {
-            $(this).attr("name", "unique");
-        });
-        $("div[name='main']").on("click", function () {
-            var $buttons = $("div[name='inside']");
-            var $buttonToHide = $("div[name='main']");
-            if ($buttons.hasClass("invisible")) {
-                $buttons.removeClass("invisible");
-                $buttons.addClass("visible");
-                $buttonToHide.hide();
-            }
-        });
-        $("button[name='add']").on("click", function () {
-            var $buttonsToHide = $("div[name='inside']");
-            var $buttonToShow = $("div[name='main']");
-            $buttonsToHide.removeClass("visible");
-            $buttonsToHide.addClass("invisible");
-            $buttonToShow.show();
-        });
-        $("button[name='textQuestion']").on('click', function () {
-            $.ajax({
-                async: true,
-                data: $('#form').serialize(),
-                type: "POST",
-                url: '/TextQuestion/CreateTextQuestion',
-                success: function (partialView) {
-                    $('#detailsContainer').html(partialView);
-                }
-            });
-        });
-        $("button[name='optionsQuestion']").on('click', function () {
-            $.ajax({
-                async: true,
-                data: $('#form').serialize(),
-                type: "POST",
-                url: '/OptionQuestion/CreateOptionQuestion',
-                success: function (partialView) {
-                    $('#detailsContainer').html(partialView);
-                }
-            });
-        });
-        $("button[name='documentQuestion']").on('click', function () {
-            //counter++;
-            //document.getElementById('Current').value = counter;
-            $.ajax({
-                async: true,
-                data: $('#form').serialize(),
-                type: "POST",
-                url: '/DocumentQuestion/CreateDocumentQuestion',
-                success: function (partialView) {
-                    $('#detailsContainer').html(partialView);
-                }
-            });
-        });
-        $('form').submit(function (e) {
-            e.preventDefault();
-            let edit = document.getElementById('EditMode').value;
-            console.log(edit);
-            if (edit) {
-                $.ajax({
-                    async: true,
-                    data: $('#form').serialize(),
-                    type: "POST",
-                    url: '/Form/SaveChanges',
-                    success: function () {
-                        swal({
-                            title: "Success!",
-                            text: "Changes were saved successfully!",
-                            icon: "success",
-                            button: "Ok!",
-                        });
-                    },
-                    error: function (xhr) {
-                        swal(xhr.responseJSON.responseText);
-                    }
-                });
-            }
-        });
-
-        $("input[name='createForm']").on('click', function () {
-            $.ajax({
-                async: true,
-                data: $('#form').serialize(),
-                type: "POST",
-                url: '/Form/Create',
-                success: function () {
-                    swal("Amazing! You just created a form!", {
-                        icon: "success",
-                    })
-                        .then(() => {
-                            window.location.replace("https://localhost:44366/User/MyForms")
-                        });
-                },
-                error: function (xhr) {
-                    swal(xhr.responseJSON.responseText);
-                }
-            });
-        });
-        $("input[name='deleteForm']").on('click', function () {
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this form!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-
-                    if (willDelete) {
-                        $.ajax({
-                            async: true,
-                            data: { "id": this.id },
-                            type: "POST",
-                            url: '/Form/Delete',
-                            success: function () {
-                                swal("Poof! Your form has been deleted!", {
-                                    icon: "success",
-                                })
-                                    .then(() => {
-                                        window.location.replace("https://localhost:44366/User/MyForms")
-                                    });
-                            }
-                        });
-
-                    } else {
-                        swal("Your form is safe!");
-                    }
-                });
-        });
-    </script>
+    <script src="~/js/modify-form.js"></script>
 }
 
 

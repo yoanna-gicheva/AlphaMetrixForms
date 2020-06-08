@@ -1,0 +1,14 @@
+﻿h1, h4, label, p {
+    color: ghostwhite;
+}
+
+/*form {
+    margin: 0 auto;
+    width: 250px;
+}*/
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
