@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace AlphaMetrixForms.Services.Contracts
         Task DocumentQuestion_DetectChanges(Guid formId, ICollection<DocumentQuestionDTO> questions);
 
         Task CreateDocumentQuestionAnswerAsync(Guid responseId, Guid questionId, IFormFileCollection files);
+
+        Task<MemoryStream> DownloadFileAsync(string name);
 
 
     }
