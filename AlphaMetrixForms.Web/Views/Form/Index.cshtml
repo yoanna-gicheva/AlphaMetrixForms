@@ -13,19 +13,21 @@
     <div class="row">
         @foreach (var form in Model.ToList())
         {
-            <div class="col-sm-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@form.Title</h5>
-                        <p class="card-text">Created on: @form.CreatedOn</p>
-                        <p class="card-text">Answers: @form.Responses.Count</p>
-                        <a class="btn btn-primary" role="button" asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id">Answer</a>
-                        <button type="button" id="@form.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                            Share
-                        </button>
-                    </div>
+        <div class="col-sm-4 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">@form.Title</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Created on: @form.CreatedOn</p>
+                    <p class="card-text">Answers: @form.Responses.Count</p>
+                    <a class="btn btn-primary" role="button" asp-controller="Response" asp-action="DisplayForm" asp-route-formId="@form.Id">Answer</a>
+                    <button type="button" id="@form.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        Share
+                    </button>
                 </div>
             </div>
+        </div>
         }
     </div>
     <partial name="_MultipleEmailPartialView" />

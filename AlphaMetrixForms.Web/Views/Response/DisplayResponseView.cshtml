@@ -4,13 +4,19 @@
     ViewData["Title"] = "DisplayResponseView";
 }
 
+@{
+    string fileName = " ";
+
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/css/download-button.css" />
 <div class="card">
     <div class="card-header">
         <h3>@Model.Title</h3>
     </div>
     <div class="card-body">
         <div class="col-md-6">
-            <form >
+            <form>
                 <input type="hidden" asp-for="@Model.Title" />
                 <h6>@Model.Description</h6>
                 <input type="hidden" asp-for="@Model.Description" />
@@ -64,9 +70,15 @@
                                 <div class="card-body">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            @foreach (var text in answer.Answers)
+
+                                            @for (int i = 0; i < answer.Answers.Count; i++)
                                             {
-                                                <h4><a asp-controller="DocumentQuestion" asp-action="DownloadFile" asp-route-name="@text">@text.Split('/')[1]</a></h4>
+                                                fileName = @answer.Answers[i].Split('/')[1];
+                                                if (fileName.Length > 20)
+                                                {
+                                                    fileName = fileName.Substring(0, 20) + "...";
+                                                }
+                                                    <a button class="btn download" asp-controller="DocumentQuestion" asp-action="DownloadFile" asp-route-name="@answer.Answers[i]"><i class="fa fa-download">@fileName</i></a>
                                             }
                                         </div>
                                     </div>

@@ -25,10 +25,12 @@
         {
             <div class="col-sm-4 mb-3">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-header">
                         <a class="card-link" asp-controller="Form" asp-action="Edit" asp-route-id="@form.Id">
                             <h5 class="card-title">@form.Title</h5>
                         </a>
+                    </div>
+                    <div class="card-body">
                         <p class="card-text">Created on: @form.CreatedOn</p>
                         <p class="card-text">Modified on: @form.ModifiedOn</p>
                         <p class="card-text">Answers: @form.Responses.Count</p>
