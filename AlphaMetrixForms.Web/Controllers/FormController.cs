@@ -185,6 +185,11 @@ namespace AlphaMetrixForms.Web.Controllers
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);
             form.Questions.Remove(question);
 
+            for (int i = 0; i < form.Questions.Count; i++)
+            {
+                form.Questions[i].OrderNumber = i;
+            }
+
             return PartialView("_QuestionPartial", form);
         }
 
@@ -204,9 +209,11 @@ namespace AlphaMetrixForms.Web.Controllers
         [HttpPost]
         public IActionResult FormPreview(FormViewModel form)
         {
+         
             foreach(var question in form.Questions)
             {
                 question.PreviewMode = true;
+                question.EditMode = false;
             }
 
             return PartialView("_PreviewFormPartial", form);
