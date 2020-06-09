@@ -11,6 +11,7 @@ using Microsoft.Azure.Storage.Blob;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -131,7 +132,7 @@ namespace AlphaMetrixForms.Services.Services
                 {
                     ResponseId = responseId,
                     DocumentQuestionId = questionId,
-                    Answer = item.FileName
+                    Answer = $"{responseId}_{questionId}/{item.FileName}"
                 };
                 await context.DocumentQuestionAnswers.AddAsync(documentAnswer);
             }
@@ -142,9 +143,11 @@ namespace AlphaMetrixForms.Services.Services
         {
             const string accountName = "alphametrix";
             const string key = "3hCy/2bFCJFXUrqs8JT9v9yWtemzAqPUod2rhHU94Uxn3Zah2LO3MWPb1H0y/E2fZ4GfmXEYci4GNfeRKmcTQQ==";
-            var storageAccount = new CloudStorageAccount(new StorageCredentials(accountName, key), true);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var container = blobClient.GetContainerReference("alphametrixforms");
+
+            CloudStorageAccount storageAccount = new CloudStorageAccount(new StorageCredentials(accountName, key), true);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference("alphametrixforms");
+
             await container.CreateIfNotExistsAsync();
             await container.SetPermissionsAsync(new BlobContainerPermissions()
             {
@@ -153,12 +156,34 @@ namespace AlphaMetrixForms.Services.Services
 
             CloudBlobDirectory folder = container.GetDirectoryReference($"Response_{responseId}_{questionId}");
 
-            var blockblob = folder.GetBlockBlobReference(file.FileName);
+            CloudBlockBlob blockblob = folder.GetBlockBlobReference(file.FileName);
 
             using (var stream = file.OpenReadStream())
             {
                 await blockblob.UploadFromStreamAsync(stream);
             }
+        }
+
+        public async Task<MemoryStream> DownloadFileAsync(string name)
+        {
+            const string accountName = "alphametrix";
+            const string key = "3hCy/2bFCJFXUrqs8JT9v9yWtemzAqPUod2rhHU94Uxn3Zah2LO3MWPb1H0y/E2fZ4GfmXEYci4GNfeRKmcTQQ==";
+
+            CloudStorageAccount storageAccount = new CloudStorageAccount(new StorageCredentials(accountName, key), true);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+            string folderRef = name.Split('/')[0];
+            string folderName = "Response_"+folderRef;
+            CloudBlobContainer container = blobClient.GetContainerReference($"alphametrixforms/{folderName}");
+
+            string fileName = name.Substring(folderRef.Length+1);
+            CloudBlockBlob blob = container.GetBlockBlobReference(fileName);
+
+            var memory = new MemoryStream();
+            await blob.DownloadToStreamAsync(memory);
+
+            memory.Position = 0;
+            return memory;
         }
     }
 }
