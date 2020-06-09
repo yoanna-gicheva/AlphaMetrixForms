@@ -71,7 +71,7 @@ namespace AlphaMetrixForms.Web.Utils
             {
                 if(textQuestion.TextAnswer == null && textQuestion.IsRequired)
                 {
-                    return $"Please, provide answer for question #{textQuestion.OrderNumber}";
+                    return $"Please, provide answer for question #{textQuestion.OrderNumber + 1}";
                 }
             }
             return null;
@@ -97,11 +97,11 @@ namespace AlphaMetrixForms.Web.Utils
             {
                 if(documentQuestion.IsRequired && (documentQuestion.DocumentAnswer == null || documentQuestion.DocumentAnswer.Count() == 0))
                 {
-                    return $"Please, provide answer for question #{documentQuestion.OrderNumber}";
+                    return $"Please, provide answer for question #{documentQuestion.OrderNumber + 1}";
                 }
                 if (documentQuestion.DocumentAnswer != null && documentQuestion.DocumentAnswer.Count() > documentQuestion.FileNumberLimit)
                 {
-                    return $"There is a file number limit of {documentQuestion.FileNumberLimit} for question #{documentQuestion.OrderNumber+1}";
+                    return $"There is a file number limit of {documentQuestion.FileNumberLimit} for question #{documentQuestion.OrderNumber + 1}";
                 }
                 if(documentQuestion.DocumentAnswer != null && documentQuestion.DocumentAnswer.Count() > 0)
                 {
@@ -109,7 +109,7 @@ namespace AlphaMetrixForms.Web.Utils
                     {
                         if(document.Length/ (1024 * 1024) > documentQuestion.FileSizeLimit)
                         {
-                            return $"There is a file size limit of {documentQuestion.FileSizeLimit} for question #{documentQuestion.OrderNumber+1}";
+                            return $"There is a file size limit of {documentQuestion.FileSizeLimit} for question #{documentQuestion.OrderNumber + 1}";
                         }
                     }
                 }
