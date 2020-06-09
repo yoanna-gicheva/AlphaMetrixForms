@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AlphaMetrixForms.Data.Seeder
@@ -508,6 +509,13 @@ namespace AlphaMetrixForms.Data.Seeder
                 optionQuestion2option1, optionQuestion2option2, optionQuestion2option3, optionQuestion2option4, optionQuestion2option5, optionQuestion2option6, optionQuestion2option7, optionQuestion2option8, optionQuestion2option9, optionQuestion2option10,
                 optionQuestion3option1, optionQuestion3option2, optionQuestion3option3,
                 testOption1, testOption2, testOption3, testOption4, testOption5, testOption6, testOption7, testOption8, testOption9, testOption10, testOption11, testOption12);
+        }
+        public static void RelationshipSetter(this ModelBuilder model)
+        {
+            foreach (var relationship in model.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
         }
     }
 }

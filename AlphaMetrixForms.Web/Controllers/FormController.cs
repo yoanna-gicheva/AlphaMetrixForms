@@ -207,12 +207,9 @@ namespace AlphaMetrixForms.Web.Controllers
             foreach(var question in form.Questions)
             {
                 question.PreviewMode = true;
-                question.EditMode = false;
             }
 
             return PartialView("_PreviewFormPartial", form);
         }
-
-
     }
 }

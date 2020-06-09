@@ -51,9 +51,6 @@
                     {
                         <br>
                         <input type="submit" name="saveChanges" class="btn btn-primary" value="Save">
-                        <button type="button" name="preview" class="btn btn-primary">
-                            Preview
-                        </button>
                         <button type="button" id="@Model.Id" name="main-email-send" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Share
                         </button>
@@ -69,6 +66,7 @@
                 </div>
                 <div id="alerts">
                 </div>
+
                 @Html.Hidden("Current", Model.Current)
                 @Html.Hidden("Id", Model.Id)
                 @Html.Hidden("EditMode", Model.EditMode)
