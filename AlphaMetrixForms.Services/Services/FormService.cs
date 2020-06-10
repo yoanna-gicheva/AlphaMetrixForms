@@ -84,7 +84,7 @@ namespace AlphaMetrixForms.Services.Services
                 .Include(f => f.Responses).ThenInclude(r => r.TextQuestionAnswers)
                 .Include(f => f.Responses).ThenInclude(r => r.DocumentQuestionAnswers)
                 .Include(f => f.Responses).ThenInclude(r => r.OptionQuestionAnswers)
-                .Where(f => f.IsDeleted == false && f.IsClosed == false)
+                .Where(f => f.IsDeleted == false)
                 .ToListAsync();
 
             return forms.GetDtos();
@@ -172,7 +172,7 @@ namespace AlphaMetrixForms.Services.Services
                .Include(f => f.Responses).ThenInclude(r => r.TextQuestionAnswers)
                .Include(f => f.Responses).ThenInclude(r => r.DocumentQuestionAnswers)
                .Include(f => f.Responses).ThenInclude(r => r.OptionQuestionAnswers)
-               .Where(f => f.IsDeleted == false && f.IsClosed == false)
+               .Where(f => f.IsDeleted == false)
                .ToListAsync();
 
             return forms.GetDtos();
