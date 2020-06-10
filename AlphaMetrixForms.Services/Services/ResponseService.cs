@@ -18,16 +18,10 @@ namespace AlphaMetrixForms.Services.Services
     public class ResponseService : IResponseService
     {
         private readonly FormsContext context;
-        private readonly ITextQuestionService textQuestionService;
-        private readonly IOptionQuestionService optionQuestionService;
-        private readonly IDocumentQuestionService documentQuestionService;
 
-        public ResponseService(FormsContext context, ITextQuestionService textQuestionService, IOptionQuestionService optionQuestionService, IDocumentQuestionService documentQuestionService)
+        public ResponseService(FormsContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            this.textQuestionService = textQuestionService ?? throw new ArgumentNullException(nameof(textQuestionService));
-            this.optionQuestionService = optionQuestionService ?? throw new ArgumentNullException(nameof(optionQuestionService));
-            this.documentQuestionService = documentQuestionService ?? throw new ArgumentNullException(nameof(documentQuestionService));
         }
 
         public async Task<Guid> CreateResponseAsync(Guid formId)
@@ -62,6 +56,11 @@ namespace AlphaMetrixForms.Services.Services
                 .Include(f => f.Responses).ThenInclude(r=>r.DocumentQuestionAnswers)
                 .FirstOrDefaultAsync(f => f.Id == formId);
 
+            if (form == null)
+            {
+                throw new ArgumentException($"Form with id {formId} does not exist.");
+            }
+
             return form.GetDto();
         }
         public async Task<FormDTO> RetrieveResponseAsync(Guid responseId, Guid formId)
@@ -82,6 +81,10 @@ namespace AlphaMetrixForms.Services.Services
                 .Include(r => r.OptionQuestionAnswers)
                 .Load();
 
+            if (form == null)
+            {
+                throw new ArgumentException($"Form with id {formId} does not exist.");
+            }
             return form.GetDto();
         }
         private async Task<bool> SendNotificationToUserAsync(Form form, Guid responseId)
