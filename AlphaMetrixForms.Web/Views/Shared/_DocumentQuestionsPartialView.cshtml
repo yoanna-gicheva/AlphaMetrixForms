@@ -1,7 +1,7 @@
 ﻿@model AlphaMetrixForms.Web.Models.Question.QuestionViewModel
 
 <br>
-<div class="card" id="documentCard">
+<div class="card card col-10 shadow-lg p-3 mb-5 bg-white rounded" id="documentCard">
     <div class="card-header">
         Document Question
         <button id="@Model.OrderNumber" name="deleteQuestion" type="button" class="close" aria-label="Close">
@@ -13,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" placeholder="Type document question here..."/>
+                <input asp-for="Text" class="form-control" placeholder="Type document question here..." />
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <select asp-for="FileNumberLimit" class="browser-default custom-select col-md-4" id="fileNumber">
@@ -56,7 +56,7 @@
 
 <script>
     $("button[name='deleteQuestion']").on('click', function () {
-       $(this).parent().parent().remove();
+        $(this).parent().parent().remove();
         let orderNumber = $(this).attr('id');
         document.getElementById('Current').value = orderNumber;
         $.ajax({
@@ -65,6 +65,7 @@
             type: "POST",
             url: '/Form/DeleteQuestion',
             success: function (partialView) {
+                $('#detailsContainer').empty();
                 $('#detailsContainer').html(partialView);
             }
         });
