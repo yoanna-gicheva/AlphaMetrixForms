@@ -56,6 +56,7 @@
 
 <script>
     $("button[name='deleteQuestion']").on('click', function () {
+       $(this).parent().parent().remove();
         let orderNumber = $(this).attr('id');
         document.getElementById('Current').value = orderNumber;
         $.ajax({

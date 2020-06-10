@@ -13,6 +13,7 @@
     });
 });
 $("button[name='deleteOption']").on("click", function deleteOption() {
+    $(this).parent().remove();
     document.getElementById('Current').value = $(this).attr('id');
     let option = $(this).attr('value');
     $.ajax({
@@ -29,6 +30,7 @@ $("button[name='deleteOption']").on("click", function deleteOption() {
 
 $("button[name='deleteOptionQuestion']").on('click', function () {
     let orderNumber = $(this).attr('id');
+    $(this).parent().parent().remove();
     document.getElementById('Current').value = orderNumber;
     $.ajax({
         async: true,
@@ -36,6 +38,7 @@ $("button[name='deleteOptionQuestion']").on('click', function () {
         type: "POST",
         url: '/Form/DeleteQuestion',
         success: function (partialView) {
+            $('#detailsContainer').empty();
             $('#detailsContainer').html(partialView);
         }
     });

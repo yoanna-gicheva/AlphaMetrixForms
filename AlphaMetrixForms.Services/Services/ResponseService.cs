@@ -49,6 +49,7 @@ namespace AlphaMetrixForms.Services.Services
             await this.context.Responses.AddAsync(response);
             await this.context.SaveChangesAsync();
 
+            await SendNotificationToUserAsync(form, response.Id);
             return response.Id;
         }
 
@@ -82,6 +83,45 @@ namespace AlphaMetrixForms.Services.Services
                 .Load();
 
             return form.GetDto();
+        }
+        private async Task<bool> SendNotificationToUserAsync(Form form, Guid responseId)
+        {
+            string userEmail = await UserEmailAsync(form.OwnerId);
+            bool sent = await EmailNotificationAsync(userEmail, form.Id, responseId);
+            return sent;
+        }
+        private async Task<string> UserEmailAsync(Guid ownerId)
+        {
+            User owner = await context.Users.FirstOrDefaultAsync(u => u.Id == ownerId);
+            if(owner == null)
+            {
+                return null;
+            }
+            return owner.Email;
+        }
+        private async Task<bool> EmailNotificationAsync(string mail, Guid formId, Guid responseId)
+        {
+            Email email = new Email();
+
+            email.Subject = "An answer to your form has been submitted!";
+            email.Greeting = $"Dear Sir/Madam,\r\nHere is the answer:\r\n";
+            email.Content = $"https://localhost:44366/RetrieveResponse/{responseId}?formId={formId}";
+            email.Closing = "\r\nKind regards,\r\nAlphaMetrix Team";
+
+            MailMessage message = new MailMessage();
+            message.To.Add(mail);
+            message.Subject = email.Subject;
+            message.Body = email.Greeting + email.Content + email.Closing;
+            message.From = new MailAddress("alphametrixforms@gmail.com");
+            message.IsBodyHtml = false;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            smtp.Port = 587;
+            smtp.UseDefaultCredentials = true;
+            smtp.EnableSsl = true;
+            smtp.Credentials = new System.Net.NetworkCredential("alphametrixforms@gmail.com", "yoanna13");
+            smtp.Send(message);
+
+            return true;
         }
 
     }

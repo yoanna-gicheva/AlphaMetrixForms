@@ -38,6 +38,7 @@
 
 <script>
     $("button[name='deleteTextQuestion']").on('click', function () {
+        $(this).parent().parent().remove();
         let orderNumber = $(this).attr('id');
         document.getElementById('Current').value = orderNumber;
         $.ajax({
@@ -46,6 +47,7 @@
             type: "POST",
             url: '/Form/DeleteQuestion',
             success: function (partialView) {
+                //$('#detailsContainer').empty();
                 $('#detailsContainer').html(partialView);
             }
         });
