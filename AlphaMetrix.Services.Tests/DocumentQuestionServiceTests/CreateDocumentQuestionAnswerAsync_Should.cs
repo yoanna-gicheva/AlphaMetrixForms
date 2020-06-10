@@ -52,7 +52,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
                 var result = await assertContext.DocumentQuestionAnswers.Where(x => x.DocumentQuestionId == documentQuestion.Id).FirstOrDefaultAsync();
 
                 Assert.AreEqual(result.ResponseId, response.Id);
-                Assert.AreEqual(result.Answer, file.FileName);
+                Assert.AreEqual(result.Answer, $"{response.Id}_{documentQuestion.Id}/{file.FileName}");
             }
         }
 
