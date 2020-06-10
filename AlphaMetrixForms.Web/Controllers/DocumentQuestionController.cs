@@ -226,7 +226,7 @@ namespace AlphaMetrixForms.Web.Controllers
             {
                 var stream = await this._documentQuestionService.DownloadFileAsync(name);
                 var array = name.Split('.');
-                var fileExtension = array[array.Length - 1];
+                var fileExtension = array[array.Length - 1].ToLower();
                 string contentType = typesDictionary[fileExtension];
                 string folderRef = name.Split('/')[0];
                 string fileName = name.Substring(folderRef.Length + 1);

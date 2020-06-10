@@ -33,7 +33,7 @@ namespace AlphaMetrixForms.Services.Services
         public async Task<Guid> CreateResponseAsync(Guid formId)
         {
             Form form = await this.context.Forms
-               .FirstOrDefaultAsync(f => f.Id == formId && f.IsClosed == false);
+               .FirstOrDefaultAsync(f => f.Id == formId && f.IsDeleted == false);
 
             if (form == null)
             {

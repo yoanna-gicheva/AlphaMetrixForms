@@ -4,14 +4,16 @@ using AlphaMetrixForms.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlphaMetrixForms.Data.Migrations
 {
     [DbContext(typeof(FormsContext))]
-    partial class FormsContextModelSnapshot : ModelSnapshot
+    [Migration("20200610075030_RemovalOfClosedPropertyInForm")]
+    partial class RemovalOfClosedPropertyInForm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,16 +102,6 @@ namespace AlphaMetrixForms.Data.Migrations
                             IsRequired = false,
                             OrderNumber = 1,
                             Text = "Q2:"
-                        },
-                        new
-                        {
-                            Id = new Guid("fbc627f0-f7cd-49e2-b329-644b6520ef58"),
-                            FileNumberLimit = 1,
-                            FileSizeLimit = 10,
-                            FormId = new Guid("b75902be-238c-4b5f-9b6f-bea1cf0cc401"),
-                            IsRequired = false,
-                            OrderNumber = 5,
-                            Text = "Upload a photo from our supermarkets and win a prize:"
                         });
                 });
 
@@ -176,16 +168,16 @@ namespace AlphaMetrixForms.Data.Migrations
                         new
                         {
                             Id = new Guid("8a50ab5f-0eb5-4eaa-916e-dc241a19a3ed"),
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 103, DateTimeKind.Utc).AddTicks(5545),
-                            Description = "Questionnaire initiated by BBank in order to improve their services.",
+                            CreatedOn = new DateTime(2020, 6, 10, 7, 50, 30, 100, DateTimeKind.Utc).AddTicks(7951),
+                            Description = "Questionnaire initiated by TestBank in order to improve their services.",
                             IsDeleted = false,
-                            OwnerId = new Guid("3ff82bae-c8d2-4102-aaab-a4a0e8b5c086"),
+                            OwnerId = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
                             Title = "Banking Services"
                         },
                         new
                         {
                             Id = new Guid("b41ba95b-e19f-4ed6-b443-6c85cf9b5c3d"),
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 103, DateTimeKind.Utc).AddTicks(5839),
+                            CreatedOn = new DateTime(2020, 6, 10, 7, 50, 30, 100, DateTimeKind.Utc).AddTicks(8298),
                             IsDeleted = false,
                             OwnerId = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
                             Title = "Test Question Test"
@@ -193,7 +185,7 @@ namespace AlphaMetrixForms.Data.Migrations
                         new
                         {
                             Id = new Guid("aa5a5180-9201-41bf-9241-7a3918f4bf5c"),
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 103, DateTimeKind.Utc).AddTicks(5856),
+                            CreatedOn = new DateTime(2020, 6, 10, 7, 50, 30, 100, DateTimeKind.Utc).AddTicks(8313),
                             IsDeleted = false,
                             OwnerId = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
                             Title = "Document Question Test"
@@ -201,28 +193,10 @@ namespace AlphaMetrixForms.Data.Migrations
                         new
                         {
                             Id = new Guid("eff4ce9b-6a32-47a4-8e5e-d7d89ca18446"),
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 103, DateTimeKind.Utc).AddTicks(5861),
+                            CreatedOn = new DateTime(2020, 6, 10, 7, 50, 30, 100, DateTimeKind.Utc).AddTicks(8318),
                             IsDeleted = false,
                             OwnerId = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
                             Title = "Option Question Test"
-                        },
-                        new
-                        {
-                            Id = new Guid("72457b91-0923-4f37-bd50-5f8d36e45b3f"),
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 103, DateTimeKind.Utc).AddTicks(5877),
-                            Description = "Market research on customer behaviour in supermarkets and grocery stores.",
-                            IsDeleted = false,
-                            OwnerId = new Guid("2f3ffe43-1901-4ec5-919b-6787d5cc16f4"),
-                            Title = "Customers in supermarkets"
-                        },
-                        new
-                        {
-                            Id = new Guid("b75902be-238c-4b5f-9b6f-bea1cf0cc401"),
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 103, DateTimeKind.Utc).AddTicks(5881),
-                            Description = "A brief questionnaire on client experience which will help improving the services of Smith's supermarkets.",
-                            IsDeleted = false,
-                            OwnerId = new Guid("2f3ffe43-1901-4ec5-919b-6787d5cc16f4"),
-                            Title = "Customer satisfaction"
                         });
                 });
 
@@ -451,223 +425,6 @@ namespace AlphaMetrixForms.Data.Migrations
                             OrderNumber = 2,
                             QuestionId = new Guid("6902a89e-e11c-4800-99d6-b51f66f8ca54"),
                             Text = "C"
-                        },
-                        new
-                        {
-                            Id = new Guid("ac2c31ad-5b29-4522-abc2-494193ba0de3"),
-                            OrderNumber = 0,
-                            QuestionId = new Guid("87e8c7fd-2bdd-447f-af01-e999bc5273da"),
-                            Text = "Yes"
-                        },
-                        new
-                        {
-                            Id = new Guid("8cbc654a-6d5b-4946-bfdb-ec302f25bd6d"),
-                            OrderNumber = 1,
-                            QuestionId = new Guid("87e8c7fd-2bdd-447f-af01-e999bc5273da"),
-                            Text = "No"
-                        },
-                        new
-                        {
-                            Id = new Guid("1ef12bca-6bd8-4510-a1b1-618cb209b0a8"),
-                            OrderNumber = 0,
-                            QuestionId = new Guid("190bace0-7401-4b62-9aac-8a4c030fcda6"),
-                            Text = "1-2"
-                        },
-                        new
-                        {
-                            Id = new Guid("052d5173-2663-49e6-b074-7d8f8920521d"),
-                            OrderNumber = 1,
-                            QuestionId = new Guid("190bace0-7401-4b62-9aac-8a4c030fcda6"),
-                            Text = "3-5"
-                        },
-                        new
-                        {
-                            Id = new Guid("bea6c14a-2de3-4eb2-b09d-b9a007e427de"),
-                            OrderNumber = 2,
-                            QuestionId = new Guid("190bace0-7401-4b62-9aac-8a4c030fcda6"),
-                            Text = "6-10"
-                        },
-                        new
-                        {
-                            Id = new Guid("b8687cd5-5b82-4c32-98e0-1cb4e6098acf"),
-                            OrderNumber = 3,
-                            QuestionId = new Guid("190bace0-7401-4b62-9aac-8a4c030fcda6"),
-                            Text = "10+"
-                        },
-                        new
-                        {
-                            Id = new Guid("9c3e2182-9866-414e-a4c1-aa256ce1d6bd"),
-                            OrderNumber = 0,
-                            QuestionId = new Guid("f9e210b1-0b55-4283-be83-48c853ebe6f9"),
-                            Text = "Poor"
-                        },
-                        new
-                        {
-                            Id = new Guid("1d7e8aef-c346-4bda-8850-e36ef5fdba87"),
-                            OrderNumber = 1,
-                            QuestionId = new Guid("f9e210b1-0b55-4283-be83-48c853ebe6f9"),
-                            Text = "Fair"
-                        },
-                        new
-                        {
-                            Id = new Guid("c1a7e98a-b9cc-4e7b-911a-8feda7a76201"),
-                            OrderNumber = 2,
-                            QuestionId = new Guid("f9e210b1-0b55-4283-be83-48c853ebe6f9"),
-                            Text = "Good"
-                        },
-                        new
-                        {
-                            Id = new Guid("133d6004-034c-4e51-80fc-01bc4ffc891e"),
-                            OrderNumber = 3,
-                            QuestionId = new Guid("f9e210b1-0b55-4283-be83-48c853ebe6f9"),
-                            Text = "Excellent"
-                        },
-                        new
-                        {
-                            Id = new Guid("f17ce540-5ad7-47e6-a8ae-6fd18692092d"),
-                            OrderNumber = 0,
-                            QuestionId = new Guid("32b5c63a-c068-43bd-8a15-21520e33d314"),
-                            Text = "1-2"
-                        },
-                        new
-                        {
-                            Id = new Guid("7e9a6651-8f5f-43a7-be05-2808b0b50fdf"),
-                            OrderNumber = 1,
-                            QuestionId = new Guid("32b5c63a-c068-43bd-8a15-21520e33d314"),
-                            Text = "3-5"
-                        },
-                        new
-                        {
-                            Id = new Guid("038acddc-e630-4064-8f12-8dc94cb4e8f9"),
-                            OrderNumber = 2,
-                            QuestionId = new Guid("32b5c63a-c068-43bd-8a15-21520e33d314"),
-                            Text = "6-10"
-                        },
-                        new
-                        {
-                            Id = new Guid("3c56c096-4706-4dd4-8af9-95f033cb7999"),
-                            OrderNumber = 3,
-                            QuestionId = new Guid("32b5c63a-c068-43bd-8a15-21520e33d314"),
-                            Text = "10+"
-                        },
-                        new
-                        {
-                            Id = new Guid("6188e06f-b624-471f-888e-ba2f865ca997"),
-                            OrderNumber = 0,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Fruits and vegetables"
-                        },
-                        new
-                        {
-                            Id = new Guid("342097db-2f30-4fcd-a938-4bc086671a59"),
-                            OrderNumber = 1,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Meat and seafood"
-                        },
-                        new
-                        {
-                            Id = new Guid("67776354-3d29-4312-ad73-48351f3e0824"),
-                            OrderNumber = 2,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Bread and bakery"
-                        },
-                        new
-                        {
-                            Id = new Guid("922dc7c9-d5af-48d6-b687-fe9fb9ffcd49"),
-                            OrderNumber = 3,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Beverages"
-                        },
-                        new
-                        {
-                            Id = new Guid("2b05d0f2-3f40-4ec6-b4cf-5204d75d18b1"),
-                            OrderNumber = 4,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Dairy products"
-                        },
-                        new
-                        {
-                            Id = new Guid("5bc8aab3-03c5-427e-a33f-a971f49dac13"),
-                            OrderNumber = 5,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Cleaning supplies"
-                        },
-                        new
-                        {
-                            Id = new Guid("253f0754-0300-484a-9885-73fc3a287469"),
-                            OrderNumber = 6,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Personal care"
-                        },
-                        new
-                        {
-                            Id = new Guid("297bd6b7-2208-4a63-a7aa-8c8ebaea1019"),
-                            OrderNumber = 7,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Alcohol and tobacco"
-                        },
-                        new
-                        {
-                            Id = new Guid("797db57f-d079-4d0c-ad98-18f49354d3a1"),
-                            OrderNumber = 8,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Pet food"
-                        },
-                        new
-                        {
-                            Id = new Guid("379cd70e-5c9e-406e-8810-6ef89b67d2f7"),
-                            OrderNumber = 9,
-                            QuestionId = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            Text = "Other"
-                        },
-                        new
-                        {
-                            Id = new Guid("10a6f9ed-8809-4847-94c2-3b0b980bb8e5"),
-                            OrderNumber = 0,
-                            QuestionId = new Guid("39f2c367-eeb8-4111-982f-7174fec31540"),
-                            Text = "Poor"
-                        },
-                        new
-                        {
-                            Id = new Guid("44da9d26-0a3c-4ca6-b45e-5a32daaab580"),
-                            OrderNumber = 1,
-                            QuestionId = new Guid("39f2c367-eeb8-4111-982f-7174fec31540"),
-                            Text = "Fair"
-                        },
-                        new
-                        {
-                            Id = new Guid("49f771e0-eb4e-49cb-bfee-ee1b298963a0"),
-                            OrderNumber = 2,
-                            QuestionId = new Guid("39f2c367-eeb8-4111-982f-7174fec31540"),
-                            Text = "Good"
-                        },
-                        new
-                        {
-                            Id = new Guid("528da9c0-d33e-4fce-8720-33e756c6e697"),
-                            OrderNumber = 3,
-                            QuestionId = new Guid("39f2c367-eeb8-4111-982f-7174fec31540"),
-                            Text = "Excellent"
-                        },
-                        new
-                        {
-                            Id = new Guid("c4bc4a9f-00d9-4f78-ab34-3030a3f5bee8"),
-                            OrderNumber = 0,
-                            QuestionId = new Guid("590a9d16-1cbd-436e-809c-2a27a043d225"),
-                            Text = "Overpriced"
-                        },
-                        new
-                        {
-                            Id = new Guid("af04e192-2898-458c-86d1-fdb6a0361857"),
-                            OrderNumber = 1,
-                            QuestionId = new Guid("590a9d16-1cbd-436e-809c-2a27a043d225"),
-                            Text = "Reasonable"
-                        },
-                        new
-                        {
-                            Id = new Guid("769db045-751e-4c0d-8c59-c862df5be2d8"),
-                            OrderNumber = 2,
-                            QuestionId = new Guid("590a9d16-1cbd-436e-809c-2a27a043d225"),
-                            Text = "Low-priced"
                         });
                 });
 
@@ -707,7 +464,7 @@ namespace AlphaMetrixForms.Data.Migrations
                             IsMultipleAnswerAllowed = false,
                             IsRequired = true,
                             OrderNumber = 4,
-                            Text = "Please choose for how long have you been a customer of BBank:"
+                            Text = "Please choose for how long have you been a customer of TestBank:"
                         },
                         new
                         {
@@ -716,7 +473,7 @@ namespace AlphaMetrixForms.Data.Migrations
                             IsMultipleAnswerAllowed = true,
                             IsRequired = true,
                             OrderNumber = 5,
-                            Text = "Which products of BBank are you using:"
+                            Text = "Which products of TestBank are you using:"
                         },
                         new
                         {
@@ -725,7 +482,7 @@ namespace AlphaMetrixForms.Data.Migrations
                             IsMultipleAnswerAllowed = false,
                             IsRequired = false,
                             OrderNumber = 6,
-                            Text = "Are you considering changing BBank as your servicing bank:"
+                            Text = "Are you considering changing TestBank as your servicing bank:"
                         },
                         new
                         {
@@ -762,69 +519,6 @@ namespace AlphaMetrixForms.Data.Migrations
                             IsRequired = false,
                             OrderNumber = 0,
                             Text = "Q1:"
-                        },
-                        new
-                        {
-                            Id = new Guid("87e8c7fd-2bdd-447f-af01-e999bc5273da"),
-                            FormId = new Guid("72457b91-0923-4f37-bd50-5f8d36e45b3f"),
-                            IsMultipleAnswerAllowed = false,
-                            IsRequired = true,
-                            OrderNumber = 0,
-                            Text = "Do you prefer shopping at a large supermarket than ordinary grocery shop?"
-                        },
-                        new
-                        {
-                            Id = new Guid("190bace0-7401-4b62-9aac-8a4c030fcda6"),
-                            FormId = new Guid("72457b91-0923-4f37-bd50-5f8d36e45b3f"),
-                            IsMultipleAnswerAllowed = false,
-                            IsRequired = true,
-                            OrderNumber = 1,
-                            Text = "How many times in a month do you shop at a supermarket?"
-                        },
-                        new
-                        {
-                            Id = new Guid("f9e210b1-0b55-4283-be83-48c853ebe6f9"),
-                            FormId = new Guid("72457b91-0923-4f37-bd50-5f8d36e45b3f"),
-                            IsMultipleAnswerAllowed = false,
-                            IsRequired = true,
-                            OrderNumber = 2,
-                            Text = "How do you rate the customer service received from supermarkets?"
-                        },
-                        new
-                        {
-                            Id = new Guid("32b5c63a-c068-43bd-8a15-21520e33d314"),
-                            FormId = new Guid("b75902be-238c-4b5f-9b6f-bea1cf0cc401"),
-                            IsMultipleAnswerAllowed = false,
-                            IsRequired = true,
-                            OrderNumber = 1,
-                            Text = "How many times in a month do you visit our supermarket?"
-                        },
-                        new
-                        {
-                            Id = new Guid("3cf381e5-20f4-4297-8c30-1e1e14beeb7e"),
-                            FormId = new Guid("b75902be-238c-4b5f-9b6f-bea1cf0cc401"),
-                            IsMultipleAnswerAllowed = true,
-                            IsRequired = true,
-                            OrderNumber = 2,
-                            Text = "Whay type of products do you buy from us?"
-                        },
-                        new
-                        {
-                            Id = new Guid("39f2c367-eeb8-4111-982f-7174fec31540"),
-                            FormId = new Guid("b75902be-238c-4b5f-9b6f-bea1cf0cc401"),
-                            IsMultipleAnswerAllowed = false,
-                            IsRequired = true,
-                            OrderNumber = 3,
-                            Text = "How do you rate the customer service received from supermarkets?"
-                        },
-                        new
-                        {
-                            Id = new Guid("590a9d16-1cbd-436e-809c-2a27a043d225"),
-                            FormId = new Guid("b75902be-238c-4b5f-9b6f-bea1cf0cc401"),
-                            IsMultipleAnswerAllowed = false,
-                            IsRequired = true,
-                            OrderNumber = 4,
-                            Text = "What do you think of our prices?"
                         });
                 });
 
@@ -945,7 +639,7 @@ namespace AlphaMetrixForms.Data.Migrations
                             IsLongAnswer = true,
                             IsRequired = true,
                             OrderNumber = 7,
-                            Text = "Are you satisfied with the services provided by BBank in overall:"
+                            Text = "Are you satisfied with the services provided by TestBank in overall:"
                         },
                         new
                         {
@@ -991,42 +685,6 @@ namespace AlphaMetrixForms.Data.Migrations
                             IsRequired = true,
                             OrderNumber = 2,
                             Text = "Q3:"
-                        },
-                        new
-                        {
-                            Id = new Guid("b588fe45-b95f-4a53-ae2b-96d27097f595"),
-                            FormId = new Guid("72457b91-0923-4f37-bd50-5f8d36e45b3f"),
-                            IsLongAnswer = true,
-                            IsRequired = true,
-                            OrderNumber = 3,
-                            Text = "What features do you look for shopping at a supermarket—i.e. price, quality of product, variety of product, branding etc?"
-                        },
-                        new
-                        {
-                            Id = new Guid("7c6649e9-467c-4d97-812f-7de4acc79df7"),
-                            FormId = new Guid("72457b91-0923-4f37-bd50-5f8d36e45b3f"),
-                            IsLongAnswer = true,
-                            IsRequired = false,
-                            OrderNumber = 4,
-                            Text = "What would make your shopping experience better?"
-                        },
-                        new
-                        {
-                            Id = new Guid("e2f1fe9a-ca1b-4e3d-ba34-68502cd487d6"),
-                            FormId = new Guid("b75902be-238c-4b5f-9b6f-bea1cf0cc401"),
-                            IsLongAnswer = false,
-                            IsRequired = true,
-                            OrderNumber = 0,
-                            Text = "Please share your name:"
-                        },
-                        new
-                        {
-                            Id = new Guid("b4d808d6-6c1a-4753-9f4b-5f185b43de26"),
-                            FormId = new Guid("b75902be-238c-4b5f-9b6f-bea1cf0cc401"),
-                            IsLongAnswer = true,
-                            IsRequired = false,
-                            OrderNumber = 6,
-                            Text = "Any additional feedback is more than welcome:"
                         });
                 });
 
@@ -1137,55 +795,19 @@ namespace AlphaMetrixForms.Data.Migrations
                         {
                             Id = new Guid("e067376a-2d4d-416f-b3a3-2f37dae1ad8f"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "98a24703-3d11-4d13-852f-bb220d01bb7d",
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 82, DateTimeKind.Utc).AddTicks(2490),
+                            ConcurrencyStamp = "bbc19215-301b-48bc-816f-b13e12d64eb5",
+                            CreatedOn = new DateTime(2020, 6, 10, 7, 50, 30, 89, DateTimeKind.Utc).AddTicks(1124),
                             Email = "user1@user.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@USER.COM",
                             NormalizedUserName = "TESTUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAhCg3ItUeLdrsmjpJSSUlwAFD8hmzxuA9LYh6OmB8FbP0rYrBZ1wGzevid241t42Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENOl11mDRxwOMg+crb8EZc8hik7yiUSxknuvkXjCSao4hnI8cEy9iMHSd8Qic8GtIg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "DC6E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,
                             UserName = "TestUser"
-                        },
-                        new
-                        {
-                            Id = new Guid("2f3ffe43-1901-4ec5-919b-6787d5cc16f4"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d474c375-7203-4a40-8d9f-c8ca01a366c0",
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 91, DateTimeKind.Utc).AddTicks(8010),
-                            Email = "johnsmith@supermarket.com",
-                            EmailConfirmed = false,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "JOHNSMITH@SUPERMARKET.COM",
-                            NormalizedUserName = "JOHNSMITH",
-                            PasswordHash = "AQAAAAEAACcQAAAAECPgdZZMtmitmiKOgRy/ozxFIev1oVRTyN6pZtCQ7dlMxeB2h92fIg8+k93LDIRSKA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "DC6E275DD1E24957A7781D42BB68293C",
-                            TwoFactorEnabled = false,
-                            UserName = "JohnSmith"
-                        },
-                        new
-                        {
-                            Id = new Guid("3ff82bae-c8d2-4102-aaab-a4a0e8b5c086"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "334c1355-6993-4135-ad45-1e5881480222",
-                            CreatedOn = new DateTime(2020, 6, 10, 9, 15, 52, 97, DateTimeKind.Utc).AddTicks(682),
-                            Email = "bankmanager@bbank.com",
-                            EmailConfirmed = false,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "BANKMANAGER@BBANK.COM",
-                            NormalizedUserName = "BANKMANAGER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEH6VxB7t5p4r6IVicVLCTxec1/guD6Ty5uidjpMeGYFoJw3c+Sollv7SVFTvSZKDRQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "DC6E275DD1E24957A7781D42BB68293D",
-                            TwoFactorEnabled = false,
-                            UserName = "BankManager"
                         });
                 });
 
