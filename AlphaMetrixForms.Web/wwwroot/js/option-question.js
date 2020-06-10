@@ -29,8 +29,8 @@ $("button[name='deleteOption']").on("click", function deleteOption() {
 });
 
 $("button[name='deleteOptionQuestion']").on('click', function () {
-    let orderNumber = $(this).attr('id');
     $(this).parent().parent().remove();
+    let orderNumber = $(this).attr('id');
     document.getElementById('Current').value = orderNumber;
     $.ajax({
         async: true,

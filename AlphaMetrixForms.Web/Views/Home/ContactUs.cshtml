@@ -5,14 +5,10 @@
 }
 <br>
 <br>
-
-<div class="card">
-    <div class="card-header">
-        Feedback
-    </div>
-    <div class="card-body">
         <div class="row justify-content-center">
-            <form asp-action="ContactUs" id="form" class="col-8">
+            <form asp-action="ContactUs" id="form" class="col-8 shadow-lg p-3 mb-5 bg-white">
+                <h3>Feedback</h3>
+                <br>
                 <div class="form-group">
                     <label asp-for="Sender" class="control-label"></label>
                     <input asp-for="Sender" class="form-control" placeholder="Your name..." />
@@ -36,9 +32,6 @@
                 </div>
             </form>
         </div>
-    </div>
-</div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

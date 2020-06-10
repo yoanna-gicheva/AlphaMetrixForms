@@ -10,89 +10,90 @@
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="~/css/download-button.css" />
+<link rel="stylesheet" href="~/css/center-card.css" />
 
-<div class="card">
-    <div class="card-header">
+<br>
+<br>
+
+<div class="row justify-content-center">
+    <form class="col-8 shadow-lg p-3 mb-5 bg-white align-items-center">
         <h3>@Model.Title</h3>
-    </div>
-    <div class="card-body">
-        <div class="col-md-6">
-            <form>
-                <input type="hidden" asp-for="@Model.Title" />
-                <h6>@Model.Description</h6>
-                <input type="hidden" asp-for="@Model.Description" />
-                <div id="answers">
-                    @foreach (var answer in Model.Answers.OrderBy(a => a.OrderNumber))
-                    {
-                        if (answer.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text)
-                        {
-                            <br>
-                            <div class="card" id="textCard">
-                                <div class="card-header">
-                                    <label for="Title">@answer.Text</label>
-                                </div>
-                                <div class="card-body">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <h4>@answer.Answer</h4>
-                                        </div>
-                                    </div>
+        <input type="hidden" asp-for="@Model.Title" />
+        <h6>@Model.Description</h6>
+        <input type="hidden" asp-for="@Model.Description" />
+        <br>
+        <div id="answers">
+            @foreach (var answer in Model.Answers.OrderBy(a => a.OrderNumber))
+            {
+                if (answer.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Text)
+                {
+                    <br>
+                    <div class="card card col-10 shadow-lg p-3 mb-5 bg-white rounded" id="textCard">
+                        <div class="card-header">
+                            <label for="Title">@answer.Text</label>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <h4>@answer.Answer</h4>
                                 </div>
                             </div>
-                            <br>
-                        }
-                        else if (answer.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Option)
-                        {
-                            <br>
-                            <div class="card" id="textCard">
-                                <div class="card-header">
-                                    <label for="Title">@answer.Text</label>
-                                </div>
-                                <div class="card-body">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            @foreach (var text in answer.Answers)
-                                            {
-                                                <h4>* @text</h4>
-                                            }
-                                        </div>
-                                    </div>
+                        </div>
+                    </div>
+                    <br>
+                }
+                else if (answer.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Option)
+                {
+                    <br>
+                    <div class="card card col-10 shadow-lg p-3 mb-5 bg-white rounded" id="optionCard">
+                        <div class="card-header">
+                            <label for="Title">@answer.Text</label>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @foreach (var text in answer.Answers)
+                                    {
+                                        <h4>* @text</h4>
+                                    }
                                 </div>
                             </div>
-                            <br>
-                        }
-                        else if (answer.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document)
-                        {
-                            <br>
-                            <div class="card" id="textCard">
-                                <div class="card-header">
-                                    <label for="Title">@answer.Text</label>
-                                </div>
-                                <div class="card-body">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
+                        </div>
+                    </div>
+                    <br>
+                }
+                else if (answer.Type == AlphaMetrixForms.Web.Models.Enums.QuestionType.Document)
+                {
+                    <br>
+                    <div class="card card col-10 shadow-lg p-3 mb-5 bg-white rounded" id="documentCard">
+                        <div class="card-header">
+                            <label for="Title">@answer.Text</label>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12">
+                                <div class="form-group">
 
-                                            @for (int i = 0; i < answer.Answers.Count; i++)
-                                            {
-                                                fileName = @answer.Answers[i].Split('/')[1];
-                                                if (fileName.Length > 20)
-                                                {
-                                                    fileName = fileName.Substring(0, 20) + "...";
-                                                }
-                                                    <a button class="btn download" asp-controller="DocumentQuestion" asp-action="DownloadFile" asp-route-name="@answer.Answers[i]"><i class="fa fa-download">@fileName</i></a>
-                                            }
-                                        </div>
-                                    </div>
+                                    @for (int i = 0; i < answer.Answers.Count; i++)
+                                    {
+                                        fileName = @answer.Answers[i].Split('/')[1];
+                                        if (fileName.Length > 20)
+                                        {
+                                            fileName = fileName.Substring(0, 20) + "...";
+                                        }
+                                        <a button class="btn download" asp-controller="DocumentQuestion" asp-action="DownloadFile" asp-route-name="@answer.Answers[i]"><i class="fa fa-download">@fileName</i></a>
+                                    }
                                 </div>
                             </div>
-                            <br>
-                        }
-                    }
-                </div>
-            </form>
+                        </div>
+                    </div>
+                    <br>
+                }
+            }
         </div>
-    </div>
+    </form>
 </div>
+@*</div>
+    </div>*@
 <br>
 <br>
 <br>

@@ -14,71 +14,65 @@
         action = "Create";
     }
 }
-<div id="form-panel">
-<div class="card">
-    <div class="card-header">
-        Form
-    </div>
-    <div class="card-body">
-        <div class="row justify-content-center">
-            <form asp-action="@action" id="form" class="col-8">
-                <div asp-validation-summary="ModelOnly" class="text-danger row justify-content-center"></div>
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" placeholder="Type form description here..." />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" placeholder="Type form description here..." />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div id="detailsContainer">
-                    @Html.EditorFor(model => model.Questions)
-                </div>
-                <br>
-                <div name="main" class="visible">
-                    <button name="main" type="button" class="btn btn-primary">Add Question</button>
-                </div>
-                <div name="inside" class="invisible">
-                    <button name="add" type="button" class="btn btn-primary">+</button>
-                    <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
-                    <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
-                    <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
-                </div>
-                <br>
-                <div name="sumbit" class="visible">
-                    @if (Model.EditMode)
-                    {
-                        <br>
-                        <input type="submit" name="saveChanges" class="btn btn-primary" value="Save">
-                        <input type="button" name="deleteForm" class="btn btn-danger" id="@Model.Id" value="Delete">
-                    }
-                    else
-                    {
-                        <input type="submit" name="createForm" class="btn btn-primary" value="Create">
-                        <button type="button" name="preview" class="btn btn-primary">
-                            Preview
-                        </button>
-                    }
-                </div>
-                <div id="alerts">
-                </div>
-
-                @Html.Hidden("Current", Model.Current)
-                @Html.Hidden("Id", Model.Id)
-                @Html.Hidden("EditMode", Model.EditMode)
-            </form>
-            <div id="@Model.Questions.Count" name="idHolder" hidden>
-            </div>
+<link rel="stylesheet" href="~/css/center-card.css" />
+<br>
+<br>
+<div class="row justify-content-center">
+    <form asp-action="@action" id="form" class="col-8 shadow-lg p-3 mb-5 bg-white">
+        <div asp-validation-summary="ModelOnly" class="text-danger row justify-content-center"></div>
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" placeholder="Type form title here..." />
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" placeholder="Type form description here..." />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div id="detailsContainer">
+            @Html.EditorFor(model => model.Questions)
+        </div>
+        <br>
+        <div name="main" class="visible">
+            <button name="main" type="button" class="btn btn-primary">Add Question</button>
+        </div>
+        <div name="inside" class="invisible">
+            <button name="add" type="button" class="btn btn-primary">+</button>
+            <button name="textQuestion" type="button" class="btn btn-primary">Text</button>
+            <button name="optionsQuestion" type="button" class="btn btn-primary">Options</button>
+            <button name="documentQuestion" type="button" class="btn btn-primary">Document</button>
+        </div>
+        <div name="sumbit" class="visible">
+            @if (Model.EditMode)
+            {
+                <br>
+                <input type="submit" name="saveChanges" class="btn btn-primary" value="Save">
+                <input type="button" name="deleteForm" class="btn btn-danger" id="@Model.Id" value="Delete">
+            }
+            else
+            {
+                <br>
+                <input type="submit" name="createForm" class="btn btn-primary" value="Create">
+                <button type="button" name="preview" class="btn btn-primary">
+                    Preview
+                </button>
+            }
+        </div>
+        <div id="alerts">
+        </div>
+        <input type="hidden" value="@Model.Questions" id="questions" name="hidData" />
+        @Html.Hidden("Current", Model.Current)
+        @Html.Hidden("Id", Model.Id)
+        @Html.Hidden("EditMode", Model.EditMode)
+    </form>
+    <div id="@Model.Questions.Count" name="idHolder" hidden>
     </div>
 </div>
 <br>
 <br>
 <partial name="_MultipleEmailPartialView" />
 <div id="previewContainer"></div>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
