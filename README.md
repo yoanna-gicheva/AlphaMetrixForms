@@ -33,5 +33,5 @@ Each form consists of three types of questions: text question, options question 
 ![](/Images/Database.png)
 
 ## Team Members
-* Lachezar Bonchev - [GitHub](https://gitlab.com/lachezar.bonchev)
-* Yoanna Gicheva - [GitHub](https://gitlab.com/yoanna.gicheva)
+* Lachezar Bonchev - [GitLab](https://gitlab.com/lachezar.bonchev)
+* Yoanna Gicheva - [GitLab](https://gitlab.com/yoanna.gicheva)
