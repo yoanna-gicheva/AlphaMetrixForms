@@ -1,4 +1,4 @@
-<img src="/Images/alphametrixlogo.png"  width="356" height="153">
+<img src="/Images/alphametrixlogo.png"  width="238" height="102">
 
 ## Team Members
 * Lachezar Bonchev - [GitLab](https://gitlab.com/lachezar.bonchev)
@@ -34,6 +34,9 @@ Each form consists of three types of questions: text question, options question 
 #### Create form
 ![Alt text](/Images/textquestion.png)
 ![Alt text](/Images/optionquestion.png)
+
+#### Azure Blob Storage 
+![](/Images/azureblob.png)
 
 #### Validations and modals
 ![](/Images/success.png)
