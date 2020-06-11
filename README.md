@@ -1,4 +1,4 @@
-<img src="/Images/alphametrixlogo.png"  width="238" height="102">
+<img src="/Images/alphametrixlogo.png"  width="218" height="82">
 
 ## Team Members
 * Lachezar Bonchev - [GitLab](https://gitlab.com/lachezar.bonchev)
@@ -93,6 +93,7 @@ A form can be shared to **multiple recipients**. Each introduced **email address
 #### Search
 
 A  **search functionality** is provided for public use. 
+
 ![Alt text](/Images/search.png)
 
 #### Contact with us
