@@ -12,6 +12,7 @@ Each form consists of three types of questions: text question, options question 
 - [Team Members](#team-members)
 
 ## Technologies
+![](/Images/git-technologies.png)
 
 ## Project description
 
