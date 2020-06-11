@@ -48,7 +48,8 @@ Each form consists of three types of questions: text question, options question 
 ## Features
 
 #Share
-![](/Images/share.png)
+
+![Alt text](/Images/share.png)
 
 #Search
 ![](/Images/search.png)
