@@ -14,6 +14,8 @@ Each form consists of three types of questions: text question, options question 
 - [Technologies](#technologies)
 - [Project Description](#project-description)
 - [Main functionalities](#main-functionalities)
+    - [Public](#public)
+    - [Private](#private)
 - [Features](#features)
 - [Database](#database)
 
