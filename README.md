@@ -4,19 +4,23 @@
 * Lachezar Bonchev - [GitLab](https://gitlab.com/lachezar.bonchev)
 * Yoanna Gicheva - [GitLab](https://gitlab.com/yoanna.gicheva)
 
+# AlphaMetrixForms
+
 A forms website where users can **create**, **share** and **review** the answers.
 Each form consists of three types of questions: text question, options question and a document question.
 
-## Contents
+# Contents
 
-- [Team Members](#team-members)
+- [Technologies](#technologies)
 - [Project Description](#project-description)
 - [Main functionalities](#main-functionalities)
 - [Features](#features)
 - [Database](#database)
-- [Technologies](#technologies)
 
 
+
+# Technologies
+![](/Images/git-technologies.png)
 
 ## Project description
 ### Areas
@@ -70,7 +74,5 @@ Each form consists of three types of questions: text question, options question 
 ## Database
 ![](/Images/Database.png)
 
-## Technologies
-![](/Images/git-technologies.png)
 
 
