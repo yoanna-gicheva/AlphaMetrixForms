@@ -23,27 +23,30 @@ Each form consists of three types of questions: text question, options question 
 * A user is able to create, modify and share a form. He can view all of the submitted responses to his forms in chronological order.
 
 ## Main functionalities
-* **Create form**
-![](/Images/textquestion.png)
-![](/Images/optionquestion.png)
+# Create form
+![Alt text](/Images/textquestion.png)
+![Alt text](/Images/optionquestion.png)
 
-* **Validations and modals**
+# Validations and modals
 ![](/Images/success.png)
 
-* **View answers**
-![](/Images/download.png)
+# View answers
+![Alt text](/Images/download.png)
 
 
 #### Public
 * Home page, Contact with us page and Public forms page may be accessed. Answers to forms are completely anonymous.
 
 ## Main functionalities
-* **Submit answer **
-![](/Images/satisfaction.png)
-![](/Images/upload.png)
+# Submit answer 
 
-* **Validations and modals**
-![](/Images/document-restriction.png)
+![Alt text](/Images/satisfaction.png)
+
+![Alt text](/Images/upload.png)
+
+# Validations and modals
+
+![Alt text](/Images/document-restriction.png)
 
 ## Features
 
