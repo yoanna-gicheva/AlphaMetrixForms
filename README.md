@@ -1,8 +1,7 @@
-# AlphaMetrixForms
+<img src="/Images/alphametrixlogo.png"  width="408" height="153">
+
 A forms website where users can **create**, **share** and **review** the answers.
 Each form consists of three types of questions: text question, options question and a document question.
-
-<img src="/Images/alphametrixlogo.png"  width="408" height="153">
 
 ## Contents
 
