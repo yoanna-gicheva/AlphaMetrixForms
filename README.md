@@ -47,15 +47,17 @@ Each form consists of three types of questions: text question, options question 
 
 ## Features
 
-#Share
+# Share
 
 ![Alt text](/Images/share.png)
 
-#Search
-![](/Images/search.png)
+# Search
 
-#Contact with us
-![](/Images/contactwithus.png)
+![Alt text](/Images/search.png)
+
+# Contact with us
+
+![Alt text](/Images/contactwithus.png)
 
 
 ## Database
