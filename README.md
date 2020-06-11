@@ -4,15 +4,13 @@ Each form consists of three types of questions: text question, options question 
 
 ## Contents
 
-- [Technologies](#technologies)
 - [Project Description](#project-description)
 - [Main functionalities](#main-functionalities)
 - [Features](#features)
 - [Database](#database)
+- [Technologies](#technologies)
 - [Team Members](#team-members)
 
-## Technologies
-![](/Images/git-technologies.png)
 
 ## Project description
 ### Areas
@@ -65,6 +63,10 @@ Each form consists of three types of questions: text question, options question 
 
 ## Database
 ![](/Images/Database.png)
+
+## Technologies
+![](/Images/git-technologies.png)
+
 
 ## Team Members
 * Lachezar Bonchev - [GitLab](https://gitlab.com/lachezar.bonchev)
