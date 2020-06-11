@@ -35,6 +35,9 @@ Each form consists of three types of questions: text question, options question 
 ![Alt text](/Images/textquestion.png)
 ![Alt text](/Images/optionquestion.png)
 
+#### Azure Blob Storage 
+![](/Images/azureblob.png)
+
 #### Validations and modals
 ![](/Images/success.png)
 
