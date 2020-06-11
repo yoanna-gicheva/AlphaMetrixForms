@@ -3,6 +3,7 @@ A forms website where users can **create**, **share** and **review** the answers
 Each form consists of three types of questions: text question, options question and a document question.
 
 ![Alt text](/Images/alphametrixlogo.png)
+<img src="/Images/alphametrixlogo.png"  width="120" height="120">
 
 ## Contents
 
