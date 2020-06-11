@@ -15,6 +15,15 @@ Each form consists of three types of questions: text question, options question 
 ![](/Images/git-technologies.png)
 
 ## Project description
+### Areas
+* **Public** -  accessible without authentication
+* **Private** - available for authorized and authenticated users 
+
+#### Public
+* Home page, Contact with us page and Public forms page may be accessed. Answers to forms are completely anonymous.
+
+#### Private
+* A user is able to create, modify and share a form. He can view all of the submitted responses to his forms in chronological order.
 
 ## Main functionalities
 
