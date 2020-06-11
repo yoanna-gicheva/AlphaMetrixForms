@@ -30,6 +30,7 @@ Each form consists of three types of questions: text question, options question 
 ## Features
 
 ## Database
+![](/Images/Database.png)
 
 ## Team Members
 * Lachezar Bonchev - [GitHub](https://gitlab.com/lachezar.bonchev)
