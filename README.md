@@ -1,4 +1,4 @@
-<img src="/Images/alphametrixlogo.png"  width="218" height="82">
+<img src="/Images/alphametrixlogo.png"  width="208" height="72">
 
 ## Team Members
 * Lachezar Bonchev - [GitLab](https://gitlab.com/lachezar.bonchev)
