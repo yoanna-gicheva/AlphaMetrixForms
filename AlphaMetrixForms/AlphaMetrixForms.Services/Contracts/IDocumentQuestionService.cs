@@ -19,8 +19,5 @@ namespace AlphaMetrixForms.Services.Contracts
 
         Task CreateDocumentQuestionAnswerAsync(Guid responseId, Guid questionId, IFormFileCollection files);
 
-        Task<MemoryStream> DownloadFileAsync(string name);
-
-
     }
 }

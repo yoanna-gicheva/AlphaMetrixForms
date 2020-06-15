@@ -17,25 +17,28 @@ using Microsoft.AspNetCore.Authorization;
 using AlphaMetrixForms.Web.Utils;
 using AlphaMetrixForms.Web.Models.Response;
 using System.Text;
+using AlphaMetrixForms.Web.Utils.Contracts;
 
 namespace AlphaMetrixForms.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class FormController : Controller
     {
         private readonly IFormService _formService;
         private readonly ITextQuestionService _textQuestionService;
         private readonly IOptionQuestionService _optionQuestionService;
         private readonly IDocumentQuestionService _documentQuestionService;
+        private readonly IFactory _factory;
         private readonly IMapper _mapper;
 
         public FormController(IFormService formService, ITextQuestionService textQuestionService, IOptionQuestionService optionQuestionService,
-            IDocumentQuestionService documentQuestionService, IMapper mapper)
+            IDocumentQuestionService documentQuestionService, IMapper mapper, IFactory factory)
         {
             _formService = formService ?? throw new ArgumentNullException(nameof(formService));
             _textQuestionService = textQuestionService ?? throw new ArgumentNullException(nameof(textQuestionService));
             _optionQuestionService = optionQuestionService ?? throw new ArgumentNullException(nameof(optionQuestionService));
             _documentQuestionService = documentQuestionService ?? throw new ArgumentNullException(nameof(documentQuestionService));
+            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         [AllowAnonymous]
@@ -51,21 +54,22 @@ namespace AlphaMetrixForms.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Share(EmailProvider emailList)
         {
-            var result = await this._formService.ShareFormAsync(emailList.Emails, emailList.FormId);
-            return Ok();
+            var result = await _formService.ShareFormAsync(emailList.Emails, emailList.FormId);
+            if(result)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
-        [Authorize]
         public IActionResult Create()
         {
             var model = new FormViewModel();
-            //model.Title = "Untitled";
             return View("ModifyFormView", model);
         }
 
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(FormViewModel form)
         {
             string _errorMessage = Validator.ModifyModelValidation_Message(form);
@@ -76,52 +80,18 @@ namespace AlphaMetrixForms.Web.Controllers
             }
 
             FormDTO formDTO = _mapper.Map<FormDTO>(form);
-            Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Guid userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             FormDTO newForm = await _formService.CreateFormAsync(formDTO, userId);
             Guid formId = newForm.Id;
 
-            if (form.Questions.Where(q => q.Type.Equals(QuestionType.Text)).Count() > 0)
-            {
-                var textQuestions = form.Questions
-                    .Where(q => q.Type.Equals(QuestionType.Text))
-                    .ToList();
-                var textQuestionsDTOs = _mapper.Map<ICollection<TextQuestionDTO>>(textQuestions);
-                var result = await _textQuestionService.CreateTextQuestionAsync(textQuestionsDTOs, formId);
-                if (!result)
-                {
-                    throw new ArgumentException();
-                }
-            }
-            if (form.Questions.Where(q => q.Type.Equals(QuestionType.Option)).Count() > 0)
-            {
-                var optionQuestions = form.Questions
-                    .Where(q => q.Type.Equals(QuestionType.Option))
-                    .ToList();
-                var optionQuestionsDTOs = _mapper.Map<ICollection<OptionQuestionDTO>>(optionQuestions);
-                var result = await _optionQuestionService.CreateOptionQuestionAsync(optionQuestionsDTOs, formId);
-                if (!result)
-                {
-                    throw new ArgumentException();
-                }
-            }
-            if (form.Questions.Where(q => q.Type.Equals(QuestionType.Document)).Count() > 0)
-            {
-                var documentQuestions = form.Questions
-                    .Where(q => q.Type.Equals(QuestionType.Document))
-                    .ToList();
-                var documentQuestionsDTOs = _mapper.Map<ICollection<DocumentQuestionDTO>>(documentQuestions);
-                var result = await _documentQuestionService.CreateDocumentQuestionAsync(documentQuestionsDTOs, formId);
-                if (!result)
-                {
-                    throw new ArgumentException();
-                }
-            }
+            await _factory.CreateTextQuestions(form, formId, _textQuestionService, _mapper);
+            await _factory.CreateOptionQuestions(form, formId, _optionQuestionService, _mapper);
+            await _factory.CreateDocumentQuestions(form, formId, _documentQuestionService, _mapper);
+
             return Ok();
         }
 
-        
-        [Authorize]
         public async Task<IActionResult> Edit(Guid id)
         {
             
@@ -141,7 +111,6 @@ namespace AlphaMetrixForms.Web.Controllers
             }
         }
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> SaveChanges(FormViewModel form)
         {
             string _errorMessage = Validator.ModifyModelValidation_Message(form);
@@ -167,11 +136,7 @@ namespace AlphaMetrixForms.Web.Controllers
 
             return View("ModifyFormView", result);
         }
- 
-
-       
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _formService.DeleteFormAsync(id);
@@ -179,7 +144,6 @@ namespace AlphaMetrixForms.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> DeleteQuestion(FormViewModel form)
         {
             QuestionViewModel question = form.Questions.FirstOrDefault(q => q.OrderNumber == form.Current);

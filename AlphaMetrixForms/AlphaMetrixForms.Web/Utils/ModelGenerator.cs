@@ -2,6 +2,8 @@
 using AlphaMetrixForms.Web.Models.Enums;
 using AlphaMetrixForms.Web.Models.Form;
 using AlphaMetrixForms.Web.Models.Question;
+using AlphaMetrixForms.Web.Models.Response;
+using AlphaMetrixForms.Web.Utils.Contracts;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AlphaMetrixForms.Web.Utils
 {
-    public class ModelGenerator
+    public class ModelGenerator : IModelGenerator
     {
         public static void QuestionType_Set(ICollection<QuestionViewModel> questions, QuestionType type)
         {
@@ -41,6 +43,73 @@ namespace AlphaMetrixForms.Web.Utils
             formDTO.DocumentQuestions = _mapper.Map<ICollection<DocumentQuestionDTO>>(form.Questions.Where(q => q.Type == QuestionType.Document));
 
             return formDTO;
+        }
+
+        public void Response_TextRelationship(FormDTO formDTO, ResponseDisplayModel vm)
+        {
+            foreach (var textQuestion in formDTO.TextQuestions)
+            {
+                var vm2 = new AnswerViewModel();
+                vm2.Text = textQuestion.Text;
+                vm2.OrderNumber = textQuestion.OrderNumber;
+                vm2.Id = textQuestion.Id;
+                vm2.Type = QuestionType.Text;
+                foreach (var response in formDTO.Responses)
+                {
+                    foreach (var textQuestionAnswer in response.TextQuestionAnswers)
+                    {
+                        if (vm2.Id == textQuestionAnswer.TextQuestionId)
+                        {
+                            vm2.Answer = textQuestionAnswer.Answer;
+                        }
+                    }
+                }
+                vm.Answers.Add(vm2);
+            }
+        }
+        public void Response_OptionRelationship(FormDTO formDTO, ResponseDisplayModel vm)
+        {
+            foreach (var documentQuestion in formDTO.DocumentQuestions)
+            {
+                var vm2 = new AnswerViewModel();
+                vm2.Text = documentQuestion.Text;
+                vm2.OrderNumber = documentQuestion.OrderNumber;
+                vm2.Id = documentQuestion.Id;
+                vm2.Type = QuestionType.Document;
+                vm.Answers.Add(vm2);
+                foreach (var response in formDTO.Responses)
+                {
+                    foreach (var documentQuestionAnswer in response.DocumentQuestionAnswers)
+                    {
+                        if (vm2.Id == documentQuestionAnswer.DocumentQuestionId)
+                        {
+                            vm2.Answers.Add(documentQuestionAnswer.Answer);
+                        }
+                    }
+                }
+            }
+        }
+        public void Response_DocumentRelationship(FormDTO formDTO, ResponseDisplayModel vm)
+        {
+            foreach (var optionQuestion in formDTO.OptionQuestions)
+            {
+                var vm2 = new AnswerViewModel();
+                vm2.Text = optionQuestion.Text;
+                vm2.OrderNumber = optionQuestion.OrderNumber;
+                vm2.Id = optionQuestion.Id;
+                vm2.Type = QuestionType.Option;
+                vm.Answers.Add(vm2);
+                foreach (var response in formDTO.Responses)
+                {
+                    foreach (var optionQuestionAnswer in response.OptionQuestionAnswers)
+                    {
+                        if (vm2.Id == optionQuestionAnswer.OptionQuestionId)
+                        {
+                            vm2.Answers.Add(optionQuestionAnswer.Answer);
+                        }
+                    }
+                }
+            }
         }
     }
 

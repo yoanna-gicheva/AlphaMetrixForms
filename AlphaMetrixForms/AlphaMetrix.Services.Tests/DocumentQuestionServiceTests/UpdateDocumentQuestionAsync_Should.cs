@@ -1,6 +1,8 @@
 ﻿using AlphaMetrixForms.Data.Context;
 using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.DTOs;
+using AlphaMetrixForms.Services.Providers;
+using AlphaMetrixForms.Services.Providers.Contracts;
 using AlphaMetrixForms.Services.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +17,9 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
     [TestClass]
     public class UpdateDocumentQuestionAsync_Should
     {
+
+        IBlobProvider blob = new BlobProvider();
+
         [TestMethod]
         public async Task UpdateDocumentQuestion_If_ParamsAreValid()
         {
@@ -56,7 +61,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext);
+                var sut = new DocumentQuestionService(assertContext, blob);
                 var resultDTO = await sut.UpdateDocumentQuestionAsync(documentQuestion.Id, documentQuestionUpdate);
                 var result = await assertContext.DocumentQuestions.Where(x => x.Id == documentQuestion.Id).FirstOrDefaultAsync();
 
@@ -81,7 +86,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext);
+                var sut = new DocumentQuestionService(assertContext, blob);
 
                 await Assert.ThrowsExceptionAsync<ArgumentException>(() => sut.UpdateDocumentQuestionAsync(documentQuestionUpdate.Id, documentQuestionUpdate));
             }

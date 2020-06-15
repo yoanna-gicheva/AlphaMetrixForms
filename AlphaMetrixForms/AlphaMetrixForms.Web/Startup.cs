@@ -18,6 +18,10 @@ using AlphaMetrixForms.Services.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using AlphaMetrixForms.Web.Middlewares;
+using AlphaMetrixForms.Web.Utils.Contracts;
+using AlphaMetrixForms.Web.Utils;
+using AlphaMetrixForms.Services.Providers.Contracts;
+using AlphaMetrixForms.Services.Providers;
 
 namespace AlphaMetrixForms.Web
 {
@@ -39,7 +43,9 @@ namespace AlphaMetrixForms.Web
             services.AddScoped<IDocumentQuestionService, DocumentQuestionService>();
             services.AddScoped<IResponseService, ResponseService>();
             services.AddScoped<IUserService, UserService>();
-
+            services.AddScoped<IModelGenerator, ModelGenerator>();
+            services.AddScoped<IFactory, Factory>();
+            services.AddScoped<IBlobProvider, BlobProvider>();
 
             services.AddDbContext<FormsContext>(options =>
                 options.UseSqlServer(

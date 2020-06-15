@@ -3,6 +3,7 @@ using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOmappers;
 using AlphaMetrixForms.Services.DTOs;
+using AlphaMetrixForms.Services.Providers.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
@@ -21,9 +22,13 @@ namespace AlphaMetrixForms.Services.Services
     public class DocumentQuestionService : IDocumentQuestionService
     {
         private readonly FormsContext context;
-        public DocumentQuestionService(FormsContext context)
+        private readonly IBlobProvider _blob;
+
+        public DocumentQuestionService(FormsContext context, IBlobProvider blob)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
+            _blob = blob ?? throw new ArgumentNullException(nameof(blob));
+
         }
 
         public async Task<bool> CreateDocumentQuestionAsync(ICollection<DocumentQuestionDTO> questionDTOs, Guid formId)
@@ -93,23 +98,23 @@ namespace AlphaMetrixForms.Services.Services
             {
                 if (context.DocumentQuestions.Any(q => q.Id == question.Id))
                 {
-                    await this.UpdateDocumentQuestionAsync(question.Id, question);
+                    await UpdateDocumentQuestionAsync(question.Id, question);
                 }
                 else
                 {
-                    await this.CreateDocumentQuestionAsync(question, formId);
+                    await CreateDocumentQuestionAsync(question, formId);
                 }
             }
         }
 
         public async Task CreateDocumentQuestionAnswerAsync(Guid responseId, Guid questionId, IFormFileCollection files)
         {
-            if (files.Count==0)
+            if (files.Count == 0)
             {
                 return;
             }
 
-            DocumentQuestion question = await this.context.DocumentQuestions
+            DocumentQuestion question = await context.DocumentQuestions
                 .FirstOrDefaultAsync(q => q.Id == questionId);
 
             if (question == null)
@@ -117,7 +122,7 @@ namespace AlphaMetrixForms.Services.Services
                 throw new ArgumentException($"There is no such DocumentQuestion with ID: {questionId}");
             }
 
-            Response response = await this.context.Responses
+            Response response = await context.Responses
                 .FirstOrDefaultAsync(q => q.Id == responseId);
 
             if (response == null)
@@ -127,7 +132,7 @@ namespace AlphaMetrixForms.Services.Services
 
             foreach (var item in files)
             {
-                await this.UploadFileAsync(item, responseId, questionId);
+                await _blob.UploadFileAsync(item, responseId, questionId);
                 var documentAnswer = new DocumentQuestionAnswer
                 {
                     ResponseId = responseId,
@@ -136,54 +141,7 @@ namespace AlphaMetrixForms.Services.Services
                 };
                 await context.DocumentQuestionAnswers.AddAsync(documentAnswer);
             }
-            await this.context.SaveChangesAsync();
-        }
-
-        public async Task UploadFileAsync(IFormFile file, Guid responseId, Guid questionId)
-        {
-            const string accountName = "alphametrix";
-            const string key = "3hCy/2bFCJFXUrqs8JT9v9yWtemzAqPUod2rhHU94Uxn3Zah2LO3MWPb1H0y/E2fZ4GfmXEYci4GNfeRKmcTQQ==";
-
-            CloudStorageAccount storageAccount = new CloudStorageAccount(new StorageCredentials(accountName, key), true);
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer container = blobClient.GetContainerReference("alphametrixforms");
-
-            await container.CreateIfNotExistsAsync();
-            await container.SetPermissionsAsync(new BlobContainerPermissions()
-            {
-                PublicAccess = BlobContainerPublicAccessType.Blob
-            });
-
-            CloudBlobDirectory folder = container.GetDirectoryReference($"Response_{responseId}_{questionId}");
-
-            CloudBlockBlob blockblob = folder.GetBlockBlobReference(file.FileName);
-
-            using (var stream = file.OpenReadStream())
-            {
-                await blockblob.UploadFromStreamAsync(stream);
-            }
-        }
-
-        public async Task<MemoryStream> DownloadFileAsync(string name)
-        {
-            const string accountName = "alphametrix";
-            const string key = "3hCy/2bFCJFXUrqs8JT9v9yWtemzAqPUod2rhHU94Uxn3Zah2LO3MWPb1H0y/E2fZ4GfmXEYci4GNfeRKmcTQQ==";
-
-            CloudStorageAccount storageAccount = new CloudStorageAccount(new StorageCredentials(accountName, key), true);
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            string folderRef = name.Split('/')[0];
-            string folderName = "Response_"+folderRef;
-            CloudBlobContainer container = blobClient.GetContainerReference($"alphametrixforms/{folderName}");
-
-            string fileName = name.Substring(folderRef.Length+1);
-            CloudBlockBlob blob = container.GetBlockBlobReference(fileName);
-
-            var memory = new MemoryStream();
-            await blob.DownloadToStreamAsync(memory);
-
-            memory.Position = 0;
-            return memory;
+            await context.SaveChangesAsync();
         }
     }
 }

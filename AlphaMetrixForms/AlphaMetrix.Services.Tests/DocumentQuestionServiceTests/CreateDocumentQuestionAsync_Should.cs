@@ -1,6 +1,8 @@
 ﻿using AlphaMetrixForms.Data.Context;
 using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.DTOs;
+using AlphaMetrixForms.Services.Providers;
+using AlphaMetrixForms.Services.Providers.Contracts;
 using AlphaMetrixForms.Services.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +17,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
     [TestClass]
     public class CreateDocumentQuestionAsync_Should
     {
+        IBlobProvider blob = new BlobProvider();
         [TestMethod]
         public async Task CreateDocumentQuestion_If_ParamsAreValid()
         {
@@ -41,7 +44,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext);
+                var sut = new DocumentQuestionService(assertContext, blob);
                 var resultDTO = await sut.CreateDocumentQuestionAsync(documentQuestionDTO, form.Id);
                 var result = await assertContext.DocumentQuestions.Where(x => x.Text == "Q1").FirstOrDefaultAsync();
 
@@ -63,7 +66,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext);
+                var sut = new DocumentQuestionService(assertContext, blob);
 
                 await Assert.ThrowsExceptionAsync<ArgumentException>(() => sut.CreateDocumentQuestionAsync(documentQuestionDTO, documentQuestionDTO.FormId));
             }
@@ -105,7 +108,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext);
+                var sut = new DocumentQuestionService(assertContext, blob);
                 var result = await sut.CreateDocumentQuestionAsync(collectionDTOs, form.Id);
                 var resultList = await assertContext.DocumentQuestions.Where(x => x.FormId == form.Id).ToListAsync();
 
@@ -137,7 +140,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext);
+                var sut = new DocumentQuestionService(assertContext, blob);
                 var result = await sut.CreateDocumentQuestionAsync(collectionDTOs, form.Id);
                 var resultQuestion = await assertContext.DocumentQuestions.Where(x => x.FormId == form.Id).FirstOrDefaultAsync();
 
