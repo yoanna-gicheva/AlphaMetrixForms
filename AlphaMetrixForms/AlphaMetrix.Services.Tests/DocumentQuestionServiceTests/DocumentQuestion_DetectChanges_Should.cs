@@ -17,8 +17,6 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
     [TestClass]
     public class DocumentQuestion_DetectChanges_Should
     {
-        IBlobProvider blob = new BlobProvider();
-
         [TestMethod]
         public async Task DetectUpdateDocumentQuestion_If_ParamsAreValid()
         {
@@ -77,7 +75,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext, blob);
+                var sut = new DocumentQuestionService(assertContext);
                 await sut.DocumentQuestion_DetectChanges(form.Id, collectionDTOs);
                 var resultList = await assertContext.DocumentQuestions.Where(x => x.FormId == form.Id).ToListAsync();
 
@@ -141,7 +139,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext, blob);
+                var sut = new DocumentQuestionService(assertContext);
                 await sut.DocumentQuestion_DetectChanges(form.Id, collectionDTOs);
                 var resultList = await assertContext.DocumentQuestions.Where(x => x.FormId == form.Id).ToListAsync();
 

@@ -18,8 +18,6 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
     public class UpdateDocumentQuestionAsync_Should
     {
 
-        IBlobProvider blob = new BlobProvider();
-
         [TestMethod]
         public async Task UpdateDocumentQuestion_If_ParamsAreValid()
         {
@@ -86,7 +84,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext, blob);
+                var sut = new DocumentQuestionService(assertContext);
 
                 await Assert.ThrowsExceptionAsync<ArgumentException>(() => sut.UpdateDocumentQuestionAsync(documentQuestionUpdate.Id, documentQuestionUpdate));
             }

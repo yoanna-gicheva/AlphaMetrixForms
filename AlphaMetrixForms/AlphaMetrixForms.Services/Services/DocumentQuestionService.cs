@@ -3,6 +3,7 @@ using AlphaMetrixForms.Data.Entities;
 using AlphaMetrixForms.Services.Contracts;
 using AlphaMetrixForms.Services.DTOmappers;
 using AlphaMetrixForms.Services.DTOs;
+using AlphaMetrixForms.Services.Providers;
 using AlphaMetrixForms.Services.Providers.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -22,13 +23,10 @@ namespace AlphaMetrixForms.Services.Services
     public class DocumentQuestionService : IDocumentQuestionService
     {
         private readonly FormsContext context;
-        private readonly IBlobProvider _blob;
 
-        public DocumentQuestionService(FormsContext context, IBlobProvider blob)
+        public DocumentQuestionService(FormsContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            _blob = blob ?? throw new ArgumentNullException(nameof(blob));
-
         }
 
         public async Task<bool> CreateDocumentQuestionAsync(ICollection<DocumentQuestionDTO> questionDTOs, Guid formId)
@@ -132,6 +130,7 @@ namespace AlphaMetrixForms.Services.Services
 
             foreach (var item in files)
             {
+                IBlobProvider _blob = new BlobProvider();
                 await _blob.UploadFileAsync(item, responseId, questionId);
                 var documentAnswer = new DocumentQuestionAnswer
                 {

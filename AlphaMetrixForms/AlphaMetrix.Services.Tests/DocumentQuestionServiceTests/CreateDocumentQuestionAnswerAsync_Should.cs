@@ -19,8 +19,6 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
     [TestClass]
     public class CreateDocumentQuestionAnswerAsync_Should
     {
-        IBlobProvider blob = new BlobProvider();
-
         [TestMethod]
         public async Task CreateDocumentQuestionAnswer_If_ParamsAreValid()
         {
@@ -49,7 +47,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext, blob);
+                var sut = new DocumentQuestionService(assertContext);
                 await sut.CreateDocumentQuestionAnswerAsync(response.Id, documentQuestion.Id, answer);
                 var result = await assertContext.DocumentQuestionAnswers.Where(x => x.DocumentQuestionId == documentQuestion.Id).FirstOrDefaultAsync();
 
@@ -82,7 +80,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext, blob);
+                var sut = new DocumentQuestionService(assertContext);
 
                 await Assert.ThrowsExceptionAsync<ArgumentException>(() => sut.CreateDocumentQuestionAnswerAsync(responseId, documentQuestion.Id, answer));
             }
@@ -112,7 +110,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext, blob);
+                var sut = new DocumentQuestionService(assertContext);
 
                 await Assert.ThrowsExceptionAsync<ArgumentException>(() => sut.CreateDocumentQuestionAnswerAsync(response.Id, questionId, answer));
             }
@@ -144,7 +142,7 @@ namespace AlphaMetrix.Services.Tests.DocumentQuestionServiceTests
 
             using (var assertContext = new FormsContext(options))
             {
-                var sut = new DocumentQuestionService(assertContext, blob);
+                var sut = new DocumentQuestionService(assertContext);
                 await sut.CreateDocumentQuestionAnswerAsync(response.Id, documentQuestion.Id, answer);
                 var result = await assertContext.DocumentQuestionAnswers.Where(x => x.DocumentQuestionId == documentQuestion.Id).FirstOrDefaultAsync();
 
